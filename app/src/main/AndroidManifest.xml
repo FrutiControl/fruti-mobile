@@ -3,7 +3,7 @@
     package="com.fruticontrol">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <!-- TODO: retirar usesCleartextTraffic para producción!!! -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".CambiarContrasenaActivity"></activity>
-        <activity android:name=".PerfilActivity" /> <!-- TODO: retirar usesCleartextTraffic para producción!!! -->
+        <activity android:name=".PerfilActivity" />
         <activity android:name=".AccionesActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".MainActivity">
