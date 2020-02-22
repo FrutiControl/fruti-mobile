@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CambiarContrasenaActivity"></activity>
+        <activity android:name=".NuevaGranjaActivity"></activity>
+        <activity android:name=".ListaGranjasActivity" />
+        <activity android:name=".CambiarContrasenaActivity" />
         <activity android:name=".PerfilActivity" /> <!-- TODO: retirar usesCleartextTraffic para producción!!! -->
         <activity android:name=".AccionesActivity" />
         <activity android:name=".RegistroActivity" />
