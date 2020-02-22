@@ -3,16 +3,18 @@
     package="com.fruticontrol">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <!--TODO: retirar usesCleartextTraffic para producción!!!-->
-        <activity android:name=".AccionesActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".CambiarContrasenaActivity"></activity>
+        <activity android:name=".PerfilActivity" /> <!-- TODO: retirar usesCleartextTraffic para producción!!! -->
+        <activity android:name=".AccionesActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
