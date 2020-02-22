@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AccionesActivity.class);
+                Intent intent = new Intent(view.getContext(),ListaGranjasActivity.class);
                 startActivity(intent);
             }
         });

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Granjas"
+        android:text="@string/granjas"
         android:textColor="@color/headerColor"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,10 +26,19 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/roboto"
-        android:text="Nueva granja"
+        android:text="@string/nueva_granja"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/listaGranjasList"
+        android:layout_width="409dp"
+        android:layout_height="584dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonNuevaGranja"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
