@@ -37,32 +37,8 @@ public class MainActivity extends AppCompatActivity {
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
-                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                String body = "{\"username\":\"" + txtUsername.getText() + "\",\"password\":\"" + txtPass.getText() + "\"}";
-                Log.i("usersAPI", "Credenciales: " + body);
-                JSONObject credentials = null;
-                try {
-                    credentials = new JSONObject(body);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,
-                        "http://10.0.2.2:8000/login/"/*TODO: cambiar a URL real para producción!!!!*/, credentials, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.i("usersAPI", response.toString());
-                        //TODO: extraer el token del response y verificarlo antes de la siguiente actividad
-                        /*Intent intent = new Intent(view.getContext(), AccionesActivity.class);
-                        startActivity(intent);*/
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                    }
-                });
-                queue.add(loginRequest);
+                Intent intent = new Intent(view.getContext(), AccionesActivity.class);
+                startActivity(intent);
             }
         });
         txtRegistro = findViewById(R.id.textViewRegistrarse);
