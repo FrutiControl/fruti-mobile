@@ -3,7 +3,7 @@
     package="com.fruticontrol">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- TODO: retirar usesCleartextTraffic para producción!!! -->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,20 +11,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"><!-- TODO: retirar usesCleartextTraffic para producción!!! --
-        <activity android:name=".NuevaGranjaActivity"></activity>
-        <activity android:name=".ListaGranjasActivity" />
-        <activity android:name=".CambiarContrasenaActivity" />
-        <activity android:name=".PerfilActivity" /> 
-        <activity android:name=".AccionesActivity" />
-        <activity android:name=".RegistroActivity" />
-        <activity android:name=".MainActivity">
+        android:usesCleartextTraffic="true"><!-- TODO: retirar usesCleartextTraffic para producción!!! -->
+        <activity
+            android:name=".NuevaGranjaActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ListaGranjasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CambiarContrasenaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PerfilActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AccionesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegistroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
