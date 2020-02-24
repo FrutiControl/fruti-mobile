@@ -43,13 +43,14 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
         Object object= getItem(position);
         ResumenGranjaDataModel dataModel=(ResumenGranjaDataModel) object;
 
+        /*
         switch (v.getId())
         {
             case R.id.imageLogoGranja:
                 Snackbar.make(v, "Release date " , Snackbar.LENGTH_LONG)
                         .setAction("No action", null).show();
                 break;
-        }
+        }*/
     }
 
     private int lastPosition = -1;
@@ -71,7 +72,7 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
             viewHolder.txtNombreGranja= (TextView) convertView.findViewById(R.id.textViewNombreGranja);
             viewHolder.txtTareasGranja= (TextView) convertView.findViewById(R.id.textViewTareasGranja);
             viewHolder.txtPendientesGranja= (TextView) convertView.findViewById(R.id.textViewPendientesGranja);
-            viewHolder.logoGranja= (ImageView) convertView.findViewById(R.id.imageLogoGranja);
+            //viewHolder.logoGranja= (ImageView) convertView.findViewById(R.id.imageLogoGranja);
 
             result=convertView;
 
@@ -88,8 +89,8 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
         viewHolder.txtNombreGranja.setText(dataModel.getNombreGranja());
         viewHolder.txtTareasGranja.setText(dataModel.getTareasGranja());
         viewHolder.txtPendientesGranja.setText(dataModel.getPendientesGranja());
-        viewHolder.logoGranja.setOnClickListener(this);
-        viewHolder.logoGranja.setTag(position);
+//        viewHolder.logoGranja.setOnClickListener(this);
+  //      viewHolder.logoGranja.setTag(position);
         // Return the completed view to render on screen
         return convertView;
     }
