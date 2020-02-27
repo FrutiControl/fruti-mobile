@@ -10,4 +10,15 @@
     <string name="registrarme">Registrarme</string>
     <string name="granjas">Granjas</string>
     <string name="nueva_granja">Nueva granja</string>
+    <string-array name="TipoArbolFrutal">
+       <item> Seleccione el tipo... </item>
+       <item> Mango tommy </item>
+       <item> Mango farchil</item>
+       <item> Naranja </item>
+       <item> Mandarina </item>
+       <item> Limon </item>
+       <item> Aguacate </item>
+       <item> Guanabana </item>
+       <item> Banano </item>
+    </string-array>
 </resources>

@@ -11,14 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"><!-- TODO: retirar usesCleartextTraffic para producción!!! --
+        android:usesCleartextTraffic="true">
         <activity android:name=".NuevaGranjaActivity"></activity>
         <activity android:name=".ListaGranjasActivity" />
         <activity android:name=".CambiarContrasenaActivity" />
         <activity android:name=".PerfilActivity" /> 
         <activity android:name=".AccionesActivity" />
         <activity android:name=".RegistroActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"> </activity>
+        <activity android:name=".MainCRUD">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
