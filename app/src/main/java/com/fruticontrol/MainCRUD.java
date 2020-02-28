@@ -1,6 +1,7 @@
 package com.fruticontrol;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ public class MainCRUD extends AppCompatActivity {
 
     EditText textFechaSiembra;
     Button buttonFechaSiembra;
+    Button buttonUbicacion;
     Calendar cal;
     DatePickerDialog dpd;
 
@@ -27,6 +29,15 @@ public class MainCRUD extends AppCompatActivity {
 
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         buttonFechaSiembra = findViewById(R.id.buttonFechaSiembra);
+        buttonUbicacion=findViewById(R.id.buttonDefinirUbicacion);
+
+        buttonUbicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),MapaNuevoArbolActivity.class);
+                startActivity(intent);
+            }
+        });
 
         buttonFechaSiembra.setOnClickListener(new View.OnClickListener() {
             @Override
