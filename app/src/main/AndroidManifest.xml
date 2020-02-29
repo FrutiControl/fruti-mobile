@@ -41,7 +41,7 @@
         <activity android:name=".AccionesActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".MainCRUD">
+        <activity android:name=".CrearArbolActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

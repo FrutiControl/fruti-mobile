@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
-public class MainCRUD extends AppCompatActivity {
+public class CrearArbolActivity extends AppCompatActivity {
 
     EditText textFechaSiembra;
     Button buttonFechaSiembra;
@@ -25,7 +25,7 @@ public class MainCRUD extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.crear_arbol);
+        setContentView(R.layout.activity_crear_arbol);
 
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         buttonFechaSiembra = findViewById(R.id.buttonFechaSiembra);
@@ -47,7 +47,7 @@ public class MainCRUD extends AppCompatActivity {
                 int month;
                 month = cal.get(Calendar.MONTH);
                 int year = cal.get(Calendar.YEAR);
-                dpd = new DatePickerDialog(MainCRUD.this, new DatePickerDialog.OnDateSetListener() {
+                dpd = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textFechaSiembra.setText(mDayOfMonth+"/"+(mMonth+1)+"/"+mYear);
