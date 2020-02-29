@@ -56,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerTipoArbol"
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_marginStart="24dp"
