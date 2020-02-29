@@ -8,4 +8,6 @@
     <string name="nombre_completo">Nombre completo</string>
     <string name="repita_la_contrase_a">Repita la contraseña</string>
     <string name="registrarme">Registrarme</string>
+    <string name="granjas">Granjas</string>
+    <string name="nueva_granja">Nueva granja</string>
 </resources>
