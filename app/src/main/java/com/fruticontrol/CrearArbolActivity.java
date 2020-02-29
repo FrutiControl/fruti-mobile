@@ -3,10 +3,13 @@ package com.fruticontrol;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,7 @@ public class CrearArbolActivity extends AppCompatActivity {
     Button buttonUbicacion;
     Calendar cal;
     DatePickerDialog dpd;
+    Spinner spinnerTipoArbol;
 
 
     @Override
@@ -28,13 +32,24 @@ public class CrearArbolActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crear_arbol);
 
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
+        spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
         buttonFechaSiembra = findViewById(R.id.buttonFechaSiembra);
-        buttonUbicacion=findViewById(R.id.buttonDefinirUbicacion);
+        buttonUbicacion = findViewById(R.id.buttonDefinirUbicacion);
+        spinnerTipoArbol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String tipo = spinnerTipoArbol.getSelectedItem().toString();
+                Log.i("c_arbol", "opcion seleccionada " + tipo);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         buttonUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),MapaNuevoArbolActivity.class);
+                Intent intent = new Intent(view.getContext(), MapaNuevoArbolActivity.class);
                 startActivity(intent);
             }
         });
@@ -50,14 +65,11 @@ public class CrearArbolActivity extends AppCompatActivity {
                 dpd = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        textFechaSiembra.setText(mDayOfMonth+"/"+(mMonth+1)+"/"+mYear);
+                        textFechaSiembra.setText(mDayOfMonth + "/" + (mMonth + 1) + "/" + mYear);
                     }
-                }, day,month,year);
+                }, day, month, year);
                 dpd.show();
             }
         });
-
-
-
     }
 }
