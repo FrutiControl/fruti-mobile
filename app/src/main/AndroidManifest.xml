@@ -40,14 +40,14 @@
         <activity android:name=".PerfilActivity" />
         <activity android:name=".AccionesActivity" />
         <activity android:name=".RegistroActivity" />
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".CrearArbolActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CrearArbolActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
