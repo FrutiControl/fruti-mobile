@@ -1,6 +1,9 @@
 package com.fruticontrol;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,6 +27,9 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
+    static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
+    static final int REQUEST_CHECK_SETTINGS = 200;
+
     TextView txtRegistro;
     Button iniciarSesion;
     TextView txtUsername;
@@ -31,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
         iniciarSesion = findViewById(R.id.buttonIniciarSesion);
@@ -74,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 queue.add(loginRequest);
+                Intent intent = new Intent(view.getContext(), CrearArbolActivity.class);
+                startActivity(intent);
             }
         });
         txtRegistro = findViewById(R.id.textViewRegistrarse);
@@ -84,5 +95,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    private void requestPermission(Activity context, String permiso, String justificacion, int idCode) {
+        if (ContextCompat.checkSelfPermission(context, permiso) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(context, justificacion, Toast.LENGTH_LONG).show();
+            }
+            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, idCode);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CHECK_SETTINGS: {
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(this, "sin acceso a localizacion, hardware deshabilitado!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }
