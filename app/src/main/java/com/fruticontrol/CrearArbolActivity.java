@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,10 +24,14 @@ import java.util.Calendar;
 public class CrearArbolActivity extends AppCompatActivity {
 
     EditText textFechaSiembra;
-    Button buttonFechaSiembra;
+    EditText textUltimaPoda;
+    EditText textUltimaFumigacion;
+    EditText textUltimaFertilizacion;
+    EditText textUltimoRiego;
+    Button buttonNuevoArbol;
     Button buttonUbicacion;
-    Calendar cal;
-    DatePickerDialog dpd;
+    Calendar cal,cal1,cal2,cal3,cal4;
+    DatePickerDialog dpd,dpd2,dpd3,dpd4,dpd5;
     Spinner spinnerTipoArbol;
 
 
@@ -36,9 +41,15 @@ public class CrearArbolActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crear_arbol);
         statusCheck();
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
+        textUltimaPoda = findViewById(R.id.textUltimaPoda);
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
-        buttonFechaSiembra = findViewById(R.id.buttonFechaSiembra);
+        textUltimaFumigacion = findViewById(R.id.textUltimaFumigacion);
+        textUltimaFertilizacion = findViewById(R.id.textUltimaFertilizacion);
+        textUltimoRiego = findViewById(R.id.textUltimoRiego);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
+        spinnerTipoArbol.setAdapter(spinnerAdapter);
         buttonUbicacion = findViewById(R.id.buttonDefinirUbicacion);
+        buttonNuevoArbol = findViewById(R.id.buttonNuevoArbol);
         spinnerTipoArbol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -58,23 +69,93 @@ public class CrearArbolActivity extends AppCompatActivity {
             }
         });
 
-        buttonFechaSiembra.setOnClickListener(new View.OnClickListener() {
+        textFechaSiembra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cal = Calendar.getInstance();
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-                int month;
-                month = cal.get(Calendar.MONTH);
+                int month = cal.get(Calendar.MONTH);
                 int year = cal.get(Calendar.YEAR);
                 dpd = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        textFechaSiembra.setText(mDayOfMonth + "/" + (mMonth + 1) + "/" + mYear);
+                        textFechaSiembra.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
                     }
-                }, day, month, year);
+                }, year, month, day);
                 dpd.show();
             }
         });
+
+        textUltimaPoda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cal1 = Calendar.getInstance();
+                int day = cal1.get(Calendar.DAY_OF_MONTH);
+                int month = cal1.get(Calendar.MONTH);
+                int year = cal1.get(Calendar.YEAR);
+                dpd2 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
+                        textUltimaPoda.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                    }
+                }, year, month, day);
+                dpd2.show();
+            }
+        });
+
+        textUltimaFertilizacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cal2 = Calendar.getInstance();
+                int day = cal2.get(Calendar.DAY_OF_MONTH);
+                int month = cal2.get(Calendar.MONTH);
+                int year = cal2.get(Calendar.YEAR);
+                dpd3 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
+                        textUltimaFertilizacion.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                    }
+                }, year, month, day);
+                dpd3.show();
+            }
+        });
+
+        textUltimaFumigacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cal3 = Calendar.getInstance();
+                int day = cal3.get(Calendar.DAY_OF_MONTH);
+                int month = cal3.get(Calendar.MONTH);
+                int year = cal3.get(Calendar.YEAR);
+                dpd4 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
+                        textUltimaFumigacion.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                    }
+                }, year, month, day);
+                dpd4.show();
+            }
+        });
+
+        textUltimoRiego.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cal4 = Calendar.getInstance();
+                int day = cal4.get(Calendar.DAY_OF_MONTH);
+                int month = cal4.get(Calendar.MONTH);
+                int year = cal4.get(Calendar.YEAR);
+                dpd5 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
+                        textUltimoRiego.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                    }
+                }, year, month, day);
+                dpd5.show();
+            }
+        });
+
+
+
     }
 
     public void statusCheck() {
