@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,10 +31,9 @@ public class CrearArbolActivity extends AppCompatActivity {
     EditText textUltimoRiego;
     Button buttonNuevoArbol;
     Button buttonUbicacion;
-    Calendar cal,cal1,cal2,cal3,cal4;
-    DatePickerDialog dpd,dpd2,dpd3,dpd4,dpd5;
+    Calendar cal, cal1, cal2, cal3, cal4;
+    DatePickerDialog dpd, dpd2, dpd3, dpd4, dpd5;
     Spinner spinnerTipoArbol;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +68,15 @@ public class CrearArbolActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validateForm()) {
+                    Intent intent = new Intent(v.getContext(), AccionesActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
         textFechaSiembra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,13 +87,12 @@ public class CrearArbolActivity extends AppCompatActivity {
                 dpd = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        textFechaSiembra.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                        textFechaSiembra.setText("Fecha de siembra: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
                     }
                 }, year, month, day);
                 dpd.show();
             }
         });
-
         textUltimaPoda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,13 +103,12 @@ public class CrearArbolActivity extends AppCompatActivity {
                 dpd2 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        textUltimaPoda.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                        textUltimaPoda.setText("Fecha de última poda: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
                     }
                 }, year, month, day);
                 dpd2.show();
             }
         });
-
         textUltimaFertilizacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,13 +119,12 @@ public class CrearArbolActivity extends AppCompatActivity {
                 dpd3 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        textUltimaFertilizacion.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                        textUltimaFertilizacion.setText("Fecha de última fertilización: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
                     }
                 }, year, month, day);
                 dpd3.show();
             }
         });
-
         textUltimaFumigacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,13 +135,12 @@ public class CrearArbolActivity extends AppCompatActivity {
                 dpd4 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        textUltimaFumigacion.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                        textUltimaFumigacion.setText("Fecha de última fumigación: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
                     }
                 }, year, month, day);
                 dpd4.show();
             }
         });
-
         textUltimoRiego.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,24 +151,19 @@ public class CrearArbolActivity extends AppCompatActivity {
                 dpd5 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        textUltimoRiego.setText(String.format("%s/%s/%s", mDayOfMonth, mMonth, mYear));
+                        textUltimoRiego.setText("Fecha de último riego: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
                     }
                 }, year, month, day);
                 dpd5.show();
             }
         });
-
-
-
     }
 
     public void statusCheck() {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         assert manager != null;
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
-
         }
     }
 
@@ -184,5 +183,40 @@ public class CrearArbolActivity extends AppCompatActivity {
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+        if (TextUtils.isEmpty(textFechaSiembra.getText().toString())) {
+            textFechaSiembra.setError("Requerido");
+            valid = false;
+        } else {
+            textFechaSiembra.setError(null);
+        }
+        if (TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
+            textUltimaFertilizacion.setError("Requerido");
+            valid = false;
+        } else {
+            textUltimaFertilizacion.setError(null);
+        }
+        if (TextUtils.isEmpty(textUltimoRiego.getText().toString())) {
+            textUltimoRiego.setError("Requerido");
+            valid = false;
+        } else {
+            textUltimoRiego.setError(null);
+        }
+        if (TextUtils.isEmpty(textUltimaPoda.getText().toString())) {
+            textUltimaPoda.setError("Requerido");
+            valid = false;
+        } else {
+            textUltimaPoda.setError(null);
+        }
+        if (TextUtils.isEmpty(textUltimaFumigacion.getText().toString())) {
+            textUltimaFumigacion.setError("Requerido");
+            valid = false;
+        } else {
+            textUltimaFumigacion.setError(null);
+        }
+        return valid;
     }
 }
