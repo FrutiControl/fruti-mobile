@@ -10,9 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fruticontrol.R;
-import com.fruticontrol.ResumenGranjaDataModel;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
