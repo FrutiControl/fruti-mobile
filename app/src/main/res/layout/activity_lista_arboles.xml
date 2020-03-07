@@ -11,8 +11,8 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Arboles"
+        android:layout_marginTop="36dp"
+        android:text="Árboles"
         android:textColor="@color/headerColor"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,9 @@
         <ListView
             android:id="@+id/listaArbolesList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@color/dividerColor"
+            android:dividerHeight="1dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

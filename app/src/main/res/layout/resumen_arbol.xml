@@ -5,13 +5,16 @@
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:background="@color/backgroundColor"
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/textViewIdArbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ID: "
+        android:textColor="@color/fontColor2"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,6 +25,8 @@
         android:layout_marginTop="8dp"
         android:drawableRight="@drawable/smalltree"
         android:text="Tipo árbol:"
+        android:textColor="@color/fontColor2"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIdArbol" />
 
@@ -31,6 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Etapa:"
+        android:textColor="@color/fontColor2"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTipoArbol" />
 </androidx.constraintlayout.widget.ConstraintLayout>

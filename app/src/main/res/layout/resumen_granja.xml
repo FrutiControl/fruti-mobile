@@ -5,7 +5,8 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:background="@color/backgroundColor"
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/textViewTareasGranja"
@@ -14,6 +15,8 @@
         android:drawableRight="@drawable/logopequeno"
         android:gravity="center|left"
         android:text="Tareas:"
+        android:textColor="@color/fontColor2"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewNombreGranja" />
 
@@ -22,6 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pendientes:"
+        android:textColor="@color/fontColor2"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTareasGranja" />
 
@@ -30,6 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GRANJA NUMERO "
+        android:textColor="@color/fontColor2"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
