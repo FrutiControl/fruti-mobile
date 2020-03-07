@@ -11,6 +11,7 @@ public class AccionesActivity extends AppCompatActivity {
 
     Button crearArbolButton;
     Button verArbolesButton;
+    Button seleccionarArbolesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,7 @@ public class AccionesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_acciones);
         crearArbolButton=findViewById(R.id.buttonCrearArbol);
         verArbolesButton=findViewById(R.id.buttonVerArboles);
+        seleccionarArbolesButton=findViewById(R.id.buttonPodar);
 
 
         crearArbolButton.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +33,13 @@ public class AccionesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(view.getContext(),ListaArbolesActivity.class);
+                startActivity(intent);
+            }
+        });
+        seleccionarArbolesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),NuevoProcesoActivity.class);
                 startActivity(intent);
             }
         });

@@ -48,6 +48,13 @@
         <item> Manual </item>
         <item> Sistema de riego  </item>
     </string-array>
+    <string-array name="TipoProceso">
+        <item> Seleccione el tipo de proceso... </item>
+        <item> Poda </item>
+        <item> Fumigación </item>
+        <item> Fertilización </item>
+        <item> Riego </item>
+    </string-array>
     <string name="title_activity_mapa_nuevo_arbol">Map</string>
     <string name="escoger_ubicaci_n">Escoger ubicación</string>
 </resources>

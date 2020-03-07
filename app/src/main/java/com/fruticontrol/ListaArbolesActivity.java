@@ -23,6 +23,10 @@ public class ListaArbolesActivity extends AppCompatActivity {
 
         dataModels.add(new ResumenArbolDataModel("1","Mango","Siembra"));
         dataModels.add(new ResumenArbolDataModel("2", "Aguacate", "Siembra"));
+        dataModels.add(new ResumenArbolDataModel("2", "Aguacate", "Siembra"));
+        dataModels.add(new ResumenArbolDataModel("2", "Aguacate", "Siembra"));
+        dataModels.add(new ResumenArbolDataModel("2", "Aguacate", "Siembra"));
+        dataModels.add(new ResumenArbolDataModel("2", "Aguacate", "Siembra"));
         adapter= new ResumenArbolesAdapter(dataModels,getApplicationContext());
         listView.setAdapter(adapter);
     }

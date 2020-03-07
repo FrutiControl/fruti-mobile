@@ -31,6 +31,10 @@ public class ListaGranjasActivity extends AppCompatActivity {
 
         dataModels.add(new ResumenGranjaDataModel("Lollipop","Android 5.0","21"));
         dataModels.add(new ResumenGranjaDataModel("Marshmallow", "Android 6.0", "23"));
+        dataModels.add(new ResumenGranjaDataModel("Marshmallow", "Android 6.0", "23"));
+        dataModels.add(new ResumenGranjaDataModel("Marshmallow", "Android 6.0", "23"));
+        dataModels.add(new ResumenGranjaDataModel("Marshmallow", "Android 6.0", "23"));
+        dataModels.add(new ResumenGranjaDataModel("Marshmallow", "Android 6.0", "23"));
         adapter= new ResumenGranjasAdapter(dataModels,getApplicationContext());
         listView.setAdapter(adapter);
 
