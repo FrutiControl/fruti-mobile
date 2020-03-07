@@ -36,6 +36,37 @@
                 android:padding="8dp">
 
                 <Spinner
+                    android:id="@+id/spinnerTipoFertilizacion"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoFertilizacion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimaFertilizacion" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoRiego"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoRiego"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimoRiego" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoFumigacion"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoFumigacion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimaFumigacion" />
+
+                <Spinner
                     android:id="@+id/spinnerTipoArbol"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
@@ -93,8 +124,9 @@
                     android:textColorHint="@color/fontColor2"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textUltimaPoda" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoPoda" />
 
                 <EditText
                     android:id="@+id/textUltimaFertilizacion"
@@ -111,7 +143,7 @@
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textUltimaFumigacion" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoFumigacion" />
 
                 <EditText
                     android:id="@+id/textUltimoRiego"
@@ -128,7 +160,7 @@
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textUltimaFertilizacion" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoFertilizacion" />
 
                 <Button
                     android:id="@+id/buttonDefinirUbicacion"
@@ -140,9 +172,8 @@
                     android:textAllCaps="false"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textUltimoRiego" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoRiego" />
 
                 <Button
                     android:id="@+id/buttonNuevoArbol"
@@ -155,6 +186,16 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoPoda"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoPoda"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimaPoda" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

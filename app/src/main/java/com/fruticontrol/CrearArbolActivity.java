@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,10 @@ public class CrearArbolActivity extends AppCompatActivity {
     Calendar cal, cal1, cal2, cal3, cal4;
     DatePickerDialog dpd, dpd2, dpd3, dpd4, dpd5;
     Spinner spinnerTipoArbol;
+    Spinner spinnerTipoPoda;
+    Spinner spinnerTipoFumigacion;
+    Spinner spinnerTipoFertilizacion;
+    Spinner spinnerTipoRiego;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,11 +48,23 @@ public class CrearArbolActivity extends AppCompatActivity {
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         textUltimaPoda = findViewById(R.id.textUltimaPoda);
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
+        spinnerTipoPoda = findViewById(R.id.spinnerTipoPoda);
+        spinnerTipoFumigacion = findViewById(R.id.spinnerTipoFumigacion);
+        spinnerTipoFertilizacion = findViewById(R.id.spinnerTipoFertilizacion);
+        spinnerTipoRiego = findViewById(R.id.spinnerTipoRiego);
         textUltimaFumigacion = findViewById(R.id.textUltimaFumigacion);
         textUltimaFertilizacion = findViewById(R.id.textUltimaFertilizacion);
         textUltimoRiego = findViewById(R.id.textUltimoRiego);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapter);
+        ArrayAdapter<CharSequence> spinnerAdapterPoda = ArrayAdapter.createFromResource(this, R.array.TipoPoda, R.layout.spinner_item);
+        spinnerTipoPoda.setAdapter(spinnerAdapterPoda);
+        ArrayAdapter<CharSequence> spinnerAdapterFumigacion = ArrayAdapter.createFromResource(this, R.array.TipoFumigacion, R.layout.spinner_item);
+        spinnerTipoFumigacion.setAdapter(spinnerAdapterFumigacion);
+        ArrayAdapter<CharSequence> spinnerAdapterFertilizacion = ArrayAdapter.createFromResource(this, R.array.TipoFertilizacion, R.layout.spinner_item);
+        spinnerTipoFertilizacion.setAdapter(spinnerAdapterFertilizacion);
+        ArrayAdapter<CharSequence> spinnerAdapterRiego = ArrayAdapter.createFromResource(this, R.array.TipoRiego, R.layout.spinner_item);
+        spinnerTipoRiego.setAdapter(spinnerAdapterRiego);
         buttonUbicacion = findViewById(R.id.buttonDefinirUbicacion);
         buttonNuevoArbol = findViewById(R.id.buttonNuevoArbol);
         spinnerTipoArbol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -61,6 +78,60 @@ public class CrearArbolActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        spinnerTipoPoda.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String tipoPoda = spinnerTipoPoda.getSelectedItem().toString();
+                Log.i("c_arbol", "opcion seleccionada " + tipoPoda);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerTipoFumigacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String tipoFumigacion = spinnerTipoFumigacion.getSelectedItem().toString();
+                Log.i("c_arbol", "opcion seleccionada " + tipoFumigacion);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerTipoFertilizacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String tipoFertilizacion = spinnerTipoFertilizacion.getSelectedItem().toString();
+                Log.i("c_arbol", "opcion seleccionada " + tipoFertilizacion);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerTipoRiego.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String tipoRiego = spinnerTipoRiego.getSelectedItem().toString();
+                Log.i("c_arbol", "opcion seleccionada " + tipoRiego);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         buttonUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,6 +258,46 @@ public class CrearArbolActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
+        int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
+        String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
+
+        if (actualPositionOfMySpinner.equals("Seleccione el tipo...")) {
+            setSpinnerError(spinnerTipoArbol);
+            valid = false;
+        }
+
+        int selectedItemOfMySpinnerPoda = spinnerTipoPoda.getSelectedItemPosition();
+        String actualPositionOfMySpinnerPoda = (String) spinnerTipoPoda.getItemAtPosition(selectedItemOfMySpinnerPoda);
+
+        if (actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...")) {
+            setSpinnerError(spinnerTipoPoda);
+            valid = false;
+        }
+
+        int selectedItemOfMySpinnerFumigacion = spinnerTipoFumigacion.getSelectedItemPosition();
+        String actualPositionOfMySpinnerFumigacion = (String) spinnerTipoFumigacion.getItemAtPosition(selectedItemOfMySpinnerFumigacion);
+
+        if (actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...")) {
+            setSpinnerError(spinnerTipoFumigacion);
+            valid = false;
+        }
+
+        int selectedItemOfMySpinnerFertilizacion = spinnerTipoFertilizacion.getSelectedItemPosition();
+        String actualPositionOfMySpinnerFertilizacion = (String) spinnerTipoFertilizacion.getItemAtPosition(selectedItemOfMySpinnerFertilizacion);
+
+        if (actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...")) {
+            setSpinnerError(spinnerTipoFertilizacion);
+            valid = false;
+        }
+
+        int selectedItemOfMySpinnerRiego = spinnerTipoRiego.getSelectedItemPosition();
+        String actualPositionOfMySpinnerRiego = (String) spinnerTipoRiego.getItemAtPosition(selectedItemOfMySpinnerRiego);
+
+        if (actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...")) {
+            setSpinnerError(spinnerTipoRiego);
+            valid = false;
+        }
+
         if (TextUtils.isEmpty(textFechaSiembra.getText().toString())) {
             textFechaSiembra.setError("Requerido");
             valid = false;
@@ -219,4 +330,17 @@ public class CrearArbolActivity extends AppCompatActivity {
         }
         return valid;
     }
+
+    private void setSpinnerError(Spinner spinner) {
+        View selectedView = spinner.getSelectedView();
+        if (selectedView != null && selectedView instanceof TextView) {
+            spinner.requestFocus();
+            TextView selectedTextView = (TextView) selectedView;
+            selectedTextView.setError("Requerido"); // any name of the error will do
+
+
+        }
+    }
+
+
 }
