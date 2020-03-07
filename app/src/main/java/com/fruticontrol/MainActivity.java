@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 queue.add(loginRequest);
-                Intent intent = new Intent(view.getContext(), CrearArbolActivity.class);
+                Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                 startActivity(intent);
             }
         });
