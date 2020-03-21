@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".GastosActivity"></activity>
+        <activity android:name=".NuevoIngresoActivity"></activity>
+        <activity android:name=".GastosActivity" />
         <activity android:name=".NuevoProcesoActivity" />
         <activity android:name=".ListaArbolesActivity" />
         <!--
