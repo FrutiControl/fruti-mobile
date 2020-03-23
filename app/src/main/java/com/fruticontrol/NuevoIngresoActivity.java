@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -56,37 +59,42 @@ public class NuevoIngresoActivity extends AppCompatActivity {
             }
         });
 
-        etValorCanastilla.setOnClickListener(new View.OnClickListener() {
+
+        etValorCanastilla.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                calcularTotal();
+            public void beforeTextChanged(CharSequence s, int start,int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    calcularTotal();
             }
         });
 
-        etCantidadCanastilla.setOnClickListener(new View.OnClickListener() {
+        etCantidadCanastilla.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                calcularTotal();
+            public void beforeTextChanged(CharSequence s, int start,int count, int after) {
             }
-        });
 
-        etConceptoIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                calcularTotal();
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    calcularTotal();
             }
         });
     }
 
     protected void calcularTotal(){
-        if(etValorCanastilla.getText().length()>0 &&  etCantidadCanastilla.getText().length()>0){
+        if(!TextUtils.isEmpty(etValorCanastilla.getText().toString()) && !TextUtils.isEmpty( etCantidadCanastilla.getText().toString())){
             int total=(Integer.valueOf(etValorCanastilla.getText().toString()))*Integer.valueOf(etCantidadCanastilla.getText().toString());
             txtTotal.setText(String.valueOf(total));
         }
-        /*
-        int val=Integer.parseInt(etValorCanastilla.getText().toString());
-        int cant=Integer.parseInt(etCantidadCanastilla.getText().toString());
-         */
-
     }
 }
