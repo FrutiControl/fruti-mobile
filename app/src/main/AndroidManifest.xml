@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DashboardFinanzasActivity"></activity>
+        <activity android:name=".DashboardProcesosActivity"></activity>
+        <activity android:name=".DashboardFinanzasActivity" />
         <activity android:name=".NuevoIngresoActivity" />
         <activity android:name=".GastosActivity" />
         <activity android:name=".NuevoProcesoActivity" />
