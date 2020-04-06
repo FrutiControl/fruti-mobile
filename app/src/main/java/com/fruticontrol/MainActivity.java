@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,
-                        "http://10.0.2.2:8000/login/"/*TODO: cambiar a URL real para producción!!!!*/, credentials,
+                        "http://10.0.2.2:8000/users/login/"/*TODO: cambiar a URL real para producción!!!!*/, credentials,
                         new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
