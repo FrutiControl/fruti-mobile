@@ -10,4 +10,51 @@
     <string name="registrarme">Registrarme</string>
     <string name="granjas">Granjas</string>
     <string name="nueva_granja">Nueva granja</string>
+    <string-array name="TipoArbolFrutal">
+        <item> Seleccione el tipo... </item>
+        <item> Mango tommy </item>
+        <item> Mango farchil</item>
+        <item> Naranja </item>
+        <item> Mandarina </item>
+        <item> Limon </item>
+        <item> Aguacate </item>
+        <item> Guanabana </item>
+        <item> Banano </item>
+    </string-array>
+    <string-array name="TipoPoda">
+        <item> Seleccione el tipo de poda... </item>
+        <item> Sanitaria </item>
+        <item> Formación </item>
+        <item> Limpieza  </item>
+        <item> Mantenimiento  </item>
+    </string-array>
+    <string-array name="TipoFumigacion">
+        <item> Seleccione el tipo de fumigación... </item>
+        <item> Insectos </item>
+        <item> Hongos </item>
+        <item> Hierba </item>
+        <item> Ácaro </item>
+        <item> Peste </item>
+    </string-array>
+    <string-array name="TipoFertilizacion">
+        <item> Seleccione el tipo de fertilización... </item>
+        <item> Crecimiento </item>
+        <item> Produccion </item>
+        <item> Mantenimiento </item>
+    </string-array>
+    <string-array name="TipoRiego">
+        <item> Seleccione el tipo de riego... </item>
+        <item> Natural </item>
+        <item> Manual </item>
+        <item> Sistema de riego  </item>
+    </string-array>
+    <string-array name="TipoProceso">
+        <item> Seleccione el tipo de proceso... </item>
+        <item> Poda </item>
+        <item> Fumigación </item>
+        <item> Fertilización </item>
+        <item> Riego </item>
+    </string-array>
+    <string name="title_activity_mapa_nuevo_arbol">Map</string>
+    <string name="escoger_ubicaci_n">Escoger ubicación</string>
 </resources>

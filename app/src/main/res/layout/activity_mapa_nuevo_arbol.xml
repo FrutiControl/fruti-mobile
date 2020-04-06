@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapaNuevoArbolActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapaNuevoArbolActivity" />
+
+    <Button
+        android:id="@+id/buttonEscogerUbicacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_button"
+        android:drawablePadding="@dimen/nav_header_vertical_spacing"
+        android:text="@string/escoger_ubicaci_n"
+        android:textAllCaps="false" />
+
+    <ImageView
+        android:id="@+id/imageViewMarcadorArbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/tree80center"
+        android:contentDescription="TODO" />
+
+</FrameLayout>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    tools:context=".CrearArbolActivity">
+
+    <TextView
+        android:id="@+id/textNuevoArbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Nuevo árbol"
+        android:textColor="@color/headerColor"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textNuevoArbol">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="642dp"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/spinnerTipoFertilizacion"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoFertilizacion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimaFertilizacion" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoRiego"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoRiego"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimoRiego" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoFumigacion"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoFumigacion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimaFumigacion" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoArbol"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:entries="@array/TipoArbolFrutal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/textFechaSiembra"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableRight="@drawable/date"
+                    android:ems="16"
+                    android:focusable="false"
+                    android:fontFamily="@font/roboto"
+                    android:hint="Seleccione la fecha de siembra"
+                    android:inputType="date"
+                    android:textColor="@color/fontColor2"
+                    android:textColorHint="@color/fontColor2"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoArbol" />
+
+                <EditText
+                    android:id="@+id/textUltimaPoda"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableRight="@drawable/date"
+                    android:ems="16"
+                    android:focusable="false"
+                    android:hint="Seleccione la última fecha de poda"
+                    android:inputType="date"
+                    android:textColor="@color/fontColor2"
+                    android:textColorHint="@color/fontColor2"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textFechaSiembra" />
+
+                <EditText
+                    android:id="@+id/textUltimaFumigacion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableRight="@drawable/date"
+                    android:ems="16"
+                    android:focusable="false"
+                    android:hint="Seleccione última fecha de fumigación"
+                    android:inputType="date"
+                    android:textColor="@color/fontColor2"
+                    android:textColorHint="@color/fontColor2"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoPoda" />
+
+                <EditText
+                    android:id="@+id/textUltimaFertilizacion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableRight="@drawable/date"
+                    android:ems="16"
+                    android:focusable="false"
+                    android:hint="Seleccione última fecha de fertilización"
+                    android:inputType="date"
+                    android:textColor="@color/fontColor2"
+                    android:textColorHint="@color/fontColor2"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoFumigacion" />
+
+                <EditText
+                    android:id="@+id/textUltimoRiego"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableRight="@drawable/date"
+                    android:ems="16"
+                    android:focusable="false"
+                    android:hint="Seleccione última fecha de riego"
+                    android:inputType="date"
+                    android:textColor="@color/fontColor2"
+                    android:textColorHint="@color/fontColor2"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoFertilizacion" />
+
+                <Button
+                    android:id="@+id/buttonDefinirUbicacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Definir ubicación"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTipoRiego" />
+
+                <Button
+                    android:id="@+id/buttonNuevoArbol"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button"
+                    android:text="Crear árbol"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoPoda"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/TipoPoda"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUltimaPoda" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
