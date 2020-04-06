@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"><!-- TODO: retirar usesCleartextTraffic para producción!!! -->
         <activity
             android:name=".NuevaGranjaActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ListaGranjasActivity"
             android:screenOrientation="portrait" />
