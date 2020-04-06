@@ -23,7 +23,9 @@
         <ListView
             android:id="@+id/listaGranjasList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:divider="@color/dividerColor"
+            android:dividerHeight="1dp">
 
         </ListView>
     </LinearLayout>

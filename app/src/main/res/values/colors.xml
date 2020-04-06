@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="headerColor">#964F2D</color>
     <color name="backgroundColor">#D5E6B2</color>
+    <color name="dividerColor">#AED581</color>
     <!--TODO: Cambiar en nombre de los colores a algo mas explícito i.e. fontColorTitles-->
     <color name="fontColor1">#F3CC3C</color>
     <color name="fontColor2">#910C00</color>
