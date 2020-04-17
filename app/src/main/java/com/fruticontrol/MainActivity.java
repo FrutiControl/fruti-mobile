@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,47 +50,56 @@ public class MainActivity extends AppCompatActivity {
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                //TODO: Realizar validación de campos como en RegisterActivity
-                Toast.makeText(MainActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
-                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                String body = "{\"username\":\"" + txtUsername.getText() + "\",\"password\":\"" + txtPass.getText() + "\"}";
-                Log.i("usersAPI", "Credenciales: " + body);
-                JSONObject credentials = null;
-                try {
-                    credentials = new JSONObject(body);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,
-                        "http://10.0.2.2:8000/users/login/"/*TODO: cambiar a URL real para producción!!!!*/, credentials,
-                        new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.i("usersAPI", response.toString());
-                        if (response.has("error")) {
-                            try {
-                                Toast.makeText(MainActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            //TODO: extraer el token del response y verificarlo antes de la siguiente actividad
-                            Intent intent = new Intent(view.getContext(), AccionesActivity.class);
-                            startActivity(intent);
+                if(validateForm()){
+                    //TODO: Realizar validación de campos como en RegisterActivity
+                    Toast.makeText(MainActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
+                    RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                    String body = "{\"username\":\"" + txtUsername.getText() + "\",\"password\":\"" + txtPass.getText() + "\"}";
+                    Log.i("usersAPI", "Credenciales: " + body);
+                    JSONObject credentials = null;
+                    try {
+                        credentials = new JSONObject(body);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String aux;
+                    JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,
+                            "http://10.0.2.2:8000/users/login/"/*TODO: cambiar a URL real para producción!!!!*/, credentials,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("usersAPI", response.toString());
+
+                                    if (response.has("error")) {
+                                        try {
+                                            Toast.makeText(MainActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        //TODO: extraer el token del response y verificarlo antes de la siguiente actividad
+                                        try{
+                                            Toast.makeText(MainActivity.this, response.getString("token"), Toast.LENGTH_LONG).show();
+                                        }catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        Intent intent = new Intent(view.getContext(), AccionesActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(MainActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                        Toast.makeText(MainActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                queue.add(loginRequest);
-                Intent intent = new Intent(view.getContext(), AccionesActivity.class);
-                startActivity(intent);
+                    });
+                    queue.add(loginRequest);
+                }
             }
         });
+
         txtRegistro = findViewById(R.id.textViewRegistrarse);
         txtRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,5 +128,36 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+        Pattern emailPattern = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+        Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+        Matcher emailMatcher = emailPattern.matcher(txtUsername.getText());
+        Matcher passMatcher = passPattern.matcher(txtPass.getText());
+
+        if (TextUtils.isEmpty(txtUsername.getText().toString())) {
+            txtUsername.setError("Requerido");
+            valid = false;
+        } else if (!emailMatcher.matches()) {
+            Log.e("usersAPI", "El correo no es válido");
+            txtUsername.setError("Correo inválido");
+            valid=false;
+        } else {
+            txtUsername.setError(null);
+        }
+
+        if (TextUtils.isEmpty(txtPass.getText().toString())) {
+            txtPass.setError("Requerido");
+            valid = false;
+        } else if (!passMatcher.matches()) {
+            Log.e("usersAPI", "La contraseña no es válido");
+            txtPass.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
+            valid=false;
+        } else {
+            txtPass.setError(null);
+        }
+        return valid;
     }
 }

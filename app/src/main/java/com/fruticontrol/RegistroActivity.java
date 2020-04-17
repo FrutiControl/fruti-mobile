@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,6 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegistroActivity extends AppCompatActivity {
+
+    public static final int MY_DEFAULT_TIMEOUT = 15000;
 
     Button registroButton;
     TextView txtNombre;
@@ -81,6 +84,10 @@ public class RegistroActivity extends AppCompatActivity {
                             Toast.makeText(RegistroActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
                     });
+                    registerRequest.setRetryPolicy(new DefaultRetryPolicy(
+                            MY_DEFAULT_TIMEOUT,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                     queue.add(registerRequest);
                 }
             }
@@ -91,7 +98,9 @@ public class RegistroActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
         Pattern emailPattern = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-        Matcher matcher = emailPattern.matcher(txtEmail.getText());
+        Matcher emailMatcher = emailPattern.matcher(txtEmail.getText());
+        Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+        Matcher passMatcher = passPattern.matcher(txtPass.getText());
         if (TextUtils.isEmpty(txtNombre.getText().toString())) {
             txtNombre.setError("Requerido");
             valid = false;
@@ -101,7 +110,7 @@ public class RegistroActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(txtEmail.getText().toString())) {
             txtEmail.setError("Requerido");
             valid = false;
-        } else if (!matcher.matches()) {
+        } else if (!emailMatcher.matches()) {
             Log.e("usersAPI", "El correo no es válido");
             txtEmail.setError("Correo inválido");
         } else {
@@ -111,14 +120,21 @@ public class RegistroActivity extends AppCompatActivity {
             txtPass.setError("Requerido");
             txtPassVerf.setError("Requerido");
             valid = false;
-        } else if (!txtPassVerf.getText().toString().equals(txtPass.getText().toString())) {
-            txtPass.setError("Las contraseñas deben coincidir");
-            txtPassVerf.setError("Las contraseñas deben coincidir");
-            valid = false;
-        } else {
-            txtPass.setError(null);
-            txtPassVerf.setError(null);
         }
+        else if (!passMatcher.matches()) {
+            Log.e("usersAPI", "La contraseña no es válido");
+            txtPass.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
+            valid=false;
+        }
+            else if (!txtPassVerf.getText().toString().equals(txtPass.getText().toString())) {
+                txtPass.setError("Las contraseñas deben coincidir");
+                txtPassVerf.setError("Las contraseñas deben coincidir");
+                valid = false;
+            }
+                else {
+                    txtPass.setError(null);
+                    txtPassVerf.setError(null);
+                }
         return valid;
     }
 }
