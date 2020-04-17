@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,9 +39,9 @@ public class GastosActivity extends AppCompatActivity {
         tvManoDeObra=findViewById(R.id.textViewManoDeObra);
         spinnerTipo=findViewById(R.id.spinnerGastoTipoPoceso);
         spinnerSubtipo=findViewById(R.id.spinnerGastoSubtipoProceso);
-        ArrayAdapter<CharSequence> spinnerAdapterTipo = ArrayAdapter.createFromResource(this, R.array.TipoProceso, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> spinnerAdapterTipo = ArrayAdapter.createFromResource(this, R.array.TipoActividad, R.layout.spinner_item);
         spinnerTipo.setAdapter(spinnerAdapterTipo);
-        ArrayAdapter<CharSequence> spinnerAdapterSubtipo = ArrayAdapter.createFromResource(this, R.array.TipoProceso, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> spinnerAdapterSubtipo = ArrayAdapter.createFromResource(this, R.array.TipoActividad, R.layout.spinner_item);
         spinnerTipo.setAdapter(spinnerAdapterSubtipo);
 
         switchMaterialManoDeObra.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

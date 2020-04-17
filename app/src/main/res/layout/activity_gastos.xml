@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Escoja en que tipo y subtipo de proceso gastó dinero"
+        android:text="Escoja en que tipo y subtipo de actividad en que  gastó dinero"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

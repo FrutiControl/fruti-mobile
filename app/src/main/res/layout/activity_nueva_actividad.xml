@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".NuevoProcesoActivity">
+    tools:context=".NuevaActividadActivity">
 
     <TextView
         android:id="@+id/textView4"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Nuevo Proceso"
+        android:text="Nueva Actividad"
         android:textColor="@color/headerColor"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -21,7 +21,7 @@ public class AccionesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_acciones);
         crearArbolButton=findViewById(R.id.buttonCrearArbol);
         verArbolesButton=findViewById(R.id.buttonVerArboles);
-        seleccionarArbolesButton=findViewById(R.id.buttonPodar);
+        seleccionarArbolesButton=findViewById(R.id.buttonNuevaActividad);
         anadirGastoButton=findViewById(R.id.buttonAñadirGasto);
         nuevoIngresoButton=findViewById(R.id.buttonNuevoIngreso);
 
@@ -60,7 +60,7 @@ public class AccionesActivity extends AppCompatActivity {
         seleccionarArbolesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),NuevoProcesoActivity.class);
+                Intent intent=new Intent(view.getContext(), NuevaActividadActivity.class);
                 startActivity(intent);
             }
         });

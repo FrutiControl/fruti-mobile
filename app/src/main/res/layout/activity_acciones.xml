@@ -9,6 +9,15 @@
     android:orientation="vertical"
     tools:context=".AccionesActivity" >
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
     <Button
         android:id="@+id/buttonVerArboles"
         android:layout_width="match_parent"
@@ -38,14 +47,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonPodar"
+        android:id="@+id/buttonNuevaActividad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
-        android:text="Nuevo proceso"
+        android:text="Nueva actividad"
         android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/buttonVerArboles"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +70,7 @@
         android:background="@drawable/rounded_button"
         android:text="Añadir gasto"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPodar"
+        app:layout_constraintBottom_toTopOf="@+id/buttonNuevaActividad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

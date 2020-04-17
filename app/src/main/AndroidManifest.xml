@@ -28,7 +28,7 @@
             android:name=".GastosActivity"
             android:screenOrientation="portrait" />
         <activity 
-             android:name=".NuevoProcesoActivity"
+             android:name=".NuevaActividadActivity"
              android:screenOrientation="portrait" />
         <activity 
             android:name=".ListaArbolesActivity"

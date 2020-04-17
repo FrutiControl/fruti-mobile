@@ -48,8 +48,8 @@
         <item> Manual </item>
         <item> Sistema de riego  </item>
     </string-array>
-    <string-array name="TipoProceso">
-        <item> Seleccione el tipo de proceso... </item>
+    <string-array name="TipoActividad">
+        <item> Seleccione el tipo de actividad... </item>
         <item> Poda </item>
         <item> Fumigación </item>
         <item> Fertilización </item>

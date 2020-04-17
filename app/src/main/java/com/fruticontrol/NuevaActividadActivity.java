@@ -3,10 +3,7 @@ package com.fruticontrol;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,11 +12,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class NuevoProcesoActivity extends AppCompatActivity {
+public class NuevaActividadActivity extends AppCompatActivity {
 
     Calendar calInicio;
     Calendar calFin;
@@ -34,14 +30,14 @@ public class NuevoProcesoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_proceso);
+        setContentView(R.layout.activity_nueva_actividad);
 
         txtFechaInicio=findViewById(R.id.fechaInicio);
         txtFechaFin=findViewById(R.id.fechaFin);
         spinnerTipo=findViewById(R.id.spinnerTipoProceso);
         spinnerSubtipo=findViewById(R.id.spinnerSubtipo);
         guardarNuevoProcesoButton=findViewById(R.id.buttonGuardarNuevoProceso);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoProceso, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoActividad, R.layout.spinner_item);
         spinnerTipo.setAdapter(spinnerAdapter);
 
         guardarNuevoProcesoButton.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +87,7 @@ public class NuevoProcesoActivity extends AppCompatActivity {
                 int day = calInicio.get(Calendar.DAY_OF_MONTH);
                 int month = calInicio.get(Calendar.MONTH);
                 int year = calInicio.get(Calendar.YEAR);
-                datePInicio= new DatePickerDialog(NuevoProcesoActivity.this, new DatePickerDialog.OnDateSetListener() {
+                datePInicio= new DatePickerDialog(NuevaActividadActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaInicio.setText("Fecha de inicio de tarea: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -108,7 +104,7 @@ public class NuevoProcesoActivity extends AppCompatActivity {
                 int day = calFin.get(Calendar.DAY_OF_MONTH);
                 int month = calFin.get(Calendar.MONTH);
                 int year = calFin.get(Calendar.YEAR);
-                datePFin= new DatePickerDialog(NuevoProcesoActivity.this, new DatePickerDialog.OnDateSetListener() {
+                datePFin= new DatePickerDialog(NuevaActividadActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaFin.setText("Fecha de fin de tarea: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
