@@ -11,7 +11,7 @@
     <string name="granjas">Granjas</string>
     <string name="nueva_granja">Nueva granja</string>
     <string-array name="TipoArbolFrutal">
-        <item> Seleccione el tipo... </item>
+        <item> Seleccione el tipo&#8230; </item>
         <item> Mango tommy </item>
         <item> Mango farchil</item>
         <item> Naranja </item>
@@ -22,14 +22,14 @@
         <item> Banano </item>
     </string-array>
     <string-array name="TipoPoda">
-        <item> Seleccione el tipo de poda... </item>
+        <item> Seleccione el tipo de poda&#8230; </item>
         <item> Sanitaria </item>
         <item> Formación </item>
         <item> Limpieza  </item>
         <item> Mantenimiento  </item>
     </string-array>
     <string-array name="TipoFumigacion">
-        <item> Seleccione el tipo de fumigación... </item>
+        <item> Seleccione el tipo de fumigación&#8230; </item>
         <item> Insectos </item>
         <item> Hongos </item>
         <item> Hierba </item>
@@ -37,19 +37,19 @@
         <item> Peste </item>
     </string-array>
     <string-array name="TipoFertilizacion">
-        <item> Seleccione el tipo de fertilización... </item>
+        <item> Seleccione el tipo de fertilización&#8230; </item>
         <item> Crecimiento </item>
         <item> Produccion </item>
         <item> Mantenimiento </item>
     </string-array>
     <string-array name="TipoRiego">
-        <item> Seleccione el tipo de riego... </item>
+        <item> Seleccione el tipo de riego&#8230; </item>
         <item> Natural </item>
         <item> Manual </item>
         <item> Sistema de riego  </item>
     </string-array>
     <string-array name="TipoActividad">
-        <item> Seleccione el tipo de actividad... </item>
+        <item> Seleccione el tipo de actividad&#8230; </item>
         <item> Poda </item>
         <item> Fumigación </item>
         <item> Fertilización </item>
@@ -59,4 +59,7 @@
     <string name="escoger_ubicaci_n">Escoger ubicación</string>
     <string name="nueva_actividad">Nueva Actividad</string>
     <string name="guardar">Guardar</string>
+    <string name="nuevo_ingreso">Nuevo Ingreso</string>
+    <string name="fecha_del_ingreso">Fecha del ingreso</string>
+    <string name="valor_por_canastilla">Valor por canastilla</string>
 </resources>
