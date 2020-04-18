@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
+    android:padding="8dp"
     tools:context=".DashboardActividadesActivity">
 
     <LinearLayout
@@ -54,9 +55,10 @@
         android:layout_width="409dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12">
@@ -67,11 +69,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/fontColor1"
-            android:padding="8dp"
-            android:text="12 Actividades recomendadas"
+            android:gravity="center"
+            android:text="12&#xA;Actividades recomendadas"
             android:textAlignment="center"
             android:textColor="@color/headerColor"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -80,11 +82,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/headerColor"
-            android:padding="8dp"
-            android:text="5 Actividades en proceso"
+            android:gravity="center"
+            android:text="5&#xA;Actividades en proceso"
             android:textAlignment="center"
             android:textColor="@color/fontColor1"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -118,6 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto"
+            android:gravity="center"
             android:text="Progreso"
             android:textAlignment="center"
             android:textAllCaps="false"

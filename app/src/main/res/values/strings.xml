@@ -62,4 +62,7 @@
     <string name="nuevo_ingreso">Nuevo Ingreso</string>
     <string name="fecha_del_ingreso">Fecha del ingreso</string>
     <string name="valor_por_canastilla">Valor por canastilla</string>
+    <string name="actividades">Actividades</string>
+    <string name="rbol">Árbol</string>
+    <string name="finanzas">Finanzas</string>
 </resources>

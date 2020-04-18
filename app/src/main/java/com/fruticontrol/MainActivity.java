@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     });
                     queue.add(loginRequest);
                 }
+                //TODO: Eliminar siguientes dos lienas antes de produccion
+                Intent intent = new Intent(view.getContext(), AccionesActivity.class);
+                startActivity(intent);
             }
         });
 
