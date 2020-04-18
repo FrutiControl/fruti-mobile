@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".DashboardProcesosActivity">
+    tools:context=".DashboardActividadesActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout10"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto"
-        android:text="Procesos"
+        android:text="Actividades"
         android:textColor="@color/headerColor"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:background="@color/fontColor1"
             android:padding="8dp"
-            android:text="12 Tareas recomendadas"
+            android:text="12 Actividades recomendadas"
             android:textAlignment="center"
             android:textColor="@color/headerColor"
             android:textSize="24sp"
@@ -81,7 +81,7 @@
             android:layout_weight="1"
             android:background="@color/headerColor"
             android:padding="8dp"
-            android:text="5 Tareas en proceso"
+            android:text="5 Actividades en proceso"
             android:textAlignment="center"
             android:textColor="@color/fontColor1"
             android:textSize="24sp"
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto"
-            android:text="Tipo de tarea"
+            android:text="Tipo de actividad"
             android:textAlignment="center"
             android:textColor="@color/headerColor"
             android:textSize="18sp"
@@ -190,7 +190,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_button"
-        android:text="Nueva tarea"
+        android:text="Nueva actividad"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
