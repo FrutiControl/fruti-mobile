@@ -3,6 +3,7 @@ package com.fruticontrol;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
     Spinner spinnerTipo;
     Spinner spinnerSubtipo;
     Button guardarNuevoProcesoButton;
+    Button seleccionarArbolesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +38,18 @@ public class NuevaActividadActivity extends AppCompatActivity {
         txtFechaFin=findViewById(R.id.fechaFin);
         spinnerTipo=findViewById(R.id.spinnerTipoProceso);
         spinnerSubtipo=findViewById(R.id.spinnerSubtipo);
+        seleccionarArbolesButton=findViewById(R.id.buttonSeleccionarArboles);
         guardarNuevoProcesoButton=findViewById(R.id.buttonGuardarNuevoProceso);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoActividad, R.layout.spinner_item);
         spinnerTipo.setAdapter(spinnerAdapter);
 
+        seleccionarArbolesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),ListaArbolesActivity.class);
+                startActivity(intent);
+            }
+        });
         guardarNuevoProcesoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
