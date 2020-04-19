@@ -6,5 +6,5 @@
     android:fontFamily="@font/roboto"
     android:gravity="left"
     android:padding="5dp"
-    android:textColor="@color/fontColor2"
+    android:textColor="@color/headerColor"
     android:textSize="16sp" />

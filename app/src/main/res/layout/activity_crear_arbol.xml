@@ -34,8 +34,18 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="642dp"
+                android:layout_height="match_parent"
                 android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="En caso de que no haya aplicado alguna actividad o no recuerde la fecha, puede dejar los campos vacíos. El tipo de árbol, la fecha de siembra y la ubicación son obligatorias"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/spinnerTipoFertilizacion"
@@ -72,10 +82,11 @@
                     android:id="@+id/spinnerTipoArbol"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
                     android:entries="@array/TipoArbolFrutal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                 <EditText
                     android:id="@+id/textFechaSiembra"
@@ -181,13 +192,14 @@
                     android:id="@+id/buttonNuevoArbol"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/rounded_button"
                     android:text="@string/crear_rbol"
                     android:textAllCaps="false"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonDefinirUbicacion" />
 
                 <Spinner
                     android:id="@+id/spinnerTipoPoda"

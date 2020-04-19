@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,11 +18,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class CrearArbolActivity extends AppCompatActivity {
 
@@ -39,6 +42,7 @@ public class CrearArbolActivity extends AppCompatActivity {
     Spinner spinnerTipoFumigacion;
     Spinner spinnerTipoFertilizacion;
     Spinner spinnerTipoRiego;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -142,7 +146,7 @@ public class CrearArbolActivity extends AppCompatActivity {
         buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateForm()) {
+                if(validateForm()){
                     Intent intent = new Intent(v.getContext(), AccionesActivity.class);
                     startActivity(intent);
                 }
@@ -260,12 +264,14 @@ public class CrearArbolActivity extends AppCompatActivity {
         boolean valid = true;
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
 
-        if (actualPositionOfMySpinner.equals("Seleccione el tipo...")) {
+        if (actualPositionOfMySpinner.equals("Seleccione el tipo de árbol...")) {
             setSpinnerError(spinnerTipoArbol);
             valid = false;
         }
-
+/*
         int selectedItemOfMySpinnerPoda = spinnerTipoPoda.getSelectedItemPosition();
         String actualPositionOfMySpinnerPoda = (String) spinnerTipoPoda.getItemAtPosition(selectedItemOfMySpinnerPoda);
 
@@ -297,34 +303,99 @@ public class CrearArbolActivity extends AppCompatActivity {
             setSpinnerError(spinnerTipoRiego);
             valid = false;
         }
-
+*/
+//VALIDACION FECHA DE SIEMBRA
         if (TextUtils.isEmpty(textFechaSiembra.getText().toString())) {
             textFechaSiembra.setError("Requerido");
             valid = false;
-        } else {
-            textFechaSiembra.setError(null);
+        }else{
+            String divide=textFechaSiembra.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[3];
+            String data[]=aux.split("/");
+            if(today.year<Integer.valueOf(data[2])){
+                valid=false;
+            }else if(today.month+1<Integer.valueOf(data[1])){
+                valid=false;
+            }
+            else if(today.monthDay<Integer.valueOf(data[0])){
+                valid=false;
+            }
         }
-        if (TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
-            textUltimaFertilizacion.setError("Requerido");
-            valid = false;
+//VALIDACIONES DE FECHA DE ACTIVIDAD
+        if (!TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
+            String divide=textUltimaFertilizacion.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[4];
+            String data[]=aux.split("/");
+            if(today.year<Integer.valueOf(data[2])){
+                valid=false;
+            }else if(today.month+1<Integer.valueOf(data[1])){
+                valid=false;
+            }
+            else if(today.monthDay<Integer.valueOf(data[0])){
+                valid=false;
+            }
+            if(!valid){
+                textUltimaFertilizacion.setError("La fecha que seleccionó aún no ha ocurrido");
+            }
         } else {
             textUltimaFertilizacion.setError(null);
         }
-        if (TextUtils.isEmpty(textUltimoRiego.getText().toString())) {
-            textUltimoRiego.setError("Requerido");
-            valid = false;
+        if (!TextUtils.isEmpty(textUltimoRiego.getText().toString())) {
+            String divide=textUltimoRiego.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[4];
+            String data[]=aux.split("/");
+            if(today.year<Integer.valueOf(data[2])){
+                valid=false;
+            }else if(today.month+1<Integer.valueOf(data[1])){
+                valid=false;
+            }
+            else if(today.monthDay<Integer.valueOf(data[0])){
+                valid=false;
+            }
+            if(!valid){
+                textUltimoRiego.setError("La fecha que seleccionó aún no ha ocurrido");
+            }
         } else {
             textUltimoRiego.setError(null);
         }
-        if (TextUtils.isEmpty(textUltimaPoda.getText().toString())) {
-            textUltimaPoda.setError("Requerido");
-            valid = false;
+        if (!TextUtils.isEmpty(textUltimaPoda.getText().toString())) {
+            String divide=textUltimaPoda.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[4];
+            String data[]=aux.split("/");
+            if(today.year<Integer.valueOf(data[2])){
+                valid=false;
+            }else if(today.month+1<Integer.valueOf(data[1])){
+                valid=false;
+            }
+            else if(today.monthDay<Integer.valueOf(data[0])){
+                valid=false;
+            }
+            if(!valid){
+                textUltimaPoda.setError("La fecha que seleccionó aún no ha ocurrido");
+            }
         } else {
             textUltimaPoda.setError(null);
         }
-        if (TextUtils.isEmpty(textUltimaFumigacion.getText().toString())) {
-            textUltimaFumigacion.setError("Requerido");
-            valid = false;
+        if (!TextUtils.isEmpty(textUltimaFumigacion.getText().toString())) {
+            String divide=textUltimaFumigacion.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[4];
+            String data[]=aux.split("/");
+            if(today.year<Integer.valueOf(data[2])){
+                valid=false;
+            }else if(today.month+1<Integer.valueOf(data[1])){
+                valid=false;
+            }
+            else if(today.monthDay<Integer.valueOf(data[0])){
+                valid=false;
+            }
+            if(!valid){
+                textUltimaFumigacion.setError("La fecha que seleccionó aún no ha ocurrido");
+            }
         } else {
             textUltimaFumigacion.setError(null);
         }

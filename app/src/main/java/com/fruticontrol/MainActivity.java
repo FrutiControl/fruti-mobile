@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
 
-                                        Intent intent = new Intent(view.getContext(), AccionesActivity.class);
+                                        Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
                                         startActivity(intent);
                                     }
                                 }
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     queue.add(loginRequest);
                 }
                 //TODO: Eliminar siguientes dos lienas antes de produccion
-                Intent intent = new Intent(view.getContext(), AccionesActivity.class);
+                Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
                 startActivity(intent);
             }
         });

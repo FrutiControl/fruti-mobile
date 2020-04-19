@@ -11,7 +11,7 @@
     <string name="granjas">Granjas</string>
     <string name="nueva_granja">Nueva granja</string>
     <string-array name="TipoArbolFrutal">
-        <item> Seleccione el tipo&#8230; </item>
+        <item> Seleccione el tipo de árbol... </item>
         <item> Mango tommy </item>
         <item> Mango farchil</item>
         <item> Naranja </item>
@@ -93,4 +93,7 @@
     <string name="nuevo_rbol">Nuevo árbol</string>
     <string name="guardar_cambios">Guardar cambios</string>
     <string name="crear_cuenta">Crear Cuenta</string>
+    <string name="nombre_de_la_granja">Nombre de la granja</string>
+    <string name="crear_granja">Crear granja</string>
+    <string name="cerrar_sesi_n">Cerrar sesión</string>
 </resources>
