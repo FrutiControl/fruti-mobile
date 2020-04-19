@@ -10,17 +10,17 @@ import android.widget.Button;
 public class PerfilActivity extends AppCompatActivity {
 
 
-    Button cambioContraButton;
+    Button preferenciasButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-        cambioContraButton=findViewById(R.id.buttonCambiarContrasena);
-        cambioContraButton.setOnClickListener(new View.OnClickListener() {
+        preferenciasButton =findViewById(R.id.buttonPreferencias);
+        preferenciasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),CambiarContrasenaActivity.class);
+                Intent intent=new Intent(view.getContext(),PreferenciasActivity.class);
                 startActivity(intent);
             }
         });
