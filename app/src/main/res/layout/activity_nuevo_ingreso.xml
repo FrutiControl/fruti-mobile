@@ -44,6 +44,8 @@
         android:focusable="false"
         android:hint="@string/fecha_del_ingreso"
         android:inputType="date"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerTipoArbolNuevoIngreso" />
@@ -58,6 +60,8 @@
         android:ems="10"
         android:hint="@string/cantidad_de_canastillas"
         android:inputType="number"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextFechaIngreso" />
@@ -72,6 +76,8 @@
         android:ems="10"
         android:hint="@string/valor_por_canastilla"
         android:inputType="number"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCantidadCanastillas" />
@@ -86,6 +92,8 @@
         android:ems="10"
         android:hint="@string/concepto"
         android:inputType="textPersonName"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,13 +107,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:hint="@string/total"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorCanastilla" />
 
     <Button
-        android:id="@+id/buttonGuardar"
+        android:id="@+id/buttonGuardarNuevoIngreso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

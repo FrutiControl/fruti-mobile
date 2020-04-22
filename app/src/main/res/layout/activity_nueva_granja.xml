@@ -34,8 +34,8 @@
         android:ems="10"
         android:hint="@string/nombre_de_la_granja"
         android:inputType="textPersonName"
-        android:textColor="@color/fontColor3"
-        android:textColorHint="@color/fontColor3"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />

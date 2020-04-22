@@ -7,25 +7,29 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class NuevoIngresoActivity extends AppCompatActivity {
 
-    Spinner spinnerTipoArbol;
-    EditText txtFechaIngreso;
-    Calendar calIngreso;
-    DatePickerDialog dateIngreso;
-    EditText etCantidadCanastilla;
-    EditText etValorCanastilla;
-    EditText etConceptoIngreso;
-    TextView txtTotal;
+    private Spinner spinnerTipoArbol;
+    private EditText txtFechaIngreso;
+    private Calendar calIngreso;
+    private DatePickerDialog dateIngreso;
+    private EditText etCantidadCanastilla;
+    private EditText etValorCanastilla;
+    private EditText etConceptoIngreso;
+    private TextView txtTotal;
+    private Button guardarNuevoIngresoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,19 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         etConceptoIngreso=findViewById(R.id.editTextConcepto);
         txtTotal=findViewById(R.id.textViewTotalIngreso);
         txtFechaIngreso=findViewById(R.id.editTextFechaIngreso);
+        guardarNuevoIngresoButton=findViewById(R.id.buttonGuardarNuevoIngreso);
 
         ArrayAdapter<CharSequence> spinnerAdapterTipo = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapterTipo);
+
+        guardarNuevoIngresoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(validateForm()){
+                    Toast.makeText(NuevoIngresoActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         txtFechaIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +103,66 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                     calcularTotal();
             }
         });
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+        int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
+        String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+
+        if (TextUtils.isEmpty(etCantidadCanastilla.getText().toString())) {
+            etCantidadCanastilla.setError("Requerido");
+            valid = false;
+        } else {
+            etCantidadCanastilla.setError(null);
+        }
+        if (TextUtils.isEmpty(etValorCanastilla.getText().toString())) {
+            etValorCanastilla.setError("Requerido");
+            valid = false;
+        } else {
+            etValorCanastilla.setError(null);
+        }
+        if (TextUtils.isEmpty(etConceptoIngreso.getText().toString())) {
+            etConceptoIngreso.setError("Requerido");
+            valid = false;
+        } else {
+            etConceptoIngreso.setError(null);
+        }
+        if (actualPositionOfMySpinner.equals("Seleccione el tipo de árbol...")) {
+            setSpinnerError(spinnerTipoArbol);
+            valid = false;
+        }
+        if (TextUtils.isEmpty(txtFechaIngreso.getText().toString())) {
+            txtFechaIngreso.setError("Requerido");
+            valid = false;
+        }else{
+            String divide=txtFechaIngreso.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[3];
+            String data[]=aux.split("/");
+            if(today.year<Integer.valueOf(data[2])){
+                valid=false;
+            }else if(today.month+1<Integer.valueOf(data[1])){
+                valid=false;
+            }
+            else if(today.monthDay<Integer.valueOf(data[0])){
+                valid=false;
+            }
+        }
+        return valid;
+    }
+
+    private void setSpinnerError(Spinner spinner) {
+        View selectedView = spinner.getSelectedView();
+        if (selectedView != null && selectedView instanceof TextView) {
+            spinner.requestFocus();
+            TextView selectedTextView = (TextView) selectedView;
+            selectedTextView.setError("Requerido"); // any name of the error will do
+
+
+        }
     }
 
     protected void calcularTotal(){
