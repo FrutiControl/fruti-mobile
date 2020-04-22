@@ -315,11 +315,17 @@ public class CrearArbolActivity extends AppCompatActivity {
             String data[]=aux.split("/");
             if(today.year<Integer.valueOf(data[2])){
                 valid=false;
+                textFechaSiembra.setError("La fecha que seleccionó aún no ha ocurrido");
             }else if(today.month+1<Integer.valueOf(data[1])){
                 valid=false;
+                textFechaSiembra.setError("La fecha que seleccionó aún no ha ocurrido");
             }
             else if(today.monthDay<Integer.valueOf(data[0])){
                 valid=false;
+                textFechaSiembra.setError("La fecha que seleccionó aún no ha ocurrido");
+            }
+            else{
+                textFechaSiembra.setError(null);
             }
         }
 //VALIDACIONES DE FECHA DE ACTIVIDAD
@@ -330,14 +336,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String data[]=aux.split("/");
             if(today.year<Integer.valueOf(data[2])){
                 valid=false;
+                textUltimaFertilizacion.setError("La fecha que seleccionó aún no ha ocurrido");
             }else if(today.month+1<Integer.valueOf(data[1])){
                 valid=false;
+                textUltimaFertilizacion.setError("La fecha que seleccionó aún no ha ocurrido");
             }
             else if(today.monthDay<Integer.valueOf(data[0])){
                 valid=false;
-            }
-            if(!valid){
                 textUltimaFertilizacion.setError("La fecha que seleccionó aún no ha ocurrido");
+            }else{
+                textUltimaFertilizacion.setError(null);
             }
         } else {
             textUltimaFertilizacion.setError(null);
@@ -349,14 +357,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String data[]=aux.split("/");
             if(today.year<Integer.valueOf(data[2])){
                 valid=false;
+                textUltimoRiego.setError("La fecha que seleccionó aún no ha ocurrido");
             }else if(today.month+1<Integer.valueOf(data[1])){
                 valid=false;
+                textUltimoRiego.setError("La fecha que seleccionó aún no ha ocurrido");
             }
             else if(today.monthDay<Integer.valueOf(data[0])){
                 valid=false;
-            }
-            if(!valid){
                 textUltimoRiego.setError("La fecha que seleccionó aún no ha ocurrido");
+            }else{
+                textUltimoRiego.setError(null);
             }
         } else {
             textUltimoRiego.setError(null);
@@ -368,14 +378,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String data[]=aux.split("/");
             if(today.year<Integer.valueOf(data[2])){
                 valid=false;
+                textUltimaPoda.setError("La fecha que seleccionó aún no ha ocurrido");
             }else if(today.month+1<Integer.valueOf(data[1])){
                 valid=false;
+                textUltimaPoda.setError("La fecha que seleccionó aún no ha ocurrido");
             }
             else if(today.monthDay<Integer.valueOf(data[0])){
                 valid=false;
-            }
-            if(!valid){
                 textUltimaPoda.setError("La fecha que seleccionó aún no ha ocurrido");
+            }else{
+                textUltimaPoda.setError(null);
             }
         } else {
             textUltimaPoda.setError(null);
@@ -387,14 +399,17 @@ public class CrearArbolActivity extends AppCompatActivity {
             String data[]=aux.split("/");
             if(today.year<Integer.valueOf(data[2])){
                 valid=false;
+                textUltimaFumigacion.setError("La fecha que seleccionó aún no ha ocurrido");
             }else if(today.month+1<Integer.valueOf(data[1])){
                 valid=false;
+                textUltimaFumigacion.setError("La fecha que seleccionó aún no ha ocurrido");
             }
             else if(today.monthDay<Integer.valueOf(data[0])){
                 valid=false;
-            }
-            if(!valid){
                 textUltimaFumigacion.setError("La fecha que seleccionó aún no ha ocurrido");
+            }
+            else{
+                textUltimaFumigacion.setError(null);
             }
         } else {
             textUltimaFumigacion.setError(null);

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,21 +15,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class NuevaActividadActivity extends AppCompatActivity {
 
-    Calendar calInicio;
-    Calendar calFin;
-    EditText txtFechaInicio;
-    EditText txtFechaFin;
-    DatePickerDialog datePInicio;
-    DatePickerDialog datePFin;
-    Spinner spinnerTipo;
-    Spinner spinnerSubtipo;
-    Button guardarNuevoProcesoButton;
-    Button seleccionarArbolesButton;
+    private Calendar calInicio;
+    private Calendar calFin;
+    private EditText txtFechaInicio;
+    private EditText txtFechaFin;
+    private DatePickerDialog datePInicio;
+    private DatePickerDialog datePFin;
+    private Spinner spinnerTipo;
+    private Spinner spinnerSubtipo;
+    private Button guardarNuevoProcesoButton;
+    private Button seleccionarArbolesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateForm()){
-                    System.out.println("YASSS");
+                    Toast.makeText(NuevaActividadActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -100,7 +103,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 datePInicio= new DatePickerDialog(NuevaActividadActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        txtFechaInicio.setText("Fecha de inicio de tarea: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
+                        txtFechaInicio.setText("Fecha de inicio: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
                     }
                 }, year, month, day);
                 datePInicio.show();
@@ -117,7 +120,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 datePFin= new DatePickerDialog(NuevaActividadActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
-                        txtFechaFin.setText("Fecha de fin de tarea: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
+                        txtFechaFin.setText("Fecha de fin: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
                     }
                 }, year, month, day);
                 datePFin.show();
@@ -135,27 +138,88 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
     private boolean validateForm(){
         boolean valid = true;
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+
         int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipo.getItemAtPosition(selectedItemOfMySpinner);
-        if (actualPositionOfMySpinner.equals(" Seleccione el tipo de proceso... ")) {
+        if (actualPositionOfMySpinner.equals("Seleccione el tipo de actividad...")) {
             setSpinnerError(spinnerTipo);
             valid = false;
         }
+        else{
+            int selectedItemOfMySubSpinner= spinnerSubtipo.getSelectedItemPosition();
+            String actualPositionOfMySpinnerSub = (String) spinnerSubtipo.getItemAtPosition(selectedItemOfMySubSpinner);
+            if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de poda...")) {
+                setSpinnerError(spinnerSubtipo);
+                valid = false;
+            }
+            if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de fumigación...")) {
+                setSpinnerError(spinnerSubtipo);
+                valid = false;
+            }
+            if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de fertilización...")) {
+                setSpinnerError(spinnerSubtipo);
+                valid = false;
+            }
+            if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de riego...")) {
+                setSpinnerError(spinnerSubtipo);
+                valid = false;
+            }
+        }
+        if (TextUtils.isEmpty(txtFechaInicio.getText().toString())) {
+            txtFechaInicio.setError("Requerido");
+            valid = false;
+        }else{
+            String divide=txtFechaInicio.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[3];
+            String data[]=aux.split("/");
+            if(today.year>Integer.valueOf(data[2])){
+                valid=false;
+                txtFechaInicio.setError("Debe seleccionar la fecha actual o una futura");
+            }else if(today.month+1>Integer.valueOf(data[1])){
+                valid=false;
+                txtFechaInicio.setError("Debe seleccionar la fecha actual o una futura");
+            }
+            else if(today.monthDay>Integer.valueOf(data[0])){
+                valid=false;
+                txtFechaInicio.setError("Debe seleccionar la fecha actual o una futura");
+            }
+            else{
+                txtFechaInicio.setError(null);
+            }
+        }
+        if (TextUtils.isEmpty(txtFechaFin.getText().toString())) {
+            txtFechaFin.setError("Requerido");
+            valid = false;
+        }else{
+            String divide=txtFechaInicio.getText().toString();
+            String separated[]=divide.split(" ");
+            String aux=separated[3];
+            String data[]=aux.split("/");
 
-        int selectedItemOfMySubSpinner= spinnerSubtipo.getSelectedItemPosition();
-        String actualPositionOfMySpinnerSub = (String) spinnerSubtipo.getItemAtPosition(selectedItemOfMySubSpinner);
-        if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de poda...")) {
-            valid = false;
+            String divide2=txtFechaFin.getText().toString();
+            String separated2[]=divide2.split(" ");
+            String aux2=separated2[3];
+            String data2[]=aux2.split("/");
+
+            if(Integer.valueOf(data2[2])<Integer.valueOf(data[2])){
+                valid=false;
+                txtFechaFin.setError("Debe ser igual o mayor a la fecha de inicio");
+            }else if(Integer.valueOf(data2[1])<Integer.valueOf(data[1])){
+                valid=false;
+                txtFechaFin.setError("Debe ser igual o mayor a la fecha de inicio");
+            }
+            else if(Integer.valueOf(data2[0])<Integer.valueOf(data[0])){
+                valid=false;
+                txtFechaFin.setError("Debe ser igual o mayor a la fecha de inicio");
+            }
+            else{
+                txtFechaFin.setError(null);
+            }
         }
-        if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de fumigación...")) {
-            valid = false;
-        }
-        if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de fertilización...")) {
-            valid = false;
-        }
-        if (actualPositionOfMySpinnerSub.equals("Seleccione el tipo de riego...")) {
-            valid = false;
-        }
+
         return valid;
     }
 }

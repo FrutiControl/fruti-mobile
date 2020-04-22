@@ -63,7 +63,8 @@
         android:focusable="false"
         android:hint="@string/fecha_de_inicio_de_actividad"
         android:inputType="date"
-        android:textColorHint="@color/fontColor2"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerSubtipo" />
@@ -80,7 +81,8 @@
         android:focusable="false"
         android:hint="@string/fecha_de_fin_de_actividad"
         android:inputType="date"
-        android:textColorHint="@color/fontColor2"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fechaInicio" />
