@@ -144,7 +144,6 @@ public class NuevoIngresoActivity extends AppCompatActivity {
             Calendar cal=Calendar.getInstance();
             cal.getTime();
             Calendar cal2=Calendar.getInstance();
-            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
             cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
             if(cal.compareTo(cal2)>0){
                 txtFechaIngreso.setError(null);

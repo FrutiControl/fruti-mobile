@@ -264,8 +264,6 @@ public class CrearArbolActivity extends AppCompatActivity {
         boolean valid = true;
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
-        Time today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
 
         if (actualPositionOfMySpinner.equals("Seleccione el tipo de árbol...")) {
             setSpinnerError(spinnerTipoArbol);
@@ -313,19 +311,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String separated[]=divide.split(" ");
             String aux=separated[3];
             String data[]=aux.split("/");
-            if(today.year<Integer.valueOf(data[2])){
-                valid=false;
-                textFechaSiembra.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else if(today.month+1<Integer.valueOf(data[1])){
-                valid=false;
-                textFechaSiembra.setError("La fecha que seleccionó aún no ha ocurrido");
-            }
-            else if(today.monthDay<Integer.valueOf(data[0])){
-                valid=false;
-                textFechaSiembra.setError("La fecha que seleccionó aún no ha ocurrido");
-            }
-            else{
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
+            if(cal.compareTo(cal2)>0){
                 textFechaSiembra.setError(null);
+            }else{
+                textFechaSiembra.setError("La fecha debe ser la actual o anterior a la actual");
+                valid=false;
             }
         }
 //VALIDACIONES DE FECHA DE ACTIVIDAD
@@ -334,18 +329,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String separated[]=divide.split(" ");
             String aux=separated[4];
             String data[]=aux.split("/");
-            if(today.year<Integer.valueOf(data[2])){
-                valid=false;
-                textUltimaFertilizacion.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else if(today.month+1<Integer.valueOf(data[1])){
-                valid=false;
-                textUltimaFertilizacion.setError("La fecha que seleccionó aún no ha ocurrido");
-            }
-            else if(today.monthDay<Integer.valueOf(data[0])){
-                valid=false;
-                textUltimaFertilizacion.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else{
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
+            if(cal.compareTo(cal2)>0){
                 textUltimaFertilizacion.setError(null);
+            }else{
+                textUltimaFertilizacion.setError("La fecha debe ser la actual o anterior a la actual");
+                valid=false;
             }
         } else {
             textUltimaFertilizacion.setError(null);
@@ -355,18 +348,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String separated[]=divide.split(" ");
             String aux=separated[4];
             String data[]=aux.split("/");
-            if(today.year<Integer.valueOf(data[2])){
-                valid=false;
-                textUltimoRiego.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else if(today.month+1<Integer.valueOf(data[1])){
-                valid=false;
-                textUltimoRiego.setError("La fecha que seleccionó aún no ha ocurrido");
-            }
-            else if(today.monthDay<Integer.valueOf(data[0])){
-                valid=false;
-                textUltimoRiego.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else{
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
+            if(cal.compareTo(cal2)>0){
                 textUltimoRiego.setError(null);
+            }else{
+                textUltimoRiego.setError("La fecha debe ser la actual o anterior a la actual");
+                valid=false;
             }
         } else {
             textUltimoRiego.setError(null);
@@ -376,18 +367,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String separated[]=divide.split(" ");
             String aux=separated[4];
             String data[]=aux.split("/");
-            if(today.year<Integer.valueOf(data[2])){
-                valid=false;
-                textUltimaPoda.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else if(today.month+1<Integer.valueOf(data[1])){
-                valid=false;
-                textUltimaPoda.setError("La fecha que seleccionó aún no ha ocurrido");
-            }
-            else if(today.monthDay<Integer.valueOf(data[0])){
-                valid=false;
-                textUltimaPoda.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else{
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
+            if(cal.compareTo(cal2)>0){
                 textUltimaPoda.setError(null);
+            }else{
+                textUltimaPoda.setError("La fecha debe ser la actual o anterior a la actual");
+                valid=false;
             }
         } else {
             textUltimaPoda.setError(null);
@@ -397,19 +386,16 @@ public class CrearArbolActivity extends AppCompatActivity {
             String separated[]=divide.split(" ");
             String aux=separated[4];
             String data[]=aux.split("/");
-            if(today.year<Integer.valueOf(data[2])){
-                valid=false;
-                textUltimaFumigacion.setError("La fecha que seleccionó aún no ha ocurrido");
-            }else if(today.month+1<Integer.valueOf(data[1])){
-                valid=false;
-                textUltimaFumigacion.setError("La fecha que seleccionó aún no ha ocurrido");
-            }
-            else if(today.monthDay<Integer.valueOf(data[0])){
-                valid=false;
-                textUltimaFumigacion.setError("La fecha que seleccionó aún no ha ocurrido");
-            }
-            else{
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
+            if(cal.compareTo(cal2)>0){
                 textUltimaFumigacion.setError(null);
+            }else{
+                textUltimaFumigacion.setError("La fecha debe ser la actual o anterior a la actual");
+                valid=false;
             }
         } else {
             textUltimaFumigacion.setError(null);
