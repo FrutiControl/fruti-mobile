@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Escoja en que tipo y subtipo de actividad en que  gastó dinero"
+        android:text="@string/escoja_en_que_tipo_y_subtipo_de_actividad_en_que_gast_dinero"
+        android:textColor="@color/headerColor"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +59,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/roboto"
-        android:text="Materiales"
+        android:text="@string/materiales"
+        android:textColor="@color/headerColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,39 +72,44 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Mano de obra"
+        android:text="@string/mano_de_obra"
+        android:textColor="@color/headerColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerGastoSubtipoProceso" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editTextNombreProducto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="Nombre del producto"
+        android:hint="@string/nombre_del_producto"
         android:inputType="textPersonName"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextFechaGasto" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editTextValor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="Valor"
+        android:hint="@string/valor"
         android:inputType="number"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombreProducto" />
 
     <Button
         android:id="@+id/buttonGuardarGasto"
@@ -112,11 +119,11 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_button"
-        android:text="Guardar"
+        android:text="@string/guardar"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextValor" />
 
     <EditText
         android:id="@+id/editTextFechaGasto"
@@ -127,9 +134,11 @@
         android:layout_marginEnd="8dp"
         android:drawableRight="@drawable/date"
         android:ems="10"
-        android:hint="Fecha del gasto"
-        android:inputType="date"
         android:focusable="false"
+        android:hint="@string/fecha_del_gasto"
+        android:inputType="date"
+        android:textColor="@color/headerColor"
+        android:textColorHint="@color/headerColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchMaterialesVsManoObra" />
