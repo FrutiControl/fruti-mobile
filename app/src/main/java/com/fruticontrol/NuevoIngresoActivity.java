@@ -109,8 +109,6 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         boolean valid = true;
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
-        Time today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
 
         if (TextUtils.isEmpty(etCantidadCanastilla.getText().toString())) {
             etCantidadCanastilla.setError("Requerido");
@@ -142,12 +140,16 @@ public class NuevoIngresoActivity extends AppCompatActivity {
             String separated[]=divide.split(" ");
             String aux=separated[3];
             String data[]=aux.split("/");
-            if(today.year<Integer.valueOf(data[2])){
-                valid=false;
-            }else if(today.month+1<Integer.valueOf(data[1])){
-                valid=false;
-            }
-            else if(today.monthDay<Integer.valueOf(data[0])){
+
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
+            if(cal.compareTo(cal2)>0){
+                txtFechaIngreso.setError(null);
+            }else{
+                txtFechaIngreso.setError("La fecha debe ser la actual o anterior a la actual");
                 valid=false;
             }
         }
