@@ -175,18 +175,15 @@ public class NuevaActividadActivity extends AppCompatActivity {
             String separated[]=divide.split(" ");
             String aux=separated[3];
             String data[]=aux.split("/");
-            if(today.year>Integer.valueOf(data[2])){
+
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),23,59);
+            if(cal.compareTo(cal2)>0){
+                txtFechaInicio.setError("La fecha debe ser la actual o posterior a la actual");
                 valid=false;
-                txtFechaInicio.setError("Debe seleccionar la fecha actual o una futura");
-            }else if(today.month+1>Integer.valueOf(data[1])){
-                valid=false;
-                txtFechaInicio.setError("Debe seleccionar la fecha actual o una futura");
-            }
-            else if(today.monthDay>Integer.valueOf(data[0])){
-                valid=false;
-                txtFechaInicio.setError("Debe seleccionar la fecha actual o una futura");
-            }
-            else{
+            }else{
                 txtFechaInicio.setError(null);
             }
         }
@@ -204,18 +201,18 @@ public class NuevaActividadActivity extends AppCompatActivity {
             String aux2=separated2[3];
             String data2[]=aux2.split("/");
 
-            if(Integer.valueOf(data2[2])<Integer.valueOf(data[2])){
+            Calendar cal=Calendar.getInstance();
+            cal.getTime();
+            Calendar cal2=Calendar.getInstance();
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),23,59);
+
+            Calendar cal3=Calendar.getInstance();
+            cal3.set(Integer.parseInt(data2[2]),Integer.parseInt(data2[1])-1,Integer.parseInt(data2[0]),23,59);
+            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
+            if(cal3.compareTo(cal2)<0){
+                txtFechaFin.setError("La fecha debe ser igual o superior a la actual");
                 valid=false;
-                txtFechaFin.setError("Debe ser igual o mayor a la fecha de inicio");
-            }else if(Integer.valueOf(data2[1])<Integer.valueOf(data[1])){
-                valid=false;
-                txtFechaFin.setError("Debe ser igual o mayor a la fecha de inicio");
-            }
-            else if(Integer.valueOf(data2[0])<Integer.valueOf(data[0])){
-                valid=false;
-                txtFechaFin.setError("Debe ser igual o mayor a la fecha de inicio");
-            }
-            else{
+            }else{
                 txtFechaFin.setError(null);
             }
         }
