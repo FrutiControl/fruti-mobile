@@ -66,11 +66,13 @@ public class RegistroActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
+                                    Token token=(Token)getApplicationContext();
                                     try {
+                                        token.setToken(response.getString("token"));
                                         Log.i("usersAPI", "respuesta: " + response.toString());
                                         Toast.makeText(RegistroActivity.this, response.getString("token"), Toast.LENGTH_SHORT).show();
                                         //TODO: extraer el token del response y verificarlo antes de la siguiente actividad
-                                        Intent intent = new Intent(view.getContext(), AccionesActivity.class);
+                                        Intent intent = new Intent(view.getContext(), NuevaGranjaActivity.class);
                                         startActivity(intent);
                                     } catch (JSONException e) {
                                         e.printStackTrace();

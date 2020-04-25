@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
                 if(validateForm()){
-                    //TODO: Realizar validación de campos como en RegisterActivity
                     Toast.makeText(MainActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
                     RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                     String body = "{\"username\":\"" + txtUsername.getText() + "\",\"password\":\"" + txtPass.getText() + "\"}";
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     Log.i("usersAPI", response.toString());
-
+                                    Token token=(Token)getApplicationContext();
                                     if (response.has("error")) {
                                         try {
                                             Toast.makeText(MainActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
@@ -77,9 +77,8 @@ public class MainActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
-                                        //TODO: extraer el token del response y verificarlo antes de la siguiente actividad
                                         try{
-                                            Toast.makeText(MainActivity.this, response.getString("token"), Toast.LENGTH_LONG).show();
+                                            token.setToken(response.getString("token"));
                                         }catch (JSONException e) {
                                             e.printStackTrace();
                                         }

@@ -19,10 +19,10 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_granja);
-
+        Token token=(Token)getApplicationContext();
         crearGranjaButton =findViewById(R.id.buttonCrearGranja);
         nombraGranjaET=findViewById(R.id.editTextNombreGranja);
-
+        System.out.println("El token que se recibe es "+token.getToken());
         crearGranjaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

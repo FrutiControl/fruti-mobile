@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_granjas);
-
+        Token token=(Token)getApplicationContext();
         listView=(ListView)findViewById(R.id.listaGranjasList);
         dataModels= new ArrayList<>();
 
