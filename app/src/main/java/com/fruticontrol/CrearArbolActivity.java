@@ -139,8 +139,10 @@ public class CrearArbolActivity extends AppCompatActivity {
         buttonUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MapaNuevoArbolActivity.class);
-                startActivity(intent);
+                startActivityForResult(new Intent(getApplicationContext(),MapaNuevoArbolActivity.class),100);
+
+                /*Intent intent = new Intent(view.getContext(), MapaNuevoArbolActivity.class);
+                startActivity(intent);*/
             }
         });
         buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
@@ -411,6 +413,15 @@ public class CrearArbolActivity extends AppCompatActivity {
             selectedTextView.setError("Requerido"); // any name of the error will do
 
 
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXX Lo escogido fue " + data.getStringExtra("latFinal") + " " + data.getStringExtra("longFinal"));
         }
     }
 

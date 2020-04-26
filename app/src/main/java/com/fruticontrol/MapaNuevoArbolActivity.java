@@ -1,6 +1,7 @@
 package com.fruticontrol;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -73,11 +74,21 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         startLocationUpdates();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
+        seleccionarUbicacionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.putExtra("latFinal",String.valueOf(cameraLatitude));
+                intent.putExtra("longFinal",String.valueOf(cameraLongitude));
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
         marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
         marcadorArbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialog(latitude, longitude);
+                openDialog(cameraLatitude, cameraLongitude);
             }
         });
         assert mapFragment != null;
