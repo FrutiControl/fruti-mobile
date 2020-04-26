@@ -14,6 +14,7 @@ public class AccionesActivity extends AppCompatActivity {
     private Button dashboardActividadesButton;
     private Button dashboardFinanzasButton;
     private Button perfilButton;
+    private Button verGranjasButton;
 
 
     @Override
@@ -24,7 +25,15 @@ public class AccionesActivity extends AppCompatActivity {
         dashboardActividadesButton=findViewById(R.id.buttonDashboardActividades);
         dashboardFinanzasButton=findViewById(R.id.buttonDashboardFinanzas);
         perfilButton=findViewById(R.id.buttonPerfil);
+        verGranjasButton=findViewById(R.id.buttonVerGranjas);
 
+        verGranjasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),ListaGranjasActivity.class);
+                startActivity(intent);
+            }
+        });
         arbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
