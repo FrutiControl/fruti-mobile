@@ -139,10 +139,9 @@ public class CrearArbolActivity extends AppCompatActivity {
         buttonUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivityForResult(new Intent(getApplicationContext(),MapaNuevoArbolActivity.class),100);
 
-                /*Intent intent = new Intent(view.getContext(), MapaNuevoArbolActivity.class);
-                startActivity(intent);*/
             }
         });
         buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +160,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
                 int month = cal.get(Calendar.MONTH);
                 int year = cal.get(Calendar.YEAR);
-                dpd = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                dpd = new DatePickerDialog(CrearArbolActivity.this,R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textFechaSiembra.setText("Fecha de siembra: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -177,7 +176,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal1.get(Calendar.DAY_OF_MONTH);
                 int month = cal1.get(Calendar.MONTH);
                 int year = cal1.get(Calendar.YEAR);
-                dpd2 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                dpd2 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textUltimaPoda.setText("Fecha de última poda: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -193,7 +192,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal2.get(Calendar.DAY_OF_MONTH);
                 int month = cal2.get(Calendar.MONTH);
                 int year = cal2.get(Calendar.YEAR);
-                dpd3 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                dpd3 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textUltimaFertilizacion.setText("Fecha de última fertilización: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -209,7 +208,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal3.get(Calendar.DAY_OF_MONTH);
                 int month = cal3.get(Calendar.MONTH);
                 int year = cal3.get(Calendar.YEAR);
-                dpd4 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                dpd4 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textUltimaFumigacion.setText("Fecha de última fumigación: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -225,7 +224,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal4.get(Calendar.DAY_OF_MONTH);
                 int month = cal4.get(Calendar.MONTH);
                 int year = cal4.get(Calendar.YEAR);
-                dpd5 = new DatePickerDialog(CrearArbolActivity.this, new DatePickerDialog.OnDateSetListener() {
+                dpd5 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textUltimoRiego.setText("Fecha de último riego: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));

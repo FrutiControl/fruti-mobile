@@ -83,7 +83,7 @@ public class GastosActivity extends AppCompatActivity {
                 int day = calGasto.get(Calendar.DAY_OF_MONTH);
                 int month = calGasto.get(Calendar.MONTH);
                 int year = calGasto.get(Calendar.YEAR);
-                datePGasto= new DatePickerDialog(GastosActivity.this, new DatePickerDialog.OnDateSetListener() {
+                datePGasto= new DatePickerDialog(GastosActivity.this, R.style.DialogTheme,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaGasto.setText("Fecha del gasto: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));

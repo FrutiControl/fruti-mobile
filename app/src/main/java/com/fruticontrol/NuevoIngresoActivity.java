@@ -63,7 +63,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                 int day = calIngreso.get(Calendar.DAY_OF_MONTH);
                 int month = calIngreso.get(Calendar.MONTH);
                 int year = calIngreso.get(Calendar.YEAR);
-                dateIngreso= new DatePickerDialog(NuevoIngresoActivity.this, new DatePickerDialog.OnDateSetListener() {
+                dateIngreso= new DatePickerDialog(NuevoIngresoActivity.this,R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaIngreso.setText("Fecha del ingreso: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));

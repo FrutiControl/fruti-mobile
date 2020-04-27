@@ -100,7 +100,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 int day = calInicio.get(Calendar.DAY_OF_MONTH);
                 int month = calInicio.get(Calendar.MONTH);
                 int year = calInicio.get(Calendar.YEAR);
-                datePInicio= new DatePickerDialog(NuevaActividadActivity.this, new DatePickerDialog.OnDateSetListener() {
+                datePInicio= new DatePickerDialog(NuevaActividadActivity.this,R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaInicio.setText("Fecha de inicio: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -117,7 +117,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 int day = calFin.get(Calendar.DAY_OF_MONTH);
                 int month = calFin.get(Calendar.MONTH);
                 int year = calFin.get(Calendar.YEAR);
-                datePFin= new DatePickerDialog(NuevaActividadActivity.this, new DatePickerDialog.OnDateSetListener() {
+                datePFin= new DatePickerDialog(NuevaActividadActivity.this,R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaFin.setText("Fecha de fin: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -138,8 +138,6 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
     private boolean validateForm(){
         boolean valid = true;
-        Time today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
 
         int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipo.getItemAtPosition(selectedItemOfMySpinner);
