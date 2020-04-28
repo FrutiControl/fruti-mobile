@@ -102,4 +102,6 @@
     <string name="fecha_del_gasto">Fecha del gasto</string>
     <string name="nombre_del_producto">Nombre del producto</string>
     <string name="ver_granjas">Ver granjas</string>
+    <string name="ver_ingresos">Ver ingresos</string>
+    <string name="ver_gastos">Ver gastos</string>
 </resources>

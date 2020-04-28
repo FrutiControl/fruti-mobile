@@ -20,7 +20,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
 
         nuevoIngresoButton=findViewById(R.id.buttonNuevoIngresoDFinanzas);
         nuevoGastoButton=findViewById(R.id.buttonNuevoGastoDFinanzas);
-        verBalanceButton=findViewById(R.id.buttonVerBalance);
+        verBalanceButton=findViewById(R.id.buttonVerIngresos);
 
         verBalanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
