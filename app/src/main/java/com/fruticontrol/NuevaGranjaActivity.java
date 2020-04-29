@@ -69,7 +69,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
-                                        Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
+                                        Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                                         startActivity(intent);
                                     }
                                 }
@@ -91,9 +91,6 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                     };
                     queue.add(newFarmRequest);
                 }
-                //TODO: Eliminar siguientes dos lienas antes de produccion
-                Intent intent = new Intent(view.getContext(), AccionesActivity.class);
-                startActivity(intent);
             }
         });
         /*TODO: para enviar la petición de creación el método es un POST, tienen que agregar un Header a la petición formado de la siguiente manera
