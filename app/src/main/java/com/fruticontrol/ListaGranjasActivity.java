@@ -66,7 +66,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
                                 //SE LLENA LA LISTA
                                 System.out.println("XXXXXXXXXXXXXXXXX SIZE DE GRANJAS ES "+nombresGranjas.size());
                                 for(int i=0;i<nombresGranjas.size();i++){
-                                    dataModels.add(new ResumenGranjaDataModel(nombresGranjas.get(i).toString(),"Android 5.0","21"));
+                                    dataModels.add(new ResumenGranjaDataModel(nombresGranjas.get(i).toString(),"Tareas: 3","Pendientes: 2"));
                                 }
                                 adapter= new ResumenGranjasAdapter(dataModels,getApplicationContext());
                                 listView.setAdapter(adapter);

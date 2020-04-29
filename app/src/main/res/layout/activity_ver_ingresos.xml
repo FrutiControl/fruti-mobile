@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".BalanceActivity">
+    tools:context=".VerIngresosActivity">
 
     <TextView
         android:id="@+id/textView22"
@@ -33,30 +33,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22">
-
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/gastos"
-            android:textColor="@color/headerColor"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/ingresos"
-            android:textColor="@color/headerColor"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textView22"/>
 
     <LinearLayout
         android:id="@+id/linearLayout6"
@@ -83,7 +60,7 @@
                     android:id="@+id/textView25"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="gasto ej" />
+                    android:text="nombre del ingreso ej" />
             </LinearLayout>
         </ScrollView>
 
@@ -100,7 +77,7 @@
                     android:id="@+id/textView26"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ingreso ej" />
+                    android:text="Valor ingreso" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

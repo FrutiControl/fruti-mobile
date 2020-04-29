@@ -25,7 +25,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         verBalanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),BalanceActivity.class);
+                Intent intent=new Intent(view.getContext(), VerIngresosActivity.class);
                 startActivity(intent);
             }
         });

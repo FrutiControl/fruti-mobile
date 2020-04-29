@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:name=".Token">
-        <activity android:name=".BalanceActivity"></activity>
+        <activity android:name=".VerIngresosActivity"></activity>
         <activity android:name=".PreferenciasActivity" /> <!-- TODO: retirar usesCleartextTraffic para producción!!! -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
