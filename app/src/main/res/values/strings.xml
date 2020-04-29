@@ -104,4 +104,6 @@
     <string name="ver_granjas">Ver granjas</string>
     <string name="ver_ingresos">Ver ingresos</string>
     <string name="ver_gastos">Ver gastos</string>
+    <string name="historial_de_ingresos">Historial de ingresos</string>
+    <string name="historial_de_gastos">Historial de gastos</string>
 </resources>

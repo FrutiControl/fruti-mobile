@@ -11,7 +11,8 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
 
     private Button nuevoIngresoButton;
     private Button nuevoGastoButton;
-    private Button verBalanceButton;
+    private Button verIngresosButton;
+    private Button verGastosButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +21,17 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
 
         nuevoIngresoButton=findViewById(R.id.buttonNuevoIngresoDFinanzas);
         nuevoGastoButton=findViewById(R.id.buttonNuevoGastoDFinanzas);
-        verBalanceButton=findViewById(R.id.buttonVerIngresos);
+        verIngresosButton =findViewById(R.id.buttonVerIngresos);
+        verGastosButton=findViewById(R.id.buttonVerGastos);
 
-        verBalanceButton.setOnClickListener(new View.OnClickListener() {
+        verGastosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),VerGastosActivity.class);
+                startActivity(intent);
+            }
+        });
+        verIngresosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(view.getContext(), VerIngresosActivity.class);
