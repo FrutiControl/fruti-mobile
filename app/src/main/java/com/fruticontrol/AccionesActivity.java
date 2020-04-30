@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class AccionesActivity extends AppCompatActivity {
 
@@ -15,17 +16,20 @@ public class AccionesActivity extends AppCompatActivity {
     private Button dashboardFinanzasButton;
     private Button perfilButton;
     private Button verGranjasButton;
+    private Token token;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acciones);
+        token=(Token)getApplicationContext();
         arbolButton =findViewById(R.id.buttonArbol);
         dashboardActividadesButton=findViewById(R.id.buttonDashboardActividades);
         dashboardFinanzasButton=findViewById(R.id.buttonDashboardFinanzas);
         perfilButton=findViewById(R.id.buttonPerfil);
         verGranjasButton=findViewById(R.id.buttonVerGranjas);
+        System.out.println("XXXXXX LA GRANJA TOUCHADA FUE LA "+token.getGranjaActual());
 
         verGranjasButton.setOnClickListener(new View.OnClickListener() {
             @Override

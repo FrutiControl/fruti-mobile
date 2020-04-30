@@ -29,11 +29,11 @@ public class RegistroActivity extends AppCompatActivity {
 
     public static final int MY_DEFAULT_TIMEOUT = 15000;
 
-    Button registroButton;
-    TextView txtNombre;
-    TextView txtEmail;
-    TextView txtPass;
-    TextView txtPassVerf;
+    private Button registroButton;
+    private TextView txtNombre;
+    private TextView txtEmail;
+    private TextView txtPass;
+    private TextView txtPassVerf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

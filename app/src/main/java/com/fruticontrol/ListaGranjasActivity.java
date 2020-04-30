@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
     private static ResumenGranjasAdapter adapter;
     private Token token;
     private ArrayList<String> nombresGranjas;
+    private ArrayList<String> idGranjas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
         listView=(ListView)findViewById(R.id.listaGranjasList);
         dataModels= new ArrayList<>();
         nombresGranjas=new ArrayList<>();
+        idGranjas=new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(ListaGranjasActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
                 "http://10.0.2.2:8000/app/farms/"/*TODO: cambiar a URL real para producción!!!!*/, null,
@@ -57,8 +60,10 @@ public class ListaGranjasActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
+                                String id = farmObject.getString("id");
                                 String name = farmObject.getString("name");
                                 nombresGranjas.add(name);
+                                idGranjas.add(id);
                             }
                             if(nombresGranjas.isEmpty()){
                                 System.out.println("XXXXXXXXXXXXXXX ARREGLO VACIO");
@@ -92,7 +97,16 @@ public class ListaGranjasActivity extends AppCompatActivity {
         };
         queue.add(newFarmRequest);
 
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println("PRESIONADA LA NUMERO "+i);
+                System.out.println(idGranjas.get(i));
+                token.setGranjaActual(idGranjas.get(i));
+                Intent intent=new Intent(view.getContext(),AccionesActivity.class);
+                startActivity(intent);
+            }
+        });
         nuevaGranjaButton = findViewById(R.id.buttonNuevaGranja);
         nuevaGranjaButton.setOnClickListener(new View.OnClickListener() {
             @Override

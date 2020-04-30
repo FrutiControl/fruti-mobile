@@ -34,16 +34,18 @@ public class MainActivity extends AppCompatActivity {
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
 
-    TextView txtRegistro;
-    Button iniciarSesion;
-    TextView txtUsername;
-    TextView txtPass;
+    private TextView txtRegistro;
+    private Button iniciarSesion;
+    private TextView txtUsername;
+    private TextView txtPass;
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        token=new Token();
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
@@ -96,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
                     });
                     queue.add(loginRequest);
                 }
-                //TODO: Eliminar siguientes dos lienas antes de produccion
+                /*//TODO: Eliminar siguientes dos lienas antes de produccion
                 Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
 
