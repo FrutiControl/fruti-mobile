@@ -41,13 +41,15 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
     double cameraLongitude;
     int gottenLocations = 0;
     Task removeCallback;
-    Button seleccionarUbicacionButton;
-    ImageView marcadorArbol;
+    private Button seleccionarUbicacionButton;
+    private ImageView marcadorArbol;
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_nuevo_arbol);
+        token=(Token)getApplicationContext();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();
         mLocationCallback = new LocationCallback() {
@@ -82,6 +84,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                 intent.putExtra("longFinal",String.valueOf(cameraLongitude));
                 setResult(RESULT_OK,intent);
                 finish();
+                token.setArbolEscogido(true);
             }
         });
         marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);

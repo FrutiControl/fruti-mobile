@@ -65,11 +65,8 @@ public class ListaGranjasActivity extends AppCompatActivity {
                                 nombresGranjas.add(name);
                                 idGranjas.add(id);
                             }
-                            if(nombresGranjas.isEmpty()){
-                                System.out.println("XXXXXXXXXXXXXXX ARREGLO VACIO");
-                            }else {
+                            if(!nombresGranjas.isEmpty()){
                                 //SE LLENA LA LISTA
-                                System.out.println("XXXXXXXXXXXXXXXXX SIZE DE GRANJAS ES "+nombresGranjas.size());
                                 for(int i=0;i<nombresGranjas.size();i++){
                                     dataModels.add(new ResumenGranjaDataModel(nombresGranjas.get(i).toString(),"Tareas: 3","Pendientes: 2"));
                                 }
@@ -100,8 +97,6 @@ public class ListaGranjasActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println("PRESIONADA LA NUMERO "+i);
-                System.out.println(idGranjas.get(i));
                 token.setGranjaActual(idGranjas.get(i));
                 Intent intent=new Intent(view.getContext(),AccionesActivity.class);
                 startActivity(intent);

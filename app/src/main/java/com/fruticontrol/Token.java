@@ -6,13 +6,15 @@ public class Token extends Application {
 
     private String token;
     private String granjaActual;
+    private Boolean arbolEscogido;
 
     public Token() {
     }
 
-    public Token(String token, String granjaActual) {
+    public Token(String token, String granjaActual, Boolean arbolEscogido) {
         this.token = token;
         this.granjaActual = granjaActual;
+        this.arbolEscogido = arbolEscogido;
     }
 
     public String getToken() {
@@ -29,5 +31,13 @@ public class Token extends Application {
 
     public void setGranjaActual(String granjaActual) {
         this.granjaActual = granjaActual;
+    }
+
+    public Boolean getArbolEscogido() {
+        return arbolEscogido;
+    }
+
+    public void setArbolEscogido(Boolean arbolEscogido) {
+        this.arbolEscogido = arbolEscogido;
     }
 }

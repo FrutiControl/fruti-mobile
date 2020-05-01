@@ -23,8 +23,20 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CrearArbolActivity extends AppCompatActivity {
 
@@ -42,6 +54,9 @@ public class CrearArbolActivity extends AppCompatActivity {
     Spinner spinnerTipoFumigacion;
     Spinner spinnerTipoFertilizacion;
     Spinner spinnerTipoRiego;
+    private Token token;
+    private String lat;
+    private String lon;
 
 
     @Override
@@ -49,6 +64,8 @@ public class CrearArbolActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_arbol);
         statusCheck();
+        token=(Token)getApplicationContext();
+        token.setArbolEscogido(false);
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         textUltimaPoda = findViewById(R.id.textUltimaPoda);
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
@@ -146,10 +163,67 @@ public class CrearArbolActivity extends AppCompatActivity {
         });
         buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if(validateForm()){
-                    Intent intent = new Intent(v.getContext(), AccionesActivity.class);
-                    startActivity(intent);
+                    RequestQueue queue = Volley.newRequestQueue(CrearArbolActivity.this);
+                    //SE TOMA EL TIPO DE ARBOL Y SE AVERIGUA LA INICIAL
+                    int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
+                    String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
+                    String inicial=inicialTipo(actualPositionOfMySpinner);
+                    //SE TOMA LA FECHA DE SIEMBRA Y SE CAMBIA EL FORMATO
+                    String divide=textFechaSiembra.getText().toString();
+                    String separated[]=divide.split(" ");
+                    String aux=separated[3];
+                    String data[]=aux.split("/");
+                    String auxFecha=data[2]+"-"+data[1]+"-"+data[0];
+                    //SE TOMAN LAS COORDENADAS X Y PARA LA POSICION
+                    Intent intent=getIntent();
+                    String auxUbicacion="POINT ("+lat+" "+lon+")";
+                    //SE CREA EL BODY CON LOS DATOS ANTERIORES
+                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" +auxFecha+ "\",\"location\":\""+auxUbicacion+"\",\"farm\":\""+token.getGranjaActual()+"\"}";
+                    Log.i("newTreeAPI", "Nuevo arbol: " + body);
+                    JSONObject newTree = null;
+                    try {
+                        newTree = new JSONObject(body);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,
+                            "http://10.0.2.2:8000/app/trees/"/*TODO: cambiar a URL real para producción!!!!*/, newTree,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("newTreeAPI", response.toString());
+
+                                    if (response.has("error")) {
+                                        try {
+                                            Toast.makeText(CrearArbolActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        Intent intent = new Intent(v.getContext(), AccionesActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }){    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Content-Type", "application/json");
+                            params.put("Authorization", "Token "+token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(newTreeRequest);
                 }
             }
         });
@@ -263,6 +337,9 @@ public class CrearArbolActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
+        if(!token.getArbolEscogido()){
+            valid=false;
+        }
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
 
@@ -420,7 +497,32 @@ public class CrearArbolActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXX Lo escogido fue " + data.getStringExtra("latFinal") + " " + data.getStringExtra("longFinal"));
+            lat=data.getStringExtra("latFinal");
+            lon=data.getStringExtra("longFinal");
+        }
+    }
+
+
+    private String inicialTipo(String opcion){
+        if(opcion.equals("Mango tommy")){
+            return "M";
+        }
+        else if(opcion.equals("Mango farchil")){
+            return "F";
+        }
+        else if(opcion.equals("Naranja")){
+            return "N";
+        }
+        else if(opcion.equals("Mandarina")){
+            return "D";
+        }
+        else if(opcion.equals("Limon")){
+            return "L";
+        }
+        else if(opcion.equals("Aguacate")){
+            return "A";
+        }else{
+            return "B";
         }
     }
 

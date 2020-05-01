@@ -69,6 +69,11 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        try {
+                                            token.setGranjaActual(response.getString("id"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                         Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                                         startActivity(intent);
                                     }
