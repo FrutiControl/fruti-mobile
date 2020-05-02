@@ -52,10 +52,12 @@ public class ListaArbolesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                String id = farmObject.getString("id");
-                                String tipo = farmObject.getString("specie");
-                                idsArboles.add(id);
-                                tiposArboles.add(inicialTipoInversa(tipo));
+                                if(farmObject.getString("farm")==token.getGranjaActual()){
+                                    String id = farmObject.getString("id");
+                                    String tipo = farmObject.getString("specie");
+                                    idsArboles.add(id);
+                                    tiposArboles.add(inicialTipoInversa(tipo));
+                                }
                             }
                             if(!idsArboles.isEmpty()){
                                 //SE LLENA LA LISTA

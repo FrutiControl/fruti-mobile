@@ -40,20 +40,20 @@ import java.util.Map;
 
 public class CrearArbolActivity extends AppCompatActivity {
 
-    EditText textFechaSiembra;
-    EditText textUltimaPoda;
-    EditText textUltimaFumigacion;
-    EditText textUltimaFertilizacion;
-    EditText textUltimoRiego;
-    Button buttonNuevoArbol;
-    Button buttonUbicacion;
+    private EditText textFechaSiembra;
+    private EditText textUltimaPoda;
+    private EditText textUltimaFumigacion;
+    private EditText textUltimaFertilizacion;
+    private EditText textUltimoRiego;
+    private Button buttonNuevoArbol;
+    private Button buttonUbicacion;
     Calendar cal, cal1, cal2, cal3, cal4;
     DatePickerDialog dpd, dpd2, dpd3, dpd4, dpd5;
-    Spinner spinnerTipoArbol;
-    Spinner spinnerTipoPoda;
-    Spinner spinnerTipoFumigacion;
-    Spinner spinnerTipoFertilizacion;
-    Spinner spinnerTipoRiego;
+    private Spinner spinnerTipoArbol;
+    private Spinner spinnerTipoPoda;
+    private Spinner spinnerTipoFumigacion;
+    private Spinner spinnerTipoFertilizacion;
+    private Spinner spinnerTipoRiego;
     private Token token;
     private String lat;
     private String lon;
@@ -526,5 +526,67 @@ public class CrearArbolActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    //Revisa los campos de las ultimas actividades y crea los request para añadirlos a la cola
+    private JsonObjectRequest[] actividadesPrevias(){
+        EditText[] arrayTextViews=new EditText[]{textUltimaPoda,textUltimaFumigacion,textUltimaFertilizacion,textUltimoRiego};
+        Spinner[] arraySpinners=new Spinner[]{textUltimaPoda,textUltimaFumigacion,textUltimaFertilizacion,textUltimoRiego};
+        for(int i =0;i<4;i++){
+            Spinner actualSpinner=arraySpinners[i];
+            EditText actualTextView=arrayTextViews[i];
+
+            int selectedItemOfMySpinnerFumigacion = actualSpinner.getSelectedItemPosition();
+            String actualPositionOfMySpinnerFumigacion = (String) actualSpinner.getItemAtPosition(selectedItemOfMySpinnerFumigacion);
+
+            if (actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...")) {
+                setSpinnerError(actualSpinner);
+                valid = false;
+            }
+            if(!TextUtils.isEmpty(actualTextView.getText().toString()) || )
+        }
+        String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" +auxFecha+ "\",\"location\":\""+auxUbicacion+"\",\"farm\":\""+token.getGranjaActual()+"\"}";
+        JSONObject newLastActivity = null;
+        try {
+            newLastActivity = new JSONObject(body);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
+                "http://10.0.2.2:8000/app/trees/"/*TODO: cambiar a URL real para producción!!!!*//*, newLastActivity,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("newTreeAPI", response.toString());
+
+                        if (response.has("error")) {
+                            try {
+                                Toast.makeText(CrearArbolActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Intent intent = new Intent(v.getContext(), AccionesActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        }){    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "Token "+token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                return params;
+            }
+        };
+        return lastActivityRequest
+    }
+*/
 
 }
