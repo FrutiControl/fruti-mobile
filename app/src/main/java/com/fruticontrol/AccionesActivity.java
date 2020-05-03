@@ -41,7 +41,7 @@ public class AccionesActivity extends AppCompatActivity {
         arbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CrearArbolActivity.class);
+                Intent intent = new Intent(view.getContext(), ListaArbolesActivity.class);
                 startActivity(intent);
             }
         });

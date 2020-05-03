@@ -2,8 +2,11 @@ package com.fruticontrol;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
     private ArrayList<String> idsArboles;
     private ArrayList<String> tiposArboles;
     private ArrayList<String> etapasArboles;
+    private Button nuevoArbolButton;
     private Token token;
 
     @Override
@@ -38,10 +42,18 @@ public class ListaArbolesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_arboles);
         token=(Token)getApplicationContext();
         listView=(ListView)findViewById(R.id.listaArbolesList);
+        nuevoArbolButton=findViewById(R.id.buttonNuevoArbol);
         dataModels= new ArrayList<>();
         idsArboles=new ArrayList<>();
         tiposArboles=new ArrayList<>();
         etapasArboles=new ArrayList<>();
+        nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),CrearArbolActivity.class);
+                startActivity(intent);
+            }
+        });
         RequestQueue queue = Volley.newRequestQueue(ListaArbolesActivity.this);
         JsonArrayRequest allTreesRequest = new JsonArrayRequest(Request.Method.GET,
                 "http://10.0.2.2:8000/app/trees/"/*TODO: cambiar a URL real para producción!!!!*/, null,

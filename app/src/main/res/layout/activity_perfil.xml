@@ -35,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/nombre_completo" />
+                android:text="@string/nombre_completo"
+                android:textColor="@color/headerColor" />
 
             <EditText
                 android:id="@+id/editTextNombrePerfil"
@@ -57,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/correo_electr_nico" />
+                android:text="@string/correo_electr_nico"
+                android:textColor="@color/headerColor" />
 
             <EditText
                 android:id="@+id/editTextCorreoPerfil"
@@ -79,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/contrase_a" />
+                android:text="@string/contrase_a"
+                android:textColor="@color/headerColor" />
 
             <EditText
                 android:id="@+id/editTextContraPerfil"
@@ -101,7 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/repita_la_contrase_a" />
+                android:text="@string/repita_la_contrase_a"
+                android:textColor="@color/headerColor" />
 
             <EditText
                 android:id="@+id/editTextContraRepPerfil"
