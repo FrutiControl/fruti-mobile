@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ public class ListaArbolesActivity extends AppCompatActivity {
     private ArrayList<String> idsArboles;
     private ArrayList<String> tiposArboles;
     private ArrayList<String> etapasArboles;
+    private ArrayList<String> fechasSiembra;
+    private ArrayList<String> localizacionesArboles;
     private Button nuevoArbolButton;
     private Token token;
 
@@ -47,10 +50,23 @@ public class ListaArbolesActivity extends AppCompatActivity {
         idsArboles=new ArrayList<>();
         tiposArboles=new ArrayList<>();
         etapasArboles=new ArrayList<>();
+        fechasSiembra=new ArrayList<>();
+        localizacionesArboles=new ArrayList<>();
         nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(view.getContext(),CrearArbolActivity.class);
+                startActivity(intent);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(view.getContext(),ModificarArbolActivity.class);
+                intent.putExtra("idArbolActual",tiposArboles.get(i));
+                intent.putExtra("tipo",tiposArboles.get(i));
+                intent.putExtra("fecha",fechasSiembra.get(i));
+                intent.putExtra("localizacion",localizacionesArboles.get(i));
                 startActivity(intent);
             }
         });
@@ -67,8 +83,12 @@ public class ListaArbolesActivity extends AppCompatActivity {
                                 if(farmObject.getString("farm")==token.getGranjaActual()){
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
+                                    String fecha = farmObject.getString("seed_date");
+                                    String localizacion = farmObject.getString("location");
                                     idsArboles.add(id);
                                     tiposArboles.add(inicialTipoInversa(tipo));
+                                    fechasSiembra.add(fecha);
+                                    localizacionesArboles.add(localizacion);
                                 }
                             }
                             if(!idsArboles.isEmpty()){

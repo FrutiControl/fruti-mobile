@@ -63,13 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:foregroundGravity="left"
-        android:gravity="left"
-        android:text="Si desea modificar un árbol de la lista debe tocarlo"
+        android:text="Si desea modificar o eliminar un árbol de la lista debe tocarlo"
         android:textColor="@color/headerColor"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
