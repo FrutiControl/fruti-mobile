@@ -57,6 +57,8 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         System.out.println("lon recibida es  "+lonAux);
         latitude=Double.parseDouble(latAux);
         longitude=Double.parseDouble(lonAux);
+        cameraLatitude = latitude;
+        cameraLongitude = longitude;
         token=(Token)getApplicationContext();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();

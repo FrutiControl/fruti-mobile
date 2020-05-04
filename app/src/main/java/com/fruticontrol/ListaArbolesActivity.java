@@ -63,7 +63,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent=new Intent(view.getContext(),ModificarArbolActivity.class);
-                intent.putExtra("idArbolActual",tiposArboles.get(i));
+                intent.putExtra("idArbolActual",idsArboles.get(i));
                 intent.putExtra("tipo",tiposArboles.get(i));
                 intent.putExtra("fecha",fechasSiembra.get(i));
                 intent.putExtra("localizacion",localizacionesArboles.get(i));
@@ -84,9 +84,11 @@ public class ListaArbolesActivity extends AppCompatActivity {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");
+                                    String etapa = farmObject.getString("life_phase");
                                     String localizacion = farmObject.getString("location");
                                     idsArboles.add(id);
                                     tiposArboles.add(inicialTipoInversa(tipo));
+                                    etapasArboles.add(devolverNombreFase(etapa));
                                     fechasSiembra.add(fecha);
                                     localizacionesArboles.add(localizacion);
                                 }
@@ -94,7 +96,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                             if(!idsArboles.isEmpty()){
                                 //SE LLENA LA LISTA
                                 for(int i=0;i<idsArboles.size();i++){
-                                    dataModels.add(new ResumenArbolDataModel("Número de árbol: "+idsArboles.get(i).toString(),tiposArboles.get(i).toString(),"Fertilizacion"));
+                                    dataModels.add(new ResumenArbolDataModel("Número de árbol: "+idsArboles.get(i).toString(),tiposArboles.get(i).toString(),etapasArboles.get(i)));
                                 }
                                 adapter= new ResumenArbolesAdapter(dataModels,getApplicationContext());
                                 listView.setAdapter(adapter);
@@ -143,5 +145,16 @@ public class ListaArbolesActivity extends AppCompatActivity {
         }else{
             return "Banano";
         }
+    }
+
+    private String devolverNombreFase(String num){
+        if(num.equals("1"))
+            return "Crecimiento";
+        if(num.equals("2"))
+            return "Floracion";
+        if(num.equals("2"))
+            return "Produccion";
+        else
+            return "Post-Produccion";
     }
 }
