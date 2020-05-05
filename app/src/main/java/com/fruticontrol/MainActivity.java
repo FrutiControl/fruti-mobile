@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
-
     private TextView txtUsername;
     private TextView txtPass;
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 if (validateForm()) {
                     Toast.makeText(MainActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
                     RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                    String body = "{\"username\":\"" + txtUsername.getText() + "\",\"password\":\"" + txtPass.getText() + "\"}";
+                    String body = "{\"username\":\"" + txtUsername.getText() +
+                            "\",\"password\":\"" + txtPass.getText() + "\"}";
+                    Log.i("usersAPI", "Credenciales: " + body);
                     JSONObject credentials = null;
                     try {
                         credentials = new JSONObject(body);
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     Log.i("usersAPI", response.toString());
-                                    Token token = (Token) getApplicationContext();
+                                    token = (Token) getApplicationContext();
                                     if (response.has("error")) {
                                         try {
                                             Toast.makeText(MainActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
+
                                         Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
                                         startActivity(intent);
                                     }
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
         Pattern emailPattern = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-        Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&_+=])(?=\\S+$).{8,}$");
+        Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!_=])(?=\\S+$).{8,25}$");
         Matcher emailMatcher = emailPattern.matcher(txtUsername.getText());
         Matcher passMatcher = passPattern.matcher(txtPass.getText());
 
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             txtPass.setError("Requerido");
             valid = false;
         } else if (!passMatcher.matches()) {
-            Log.e("usersAPI", "La contraseña no es válido");
+            Log.e("usersAPI", "La contraseña no es válida");
             txtPass.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
             valid = false;
         } else {
