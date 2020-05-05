@@ -20,11 +20,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,11 +70,11 @@ public class ModificarArbolActivity extends AppCompatActivity {
         localizacion = intent.getStringExtra("localizacion");
 
         String divide = localizacion;
-        String separated[] = divide.split("\\(");
-        String anotherAux[] = separated[1].split(" ");
+        String[] separated = divide.split("\\(");
+        String[] anotherAux = separated[1].split(" ");
         lat = anotherAux[0];
         System.out.println("XXXXXXX ESTO ES " + anotherAux[0]);
-        String lonAux[] = anotherAux[1].split("\\)");
+        String[] lonAux = anotherAux[1].split("\\)");
         lon = lonAux[0];
         System.out.println("XXXXXXX ESTO ES " + lonAux[0]);
         newLat = lat;
@@ -83,7 +85,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
         int setAux = valorPosicion(tipo);
         spinnerTipoArbol.setSelection(setAux);
         String divide2 = fecha;
-        String separated2[] = divide2.split("-");
+        String[] separated2 = divide2.split("-");
         txtFechaSiembra.setText("Fecha de siembra: " + separated2[2] + "/" + separated2[1] + "/" + separated2[0]);
 
         eliminarArbolButton.setOnClickListener(new View.OnClickListener() {
@@ -91,26 +93,17 @@ public class ModificarArbolActivity extends AppCompatActivity {
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(ModificarArbolActivity.this);
                 String auxUrl = "http://10.0.2.2:8000/app/trees/" + idArbol + "/";
-                JsonObjectRequest deleteTreeRequest = new JsonObjectRequest(Request.Method.DELETE,
-                        auxUrl/*TODO: cambiar a URL real para producción!!!!*/, null,
-                        new Response.Listener<JSONObject>() {
+                StringRequest deleteTreeRequest = new StringRequest(Request.Method.DELETE,
+                        auxUrl/*TODO: cambiar a URL real para producción!!!!*/,
+                        new Response.Listener<String>() {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                Log.i("deleteTreeAPI", "JSON ES XXXXXXXX " + response.toString());
-                                if (response.has("error")) {
-                                    try {
-                                        Toast.makeText(ModificarArbolActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    finish();
-                                }
+                            public void onResponse(String response) {
+                                finish();
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                        Log.e("TreeAPI", "Error en la invocación a la API " + Arrays.toString(error.getStackTrace()));
                         Toast.makeText(ModificarArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                     }
                 }) {    //this is the part, that adds the header to the request
@@ -137,9 +130,9 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     String inicial = inicialTipo(actualPositionOfMySpinner);
                     //SE TOMA LA FECHA DE SIEMBRA Y SE CAMBIA EL FORMATO
                     String divide = txtFechaSiembra.getText().toString();
-                    String separated[] = divide.split(" ");
+                    String[] separated = divide.split(" ");
                     String aux = separated[3];
-                    String data[] = aux.split("/");
+                    String[] data = aux.split("/");
                     String auxFecha = data[2] + "-" + data[1] + "-" + data[0];
                     //SE TOMAN LAS COORDENADAS X Y PARA LA POSICION
                     Intent intent = getIntent();
@@ -219,20 +212,22 @@ public class ModificarArbolActivity extends AppCompatActivity {
     }
 
     private int valorPosicion(String tipo) {
-        if (tipo.equals("Mango tommy"))
-            return 1;
-        if (tipo.equals("Mango farchil"))
-            return 2;
-        if (tipo.equals("Naranja"))
-            return 3;
-        if (tipo.equals("Mandarina"))
-            return 4;
-        if (tipo.equals("Limon"))
-            return 5;
-        if (tipo.equals("Aguacate"))
-            return 6;
-        else
-            return 7;
+        switch (tipo) {
+            case "Mango tommy":
+                return 1;
+            case "Mango farchil":
+                return 2;
+            case "Naranja":
+                return 3;
+            case "Mandarina":
+                return 4;
+            case "Limon":
+                return 5;
+            case "Aguacate":
+                return 6;
+            default:
+                return 7;
+        }
     }
 
     private boolean validateForm() {
@@ -251,9 +246,9 @@ public class ModificarArbolActivity extends AppCompatActivity {
             valid = false;
         } else {
             String divide = txtFechaSiembra.getText().toString();
-            String separated[] = divide.split(" ");
+            String[] separated = divide.split(" ");
             String aux = separated[3];
-            String data[] = aux.split("/");
+            String[] data = aux.split("/");
             Calendar cal = Calendar.getInstance();
             cal.getTime();
             Calendar cal2 = Calendar.getInstance();
@@ -271,7 +266,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
 
     private void setSpinnerError(Spinner spinner) {
         View selectedView = spinner.getSelectedView();
-        if (selectedView != null && selectedView instanceof TextView) {
+        if (selectedView instanceof TextView) {
             spinner.requestFocus();
             TextView selectedTextView = (TextView) selectedView;
             selectedTextView.setError("Requerido"); // any name of the error will do
@@ -279,20 +274,21 @@ public class ModificarArbolActivity extends AppCompatActivity {
     }
 
     private String inicialTipo(String opcion) {
-        if (opcion.equals("Mango tommy")) {
-            return "M";
-        } else if (opcion.equals("Mango farchil")) {
-            return "F";
-        } else if (opcion.equals("Naranja")) {
-            return "N";
-        } else if (opcion.equals("Mandarina")) {
-            return "D";
-        } else if (opcion.equals("Limon")) {
-            return "L";
-        } else if (opcion.equals("Aguacate")) {
-            return "A";
-        } else {
-            return "B";
+        switch (opcion) {
+            case "Mango tommy":
+                return "M";
+            case "Mango farchil":
+                return "F";
+            case "Naranja":
+                return "N";
+            case "Mandarina":
+                return "D";
+            case "Limon":
+                return "L";
+            case "Aguacate":
+                return "A";
+            default:
+                return "B";
         }
     }
 
