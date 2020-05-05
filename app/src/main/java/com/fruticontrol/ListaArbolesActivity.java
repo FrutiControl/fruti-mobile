@@ -43,30 +43,30 @@ public class ListaArbolesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_arboles);
-        token=(Token)getApplicationContext();
-        listView=(ListView)findViewById(R.id.listaArbolesList);
-        nuevoArbolButton=findViewById(R.id.buttonNuevoArbol);
-        dataModels= new ArrayList<>();
-        idsArboles=new ArrayList<>();
-        tiposArboles=new ArrayList<>();
-        etapasArboles=new ArrayList<>();
-        fechasSiembra=new ArrayList<>();
-        localizacionesArboles=new ArrayList<>();
+        token = (Token) getApplicationContext();
+        listView = (ListView) findViewById(R.id.listaArbolesList);
+        nuevoArbolButton = findViewById(R.id.buttonNuevoArbol);
+        dataModels = new ArrayList<>();
+        idsArboles = new ArrayList<>();
+        tiposArboles = new ArrayList<>();
+        etapasArboles = new ArrayList<>();
+        fechasSiembra = new ArrayList<>();
+        localizacionesArboles = new ArrayList<>();
         nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),CrearArbolActivity.class);
+                Intent intent = new Intent(view.getContext(), CrearArbolActivity.class);
                 startActivity(intent);
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent(view.getContext(),ModificarArbolActivity.class);
-                intent.putExtra("idArbolActual",idsArboles.get(i));
-                intent.putExtra("tipo",tiposArboles.get(i));
-                intent.putExtra("fecha",fechasSiembra.get(i));
-                intent.putExtra("localizacion",localizacionesArboles.get(i));
+                Intent intent = new Intent(view.getContext(), ModificarArbolActivity.class);
+                intent.putExtra("idArbolActual", idsArboles.get(i));
+                intent.putExtra("tipo", tiposArboles.get(i));
+                intent.putExtra("fecha", fechasSiembra.get(i));
+                intent.putExtra("localizacion", localizacionesArboles.get(i));
                 startActivity(intent);
             }
         });
@@ -80,7 +80,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                if(farmObject.getString("farm")==token.getGranjaActual()){
+                                if (farmObject.getString("farm") == token.getGranjaActual()) {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");
@@ -93,12 +93,12 @@ public class ListaArbolesActivity extends AppCompatActivity {
                                     localizacionesArboles.add(localizacion);
                                 }
                             }
-                            if(!idsArboles.isEmpty()){
+                            if (!idsArboles.isEmpty()) {
                                 //SE LLENA LA LISTA
-                                for(int i=0;i<idsArboles.size();i++){
-                                    dataModels.add(new ResumenArbolDataModel("Número de árbol: "+idsArboles.get(i).toString(),tiposArboles.get(i).toString(),etapasArboles.get(i)));
+                                for (int i = 0; i < idsArboles.size(); i++) {
+                                    dataModels.add(new ResumenArbolDataModel("Número de árbol: " + idsArboles.get(i), tiposArboles.get(i), etapasArboles.get(i)));
                                 }
-                                adapter= new ResumenArbolesAdapter(dataModels,getApplicationContext());
+                                adapter = new ResumenArbolesAdapter(dataModels, getApplicationContext());
                                 listView.setAdapter(adapter);
                             }
                         } catch (JSONException e) {
@@ -109,52 +109,49 @@ public class ListaArbolesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                Toast.makeText(ListaArbolesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListaArbolesActivity.this, "Se presentó un error, por favor intente Tás tarde", Toast.LENGTH_SHORT).show();
             }
-        }){    //this is the part, that adds the header to the request
+        }) {    //this is the part, that adds the header to the request
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token "+token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                params.put("Authorization", "Token " + token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                 return params;
             }
         };
         queue.add(allTreesRequest);
     }
 
-
-    private String inicialTipoInversa(String opcion){
-        if(opcion.equals("M")){
-            return "Mango tommy";
-        }
-        else if(opcion.equals("F")){
-            return "Mango farchil";
-        }
-        else if(opcion.equals("N")){
-            return "Naranja";
-        }
-        else if(opcion.equals("D")){
-            return "Mandarina";
-        }
-        else if(opcion.equals("L")){
-            return "Limon";
-        }
-        else if(opcion.equals("A")){
-            return "Aguacate";
-        }else{
-            return "Banano";
+    private String inicialTipoInversa(String opcion) {
+        switch (opcion) {
+            case "M":
+                return "Mango tommy";
+            case "F":
+                return "Mango farchil";
+            case "N":
+                return "Naranja";
+            case "D":
+                return "Mandarina";
+            case "L":
+                return "Limon";
+            case "A":
+                return "Aguacate";
+            default:
+                return "Banano";
         }
     }
 
-    private String devolverNombreFase(String num){
-        if(num.equals("1"))
-            return "Crecimiento";
-        if(num.equals("2"))
-            return "Floracion";
-        if(num.equals("2"))
-            return "Produccion";
-        else
-            return "Post-Produccion";
+    private String devolverNombreFase(String num) {
+        switch (num) {
+            case "1":
+                return "Crecimiento";
+            case "2":
+                return "Floracion";
+            case "3":
+                return "Produccion";
+            default:
+                return "Post-Produccion";
+        }
     }
 }
