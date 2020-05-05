@@ -34,44 +34,38 @@ public class MainActivity extends AppCompatActivity {
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
 
-    private TextView txtRegistro;
-    private Button iniciarSesion;
     private TextView txtUsername;
     private TextView txtPass;
-    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        token=new Token();
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
-        iniciarSesion = findViewById(R.id.buttonIniciarSesion);
+        TextView txtRegistro = findViewById(R.id.textViewRegistrarse);
+        Button iniciarSesion = findViewById(R.id.buttonIniciarSesion);
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if(validateForm()){
+                if (validateForm()) {
                     Toast.makeText(MainActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
                     RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                     String body = "{\"username\":\"" + txtUsername.getText() + "\",\"password\":\"" + txtPass.getText() + "\"}";
-                    Log.i("usersAPI", "Credenciales: " + body);
                     JSONObject credentials = null;
                     try {
                         credentials = new JSONObject(body);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String aux;
                     JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,
                             "http://10.0.2.2:8000/users/login/"/*TODO: cambiar a URL real para producción!!!!*/, credentials,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     Log.i("usersAPI", response.toString());
-                                    Token token=(Token)getApplicationContext();
+                                    Token token = (Token) getApplicationContext();
                                     if (response.has("error")) {
                                         try {
                                             Toast.makeText(MainActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
@@ -79,12 +73,11 @@ public class MainActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
-                                        try{
+                                        try {
                                             token.setToken(response.getString("token"));
-                                        }catch (JSONException e) {
+                                        } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-
                                         Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
                                         startActivity(intent);
                                     }
@@ -98,13 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     });
                     queue.add(loginRequest);
                 }
-                /*//TODO: Eliminar siguientes dos lienas antes de produccion
-                Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
-                startActivity(intent);*/
             }
         });
-
-        txtRegistro = findViewById(R.id.textViewRegistrarse);
         txtRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void requestPermission(Activity context, String permiso, String justificacion, int idCode) {
         if (ContextCompat.checkSelfPermission(context, permiso) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -147,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (!emailMatcher.matches()) {
             Log.e("usersAPI", "El correo no es válido");
             txtUsername.setError("Correo inválido");
-            valid=false;
+            valid = false;
         } else {
             txtUsername.setError(null);
         }
@@ -158,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (!passMatcher.matches()) {
             Log.e("usersAPI", "La contraseña no es válido");
             txtPass.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
-            valid=false;
+            valid = false;
         } else {
             txtPass.setError(null);
         }
