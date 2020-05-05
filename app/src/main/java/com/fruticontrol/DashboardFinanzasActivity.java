@@ -19,29 +19,29 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_finanzas);
 
-        nuevoIngresoButton=findViewById(R.id.buttonNuevoIngresoDFinanzas);
-        nuevoGastoButton=findViewById(R.id.buttonNuevoGastoDFinanzas);
-        verIngresosButton =findViewById(R.id.buttonVerIngresos);
-        verGastosButton=findViewById(R.id.buttonVerGastos);
+        nuevoIngresoButton = findViewById(R.id.buttonNuevoIngresoDFinanzas);
+        nuevoGastoButton = findViewById(R.id.buttonNuevoGastoDFinanzas);
+        verIngresosButton = findViewById(R.id.buttonVerIngresos);
+        verGastosButton = findViewById(R.id.buttonVerGastos);
 
         verGastosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),VerGastosActivity.class);
+                Intent intent = new Intent(view.getContext(), VerGastosActivity.class);
                 startActivity(intent);
             }
         });
         verIngresosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(), VerIngresosActivity.class);
+                Intent intent = new Intent(view.getContext(), VerIngresosActivity.class);
                 startActivity(intent);
             }
         });
         nuevoIngresoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),NuevoIngresoActivity.class);
+                Intent intent = new Intent(view.getContext(), NuevoIngresoActivity.class);
                 startActivity(intent);
             }
         });
@@ -49,7 +49,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         nuevoGastoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),GastosActivity.class);
+                Intent intent = new Intent(view.getContext(), GastosActivity.class);
                 startActivity(intent);
             }
         });

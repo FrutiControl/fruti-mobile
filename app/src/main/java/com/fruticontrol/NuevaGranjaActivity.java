@@ -1,16 +1,15 @@
 package com.fruticontrol;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,15 +34,15 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_granja);
-        token=(Token)getApplicationContext();
-        System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES "+token.getToken());
-        crearGranjaButton =findViewById(R.id.buttonCrearGranja);
-        nombraGranjaET=findViewById(R.id.editTextNombreGranja);
-        System.out.println("El token que se recibe es "+token.getToken());
+        token = (Token) getApplicationContext();
+        System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES " + token.getToken());
+        crearGranjaButton = findViewById(R.id.buttonCrearGranja);
+        nombraGranjaET = findViewById(R.id.editTextNombreGranja);
+        System.out.println("El token que se recibe es " + token.getToken());
         crearGranjaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if(validateForm()){
+                if (validateForm()) {
                     Toast.makeText(NuevaGranjaActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
                     RequestQueue queue = Volley.newRequestQueue(NuevaGranjaActivity.this);
                     String body = "{\"name\":\"" + nombraGranjaET.getText().toString() + "\",\"polygon\":\"" + "POLYGON((4.644170871871879 -74.39120971462567,4.643984913336387 -74.39120833085109,4.643794905169881 -74.39113830848265,4.643726255135453 -74.39123278334219, 4.644170871871879 -74.39120971462567))" + "\"}";
@@ -84,13 +83,13 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                             Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
                             Toast.makeText(NuevaGranjaActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
-                    }){    //this is the part, that adds the header to the request
+                    }) {    //this is the part, that adds the header to the request
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token "+token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };
@@ -110,7 +109,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(nombraGranjaET.getText().toString())) {
             nombraGranjaET.setError("Requerido");
             valid = false;
-        }else{
+        } else {
             nombraGranjaET.setError(null);
         }
         return valid;

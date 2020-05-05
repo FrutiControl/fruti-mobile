@@ -18,13 +18,13 @@ public class PreferenciasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferencias);
-        valorJornalET=findViewById(R.id.editTextValorJornal);
-        guardarPreferenciasButton=findViewById(R.id.buttonGuardarPreferencias);
+        valorJornalET = findViewById(R.id.editTextValorJornal);
+        guardarPreferenciasButton = findViewById(R.id.buttonGuardarPreferencias);
 
         guardarPreferenciasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validateForm()){
+                if (validateForm()) {
                     Toast.makeText(PreferenciasActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -36,7 +36,7 @@ public class PreferenciasActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(valorJornalET.getText().toString())) {
             valorJornalET.setError("Requerido");
             valid = false;
-        }else{
+        } else {
             valorJornalET.setError(null);
         }
         return valid;

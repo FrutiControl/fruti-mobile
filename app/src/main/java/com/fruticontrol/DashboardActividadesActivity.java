@@ -16,12 +16,12 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_actividades);
 
-        nuevaActividadButton=findViewById(R.id.buttonNuevaActividad);
+        nuevaActividadButton = findViewById(R.id.buttonNuevaActividad);
 
         nuevaActividadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),NuevaActividadActivity.class);
+                Intent intent = new Intent(view.getContext(), NuevaActividadActivity.class);
                 startActivity(intent);
             }
         });

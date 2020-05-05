@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> implements View.OnClickListener{
+public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> implements View.OnClickListener {
 
     private ArrayList<ResumenArbolDataModel> dataSet;
     Context mContext;
@@ -25,16 +25,16 @@ public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> i
     public ResumenArbolesAdapter(ArrayList<ResumenArbolDataModel> data, Context context) {
         super(context, R.layout.resumen_arbol, data);
         this.dataSet = data;
-        this.mContext=context;
+        this.mContext = context;
 
     }
 
     @Override
     public void onClick(View v) {
 
-        int position=(Integer) v.getTag();
-        Object object= getItem(position);
-        ResumenArbolDataModel dataModel=(ResumenArbolDataModel) object;
+        int position = (Integer) v.getTag();
+        Object object = getItem(position);
+        ResumenArbolDataModel dataModel = (ResumenArbolDataModel) object;
 
     }
 
@@ -54,16 +54,16 @@ public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> i
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.resumen_arbol, parent, false);
-            viewHolder.txtIdArbol= (TextView) convertView.findViewById(R.id.textViewIdArbol);
-            viewHolder.txtTipoArbol= (TextView) convertView.findViewById(R.id.textViewTipoArbol);
-            viewHolder.txtFaseArbol= (TextView) convertView.findViewById(R.id.textViewEtapaArbol);
+            viewHolder.txtIdArbol = (TextView) convertView.findViewById(R.id.textViewIdArbol);
+            viewHolder.txtTipoArbol = (TextView) convertView.findViewById(R.id.textViewTipoArbol);
+            viewHolder.txtFaseArbol = (TextView) convertView.findViewById(R.id.textViewEtapaArbol);
 
-            result=convertView;
+            result = convertView;
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ResumenArbolesAdapter.ViewHolder) convertView.getTag();
-            result=convertView;
+            result = convertView;
         }
 
         Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);

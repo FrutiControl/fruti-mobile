@@ -39,7 +39,6 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        getSupportActionBar().setTitle("FrutiControl");
         txtNombre = findViewById(R.id.editTextNombreCompleto);
         txtEmail = findViewById(R.id.editTextMail);
         txtPass = findViewById(R.id.editTextPass);
@@ -66,7 +65,7 @@ public class RegistroActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Token token=(Token)getApplicationContext();
+                                    Token token = (Token) getApplicationContext();
                                     try {
                                         token.setToken(response.getString("token"));
                                         Log.i("usersAPI", "respuesta: " + response.toString());
@@ -122,21 +121,18 @@ public class RegistroActivity extends AppCompatActivity {
             txtPass.setError("Requerido");
             txtPassVerf.setError("Requerido");
             valid = false;
-        }
-        else if (!passMatcher.matches()) {
+        } else if (!passMatcher.matches()) {
             Log.e("usersAPI", "La contraseña no es válido");
             txtPass.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
-            valid=false;
+            valid = false;
+        } else if (!txtPassVerf.getText().toString().equals(txtPass.getText().toString())) {
+            txtPass.setError("Las contraseñas deben coincidir");
+            txtPassVerf.setError("Las contraseñas deben coincidir");
+            valid = false;
+        } else {
+            txtPass.setError(null);
+            txtPassVerf.setError(null);
         }
-            else if (!txtPassVerf.getText().toString().equals(txtPass.getText().toString())) {
-                txtPass.setError("Las contraseñas deben coincidir");
-                txtPassVerf.setError("Las contraseñas deben coincidir");
-                valid = false;
-            }
-                else {
-                    txtPass.setError(null);
-                    txtPassVerf.setError(null);
-                }
         return valid;
     }
 }

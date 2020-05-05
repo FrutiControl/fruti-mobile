@@ -15,10 +15,10 @@ public class Dialogo extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Ubicacion del árbol").setMessage(text).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                });
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
 
         return builder.create();
     }

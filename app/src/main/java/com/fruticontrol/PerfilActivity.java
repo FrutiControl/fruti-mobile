@@ -28,24 +28,24 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-        preferenciasButton =findViewById(R.id.buttonPreferencias);
-        nombreET=findViewById(R.id.editTextNombrePerfil);
-        correoET=findViewById(R.id.editTextCorreoPerfil);
-        passET=findViewById(R.id.editTextContraPerfil);
-        passRepET=findViewById(R.id.editTextContraRepPerfil);
-        guardarCambiosButton=findViewById(R.id.buttonGuardarCambiosPerfil);
+        preferenciasButton = findViewById(R.id.buttonPreferencias);
+        nombreET = findViewById(R.id.editTextNombrePerfil);
+        correoET = findViewById(R.id.editTextCorreoPerfil);
+        passET = findViewById(R.id.editTextContraPerfil);
+        passRepET = findViewById(R.id.editTextContraRepPerfil);
+        guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosPerfil);
 
         preferenciasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent intent=new Intent(view.getContext(),PreferenciasActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(view.getContext(), PreferenciasActivity.class);
+                startActivity(intent);
             }
         });
         guardarCambiosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validateForm()){
+                if (validateForm()) {
                     Toast.makeText(PerfilActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -79,18 +79,15 @@ public class PerfilActivity extends AppCompatActivity {
             passET.setError("Requerido");
             passRepET.setError("Requerido");
             valid = false;
-        }
-        else if (!passMatcher.matches()) {
+        } else if (!passMatcher.matches()) {
             Log.e("usersAPI", "La contraseña no es válido");
             passET.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
-            valid=false;
-        }
-        else if (!passRepET.getText().toString().equals(passET.getText().toString())) {
+            valid = false;
+        } else if (!passRepET.getText().toString().equals(passET.getText().toString())) {
             passET.setError("Las contraseñas deben coincidir");
             passRepET.setError("Las contraseñas deben coincidir");
             valid = false;
-        }
-        else {
+        } else {
             passET.setError(null);
             passRepET.setError(null);
         }

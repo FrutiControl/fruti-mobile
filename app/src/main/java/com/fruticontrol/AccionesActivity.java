@@ -1,13 +1,11 @@
 package com.fruticontrol;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AccionesActivity extends AppCompatActivity {
 
@@ -23,18 +21,18 @@ public class AccionesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acciones);
-        token=(Token)getApplicationContext();
-        arbolButton =findViewById(R.id.buttonArbol);
-        dashboardActividadesButton=findViewById(R.id.buttonDashboardActividades);
-        dashboardFinanzasButton=findViewById(R.id.buttonDashboardFinanzas);
-        perfilButton=findViewById(R.id.buttonPerfil);
-        verGranjasButton=findViewById(R.id.buttonVerGranjas);
-        System.out.println("XXXXXX LA GRANJA TOUCHADA FUE LA "+token.getGranjaActual());
+        token = (Token) getApplicationContext();
+        arbolButton = findViewById(R.id.buttonArbol);
+        dashboardActividadesButton = findViewById(R.id.buttonDashboardActividades);
+        dashboardFinanzasButton = findViewById(R.id.buttonDashboardFinanzas);
+        perfilButton = findViewById(R.id.buttonPerfil);
+        verGranjasButton = findViewById(R.id.buttonVerGranjas);
+        System.out.println("XXXXXX LA GRANJA TOUCHADA FUE LA " + token.getGranjaActual());
 
         verGranjasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),ListaGranjasActivity.class);
+                Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
                 startActivity(intent);
             }
         });

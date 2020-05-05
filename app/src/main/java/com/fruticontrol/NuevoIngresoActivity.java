@@ -1,13 +1,10 @@
 package com.fruticontrol;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.format.Time;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
@@ -36,13 +35,13 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_ingreso);
 
-        spinnerTipoArbol=findViewById(R.id.spinnerTipoArbolNuevoIngreso);
-        etCantidadCanastilla=findViewById(R.id.editTextCantidadCanastillas);
-        etValorCanastilla=findViewById(R.id.editTextValorCanastilla);
-        etConceptoIngreso=findViewById(R.id.editTextConcepto);
-        txtTotal=findViewById(R.id.textViewTotalIngreso);
-        txtFechaIngreso=findViewById(R.id.editTextFechaIngreso);
-        guardarNuevoIngresoButton=findViewById(R.id.buttonGuardarNuevoIngreso);
+        spinnerTipoArbol = findViewById(R.id.spinnerTipoArbolNuevoIngreso);
+        etCantidadCanastilla = findViewById(R.id.editTextCantidadCanastillas);
+        etValorCanastilla = findViewById(R.id.editTextValorCanastilla);
+        etConceptoIngreso = findViewById(R.id.editTextConcepto);
+        txtTotal = findViewById(R.id.textViewTotalIngreso);
+        txtFechaIngreso = findViewById(R.id.editTextFechaIngreso);
+        guardarNuevoIngresoButton = findViewById(R.id.buttonGuardarNuevoIngreso);
 
         ArrayAdapter<CharSequence> spinnerAdapterTipo = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapterTipo);
@@ -50,7 +49,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         guardarNuevoIngresoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validateForm()){
+                if (validateForm()) {
                     Toast.makeText(NuevoIngresoActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -59,11 +58,11 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         txtFechaIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calIngreso= Calendar.getInstance();
+                calIngreso = Calendar.getInstance();
                 int day = calIngreso.get(Calendar.DAY_OF_MONTH);
                 int month = calIngreso.get(Calendar.MONTH);
                 int year = calIngreso.get(Calendar.YEAR);
-                dateIngreso= new DatePickerDialog(NuevoIngresoActivity.this,R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+                dateIngreso = new DatePickerDialog(NuevoIngresoActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaIngreso.setText("Fecha del ingreso: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -76,30 +75,32 @@ public class NuevoIngresoActivity extends AppCompatActivity {
 
         etValorCanastilla.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start,int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0)
+                if (s.length() != 0)
                     calcularTotal();
             }
         });
 
         etCantidadCanastilla.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start,int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0)
+                if (s.length() != 0)
                     calcularTotal();
             }
         });
@@ -135,21 +136,21 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(txtFechaIngreso.getText().toString())) {
             txtFechaIngreso.setError("Requerido");
             valid = false;
-        }else{
-            String divide=txtFechaIngreso.getText().toString();
-            String separated[]=divide.split(" ");
-            String aux=separated[3];
-            String data[]=aux.split("/");
+        } else {
+            String divide = txtFechaIngreso.getText().toString();
+            String separated[] = divide.split(" ");
+            String aux = separated[3];
+            String data[] = aux.split("/");
 
-            Calendar cal=Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             cal.getTime();
-            Calendar cal2=Calendar.getInstance();
-            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
-            if(cal.compareTo(cal2)>0){
+            Calendar cal2 = Calendar.getInstance();
+            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+            if (cal.compareTo(cal2) > 0) {
                 txtFechaIngreso.setError(null);
-            }else{
+            } else {
                 txtFechaIngreso.setError("La fecha debe ser la actual o anterior a la actual");
-                valid=false;
+                valid = false;
             }
         }
         return valid;
@@ -166,9 +167,9 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         }
     }
 
-    protected void calcularTotal(){
-        if(!TextUtils.isEmpty(etValorCanastilla.getText().toString()) && !TextUtils.isEmpty( etCantidadCanastilla.getText().toString())){
-            int total=(Integer.valueOf(etValorCanastilla.getText().toString()))*Integer.valueOf(etCantidadCanastilla.getText().toString());
+    protected void calcularTotal() {
+        if (!TextUtils.isEmpty(etValorCanastilla.getText().toString()) && !TextUtils.isEmpty(etCantidadCanastilla.getText().toString())) {
+            int total = (Integer.valueOf(etValorCanastilla.getText().toString())) * Integer.valueOf(etCantidadCanastilla.getText().toString());
             txtTotal.setText(String.valueOf(total));
         }
     }

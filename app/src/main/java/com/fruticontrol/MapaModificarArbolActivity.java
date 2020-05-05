@@ -1,22 +1,17 @@
 package com.fruticontrol;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,8 +30,8 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
     FusedLocationProviderClient mFusedLocationClient;
-    double latitude=0;
-    double longitude=0;
+    double latitude = 0;
+    double longitude = 0;
     double cameraLatitude;
     double cameraLongitude;
     int gottenLocations = 0;
@@ -50,16 +45,16 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_modificar_arbol);
 
-        Intent intent=getIntent();
-        String latAux=intent.getStringExtra("lat");
-        System.out.println("lat recibida es  "+latAux);
-        String lonAux=intent.getStringExtra("lon");
-        System.out.println("lon recibida es  "+lonAux);
-        latitude=Double.parseDouble(latAux);
-        longitude=Double.parseDouble(lonAux);
+        Intent intent = getIntent();
+        String latAux = intent.getStringExtra("lat");
+        System.out.println("lat recibida es  " + latAux);
+        String lonAux = intent.getStringExtra("lon");
+        System.out.println("lon recibida es  " + lonAux);
+        latitude = Double.parseDouble(latAux);
+        longitude = Double.parseDouble(lonAux);
         cameraLatitude = latitude;
         cameraLongitude = longitude;
-        token=(Token)getApplicationContext();
+        token = (Token) getApplicationContext();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -67,10 +62,10 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         seleccionarUbicacionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.putExtra("latFinal",String.valueOf(cameraLatitude));
-                intent.putExtra("longFinal",String.valueOf(cameraLongitude));
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("latFinal", String.valueOf(cameraLatitude));
+                intent.putExtra("longFinal", String.valueOf(cameraLongitude));
+                setResult(RESULT_OK, intent);
                 finish();
                 token.setArbolEscogido(true);
             }
@@ -97,7 +92,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         Log.e("MAP", "Entro a onMapReady");
-        arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
+        arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(arbolMarker.getPosition()));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
         arbolMarker.setVisible(false);
@@ -126,4 +121,4 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
     }
 }
 
-//Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+//Icons made by Freepik Flaticon www.flaticon.com

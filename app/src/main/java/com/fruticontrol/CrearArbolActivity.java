@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +62,7 @@ public class CrearArbolActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_arbol);
         statusCheck();
-        token=(Token)getApplicationContext();
+        token = (Token) getApplicationContext();
         token.setArbolEscogido(false);
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         textUltimaPoda = findViewById(R.id.textUltimaPoda);
@@ -157,30 +155,30 @@ public class CrearArbolActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivityForResult(new Intent(getApplicationContext(),MapaNuevoArbolActivity.class),100);
+                startActivityForResult(new Intent(getApplicationContext(), MapaNuevoArbolActivity.class), 100);
 
             }
         });
         buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if(validateForm()){
+                if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(CrearArbolActivity.this);
                     //SE TOMA EL TIPO DE ARBOL Y SE AVERIGUA LA INICIAL
                     int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
                     String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
-                    String inicial=inicialTipo(actualPositionOfMySpinner);
+                    String inicial = inicialTipo(actualPositionOfMySpinner);
                     //SE TOMA LA FECHA DE SIEMBRA Y SE CAMBIA EL FORMATO
-                    String divide=textFechaSiembra.getText().toString();
-                    String separated[]=divide.split(" ");
-                    String aux=separated[3];
-                    String data[]=aux.split("/");
-                    String auxFecha=data[2]+"-"+data[1]+"-"+data[0];
+                    String divide = textFechaSiembra.getText().toString();
+                    String separated[] = divide.split(" ");
+                    String aux = separated[3];
+                    String data[] = aux.split("/");
+                    String auxFecha = data[2] + "-" + data[1] + "-" + data[0];
                     //SE TOMAN LAS COORDENADAS X Y PARA LA POSICION
-                    Intent intent=getIntent();
-                    String auxUbicacion="POINT ("+lat+" "+lon+")";
+                    Intent intent = getIntent();
+                    String auxUbicacion = "POINT (" + lat + " " + lon + ")";
                     //SE CREA EL BODY CON LOS DATOS ANTERIORES
-                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" +auxFecha+ "\",\"location\":\""+auxUbicacion+"\",\"farm\":\""+token.getGranjaActual()+"\"}";
+                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" + auxFecha + "\",\"location\":\"" + auxUbicacion + "\",\"farm\":\"" + token.getGranjaActual() + "\"}";
                     Log.i("newTreeAPI", "Nuevo arbol: " + body);
                     JSONObject newTree = null;
                     try {
@@ -213,13 +211,13 @@ public class CrearArbolActivity extends AppCompatActivity {
                             Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
                             Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
-                    }){    //this is the part, that adds the header to the request
+                    }) {    //this is the part, that adds the header to the request
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token "+token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };
@@ -234,7 +232,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
                 int month = cal.get(Calendar.MONTH);
                 int year = cal.get(Calendar.YEAR);
-                dpd = new DatePickerDialog(CrearArbolActivity.this,R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+                dpd = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textFechaSiembra.setText("Fecha de siembra: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -250,7 +248,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal1.get(Calendar.DAY_OF_MONTH);
                 int month = cal1.get(Calendar.MONTH);
                 int year = cal1.get(Calendar.YEAR);
-                dpd2 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme,new DatePickerDialog.OnDateSetListener() {
+                dpd2 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textUltimaPoda.setText("Fecha de última poda: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -298,7 +296,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                 int day = cal4.get(Calendar.DAY_OF_MONTH);
                 int month = cal4.get(Calendar.MONTH);
                 int year = cal4.get(Calendar.YEAR);
-                dpd5 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme,new DatePickerDialog.OnDateSetListener() {
+                dpd5 = new DatePickerDialog(CrearArbolActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         textUltimoRiego.setText("Fecha de último riego: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -337,8 +335,8 @@ public class CrearArbolActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
-        if(!token.getArbolEscogido()){
-            valid=false;
+        if (!token.getArbolEscogido()) {
+            valid = false;
         }
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
@@ -384,96 +382,96 @@ public class CrearArbolActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(textFechaSiembra.getText().toString())) {
             textFechaSiembra.setError("Requerido");
             valid = false;
-        }else{
-            String divide=textFechaSiembra.getText().toString();
-            String separated[]=divide.split(" ");
-            String aux=separated[3];
-            String data[]=aux.split("/");
-            Calendar cal=Calendar.getInstance();
+        } else {
+            String divide = textFechaSiembra.getText().toString();
+            String separated[] = divide.split(" ");
+            String aux = separated[3];
+            String data[] = aux.split("/");
+            Calendar cal = Calendar.getInstance();
             cal.getTime();
-            Calendar cal2=Calendar.getInstance();
-            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
-            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
-            if(cal.compareTo(cal2)>0){
+            Calendar cal2 = Calendar.getInstance();
+            System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+            if (cal.compareTo(cal2) > 0) {
                 textFechaSiembra.setError(null);
-            }else{
+            } else {
                 textFechaSiembra.setError("La fecha debe ser la actual o anterior a la actual");
-                valid=false;
+                valid = false;
             }
         }
 //VALIDACIONES DE FECHA DE ACTIVIDAD
         if (!TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
-            String divide=textUltimaFertilizacion.getText().toString();
-            String separated[]=divide.split(" ");
-            String aux=separated[4];
-            String data[]=aux.split("/");
-            Calendar cal=Calendar.getInstance();
+            String divide = textUltimaFertilizacion.getText().toString();
+            String separated[] = divide.split(" ");
+            String aux = separated[4];
+            String data[] = aux.split("/");
+            Calendar cal = Calendar.getInstance();
             cal.getTime();
-            Calendar cal2=Calendar.getInstance();
-            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
-            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
-            if(cal.compareTo(cal2)>0){
+            Calendar cal2 = Calendar.getInstance();
+            System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+            if (cal.compareTo(cal2) > 0) {
                 textUltimaFertilizacion.setError(null);
-            }else{
+            } else {
                 textUltimaFertilizacion.setError("La fecha debe ser la actual o anterior a la actual");
-                valid=false;
+                valid = false;
             }
         } else {
             textUltimaFertilizacion.setError(null);
         }
         if (!TextUtils.isEmpty(textUltimoRiego.getText().toString())) {
-            String divide=textUltimoRiego.getText().toString();
-            String separated[]=divide.split(" ");
-            String aux=separated[4];
-            String data[]=aux.split("/");
-            Calendar cal=Calendar.getInstance();
+            String divide = textUltimoRiego.getText().toString();
+            String separated[] = divide.split(" ");
+            String aux = separated[4];
+            String data[] = aux.split("/");
+            Calendar cal = Calendar.getInstance();
             cal.getTime();
-            Calendar cal2=Calendar.getInstance();
-            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
-            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
-            if(cal.compareTo(cal2)>0){
+            Calendar cal2 = Calendar.getInstance();
+            System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+            if (cal.compareTo(cal2) > 0) {
                 textUltimoRiego.setError(null);
-            }else{
+            } else {
                 textUltimoRiego.setError("La fecha debe ser la actual o anterior a la actual");
-                valid=false;
+                valid = false;
             }
         } else {
             textUltimoRiego.setError(null);
         }
         if (!TextUtils.isEmpty(textUltimaPoda.getText().toString())) {
-            String divide=textUltimaPoda.getText().toString();
-            String separated[]=divide.split(" ");
-            String aux=separated[4];
-            String data[]=aux.split("/");
-            Calendar cal=Calendar.getInstance();
+            String divide = textUltimaPoda.getText().toString();
+            String separated[] = divide.split(" ");
+            String aux = separated[4];
+            String data[] = aux.split("/");
+            Calendar cal = Calendar.getInstance();
             cal.getTime();
-            Calendar cal2=Calendar.getInstance();
-            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
-            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
-            if(cal.compareTo(cal2)>0){
+            Calendar cal2 = Calendar.getInstance();
+            System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+            if (cal.compareTo(cal2) > 0) {
                 textUltimaPoda.setError(null);
-            }else{
+            } else {
                 textUltimaPoda.setError("La fecha debe ser la actual o anterior a la actual");
-                valid=false;
+                valid = false;
             }
         } else {
             textUltimaPoda.setError(null);
         }
         if (!TextUtils.isEmpty(textUltimaFumigacion.getText().toString())) {
-            String divide=textUltimaFumigacion.getText().toString();
-            String separated[]=divide.split(" ");
-            String aux=separated[4];
-            String data[]=aux.split("/");
-            Calendar cal=Calendar.getInstance();
+            String divide = textUltimaFumigacion.getText().toString();
+            String separated[] = divide.split(" ");
+            String aux = separated[4];
+            String data[] = aux.split("/");
+            Calendar cal = Calendar.getInstance();
             cal.getTime();
-            Calendar cal2=Calendar.getInstance();
-            System.out.println("La seleccionada es "+data[2]+data[1]+data[0]);
-            cal2.set(Integer.parseInt(data[2]),Integer.parseInt(data[1])-1,Integer.parseInt(data[0]),00,00);
-            if(cal.compareTo(cal2)>0){
+            Calendar cal2 = Calendar.getInstance();
+            System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+            if (cal.compareTo(cal2) > 0) {
                 textUltimaFumigacion.setError(null);
-            }else{
+            } else {
                 textUltimaFumigacion.setError("La fecha debe ser la actual o anterior a la actual");
-                valid=false;
+                valid = false;
             }
         } else {
             textUltimaFumigacion.setError(null);
@@ -497,31 +495,26 @@ public class CrearArbolActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            lat=data.getStringExtra("latFinal");
-            lon=data.getStringExtra("longFinal");
+            lat = data.getStringExtra("latFinal");
+            lon = data.getStringExtra("longFinal");
         }
     }
 
 
-    private String inicialTipo(String opcion){
-        if(opcion.equals("Mango tommy")){
+    private String inicialTipo(String opcion) {
+        if (opcion.equals("Mango tommy")) {
             return "M";
-        }
-        else if(opcion.equals("Mango farchil")){
+        } else if (opcion.equals("Mango farchil")) {
             return "F";
-        }
-        else if(opcion.equals("Naranja")){
+        } else if (opcion.equals("Naranja")) {
             return "N";
-        }
-        else if(opcion.equals("Mandarina")){
+        } else if (opcion.equals("Mandarina")) {
             return "D";
-        }
-        else if(opcion.equals("Limon")){
+        } else if (opcion.equals("Limon")) {
             return "L";
-        }
-        else if(opcion.equals("Aguacate")){
+        } else if (opcion.equals("Aguacate")) {
             return "A";
-        }else{
+        } else {
             return "B";
         }
     }

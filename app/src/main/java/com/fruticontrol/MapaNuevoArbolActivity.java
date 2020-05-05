@@ -49,7 +49,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_nuevo_arbol);
-        token=(Token)getApplicationContext();
+        token = (Token) getApplicationContext();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();
         mLocationCallback = new LocationCallback() {
@@ -79,10 +79,10 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         seleccionarUbicacionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.putExtra("latFinal",String.valueOf(cameraLatitude));
-                intent.putExtra("longFinal",String.valueOf(cameraLongitude));
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("latFinal", String.valueOf(cameraLatitude));
+                intent.putExtra("longFinal", String.valueOf(cameraLongitude));
+                setResult(RESULT_OK, intent);
                 finish();
                 token.setArbolEscogido(true);
             }
