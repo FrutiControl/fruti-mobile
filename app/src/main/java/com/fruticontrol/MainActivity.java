@@ -26,6 +26,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,28 +70,29 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResponse(JSONObject response) {
                                     Log.i("usersAPI", response.toString());
                                     token = (Token) getApplicationContext();
-                                    if (response.has("error")) {
-                                        try {
-                                            Toast.makeText(MainActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        try {
-                                            token.setToken(response.getString("token"));
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
-                                        startActivity(intent);
+                                    try {
+                                        token.setToken(response.getString("token"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
+                                    Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
+                                    startActivity(intent);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                            Toast.makeText(MainActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                            String response = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                            Log.e("usersAPI", "Error en la invocación a la API " + response);
+                            JSONObject errors;
+                            try {
+                                errors = new JSONObject(response);
+                                if (errors.has("non_field_errors")) {
+                                    String response_error = (String) errors.getJSONArray("non_field_errors").get(0);
+                                    Toast.makeText(MainActivity.this, response_error, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                     queue.add(loginRequest);
