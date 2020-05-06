@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,9 +15,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NuevaActividadActivity extends AppCompatActivity {
 
@@ -30,12 +47,13 @@ public class NuevaActividadActivity extends AppCompatActivity {
     private Spinner spinnerSubtipo;
     private Button guardarNuevoProcesoButton;
     private Button seleccionarArbolesButton;
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_actividad);
-
+        token = (Token) getApplicationContext();
         txtFechaInicio = findViewById(R.id.fechaInicio);
         txtFechaFin = findViewById(R.id.fechaFin);
         spinnerTipo = findViewById(R.id.spinnerTipoProceso);
@@ -48,7 +66,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
         seleccionarArbolesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ListaArbolesActivity.class);
+                Intent intent = new Intent(view.getContext(), ListaArbolesSeleccionActivity.class);
                 startActivity(intent);
             }
         });
@@ -56,7 +74,93 @@ public class NuevaActividadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateForm()) {
-                    Toast.makeText(NuevaActividadActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
+                    RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
+                    String tipoActividad=spinnerTipo.getSelectedItem().toString();
+                    String url = "http://10.0.2.2:8000/app/";
+                    String sutTipo;
+                    if (tipoActividad.equals("Poda")) {
+                        url = url + "prunings/";
+                        sutTipo = traductorPodas(spinnerSubtipo.getSelectedItem().toString());
+                    }
+                    else if (tipoActividad.equals("Fumigación")) {
+                        url = url + "fumigations/";
+                        sutTipo = traductorFumigaciones(spinnerSubtipo.getSelectedItem().toString());
+                    }
+                    else if (tipoActividad.equals("Fertilización")) {
+                        url = url + "fertilizations/";
+                        sutTipo = traductorFertilizaciones(spinnerSubtipo.getSelectedItem().toString());
+                    } else {
+                        url = url + "waterings/";
+                        sutTipo = traductorRiegos(spinnerSubtipo.getSelectedItem().toString());
+                    }
+                    String divide = txtFechaInicio.getText().toString();
+                    String separated[] = divide.split(" ");
+                    String aux = separated[3];
+                    String data[] = aux.split("/");
+                    String auxFecha = data[2] + "-" + data[1] + "-" + data[0];
+
+                    String divide2 = txtFechaFin.getText().toString();
+                    String separated2[] = divide2.split(" ");
+                    String aux2 = separated2[3];
+                    String data2[] = aux2.split("/");
+                    String auxFecha2 = data2[2] + "-" + data2[1] + "-" + data2[0];
+
+                    String arboles="\"[\""+17+"\",\""+18+"\"]\"";
+
+
+                    ArrayList<Integer> lista = new ArrayList<>();
+                    lista.add(17);
+                    lista.add(18);
+                    JSONArray care_type = new JSONArray();
+                    for(int i=0; i < lista.size(); i++) {
+                        care_type.put(lista.get(i));   // create array and add items into that
+                    }
+
+
+                    String body = "{\"start_date\":\"" + auxFecha + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + sutTipo + "\",\"work_cost\":\"" + "0" + "\",\"tools_cost\":\"" + "0" + "\"}";
+
+                    System.out.println("XXXXXXXXXXXXXXXXXX BODY ES "+body);
+                    JSONObject newLastActivity = null;
+                    try {
+                        newLastActivity = new JSONObject(body);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
+                            url/*TODO: cambiar a URL real para producción!!!!*/, newLastActivity,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("newTreeAPI", response.toString());
+
+                                    if (response.has("error")) {
+                                        try {
+                                            Toast.makeText(NuevaActividadActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        Toast.makeText(NuevaActividadActivity.this, "Actividad creada", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Content-Type", "application/json");
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(lastActivityRequest);
                 }
             }
         });
@@ -172,7 +276,6 @@ public class NuevaActividadActivity extends AppCompatActivity {
             String[] separated = divide.split(" ");
             String aux = separated[3];
             String[] data = aux.split("/");
-
             Calendar cal = Calendar.getInstance();
             cal.getTime();
             Calendar cal2 = Calendar.getInstance();
@@ -189,14 +292,14 @@ public class NuevaActividadActivity extends AppCompatActivity {
             valid = false;
         } else {
             String divide = txtFechaInicio.getText().toString();
-            String[] separated = divide.split(" ");
+            String separated[] = divide.split(" ");
             String aux = separated[3];
-            String[] data = aux.split("/");
+            String data[] = aux.split("/");
 
             String divide2 = txtFechaFin.getText().toString();
-            String[] separated2 = divide2.split(" ");
+            String separated2[] = divide2.split(" ");
             String aux2 = separated2[3];
-            String[] data2 = aux2.split("/");
+            String data2[] = aux2.split("/");
 
             Calendar cal = Calendar.getInstance();
             cal.getTime();
@@ -216,4 +319,67 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
         return valid;
     }
+
+
+    private String traductorRiegos(String tipo) {
+        if (tipo.equals("Sanitaria")) {
+            return "S";
+        }
+        if (tipo.equals("Formación")) {
+            return "F";
+        }
+        if (tipo.equals("Mantenimiento")) {
+            return "M";
+        } else {
+            return "L";
+        }
+    }
+
+
+    private String traductorFertilizaciones(String tipo) {
+        if (tipo.equals("Crecimiento")) {
+            return "C";
+        }
+        if (tipo.equals("Produccion")) {
+            return "P";
+        } else {
+            return "M";
+        }
+    }
+
+
+    private String traductorFumigaciones(String tipo) {
+        if (tipo.equals("Insectos")) {
+            return "I";
+        }
+        if (tipo.equals("Hongos")) {
+            return "F";
+        }
+        if (tipo.equals("Hierba")) {
+            return "H";
+        }
+        if (tipo.equals("Ácaro")) {
+            return "A";
+        } else {
+            return "P";
+        }
+    }
+
+
+    private String traductorPodas(String tipo) {
+
+        if (tipo.equals("Sanitaria")) {
+            return "S";
+        }
+        if (tipo.equals("Formación")) {
+            return "F";
+        }
+        if (tipo.equals("Mantenimiento")) {
+            return "M";
+        } else {
+            return "L";
+        }
+    }
+
+
 }

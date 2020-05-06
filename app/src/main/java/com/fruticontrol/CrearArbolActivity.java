@@ -519,9 +519,8 @@ public class CrearArbolActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    //Revisa los campos de las ultimas actividades y crea los request para añadirlos a la cola
-    private JsonObjectRequest[] actividadesPrevias(){
+
+/*    private JsonObjectRequest[] actividadesPrevias(String tipoActividad){
         EditText[] arrayTextViews=new EditText[]{textUltimaPoda,textUltimaFumigacion,textUltimaFertilizacion,textUltimoRiego};
         Spinner[] arraySpinners=new Spinner[]{textUltimaPoda,textUltimaFumigacion,textUltimaFertilizacion,textUltimoRiego};
         for(int i =0;i<4;i++){
@@ -545,7 +544,7 @@ public class CrearArbolActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
-                "http://10.0.2.2:8000/app/trees/"/*TODO: cambiar a URL real para producción!!!!*//*, newLastActivity,
+                "http://10.0.2.2:8000/app/trees/"*//*TODO: cambiar a URL real para producción!!!!*//*, newLastActivity,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -579,7 +578,5 @@ public class CrearArbolActivity extends AppCompatActivity {
             }
         };
         return lastActivityRequest
-    }
-*/
-
+    }*/
 }

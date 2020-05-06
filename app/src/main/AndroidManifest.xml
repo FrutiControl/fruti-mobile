@@ -41,6 +41,9 @@
             android:name=".ListaArbolesActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ListaArbolesSeleccionActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MapaNuevoArbolActivity"
             android:label="@string/title_activity_mapa_nuevo_arbol" />
         <activity
