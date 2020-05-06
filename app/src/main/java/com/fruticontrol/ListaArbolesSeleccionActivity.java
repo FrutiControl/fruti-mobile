@@ -93,14 +93,20 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
                 List<Integer> idsSeleccionados=new ArrayList<>();
                 for(int i=0;i<places.length;i++){
                     if(places[i]){
-                        idsSeleccionados.add(Integer.getInteger(idsArboles.get(i)));
+                        System.out.println("EL ID DEL SELECCIONADO FUE "+idsArboles.get(i));
+                        System.out.println("EL ID DEL SELECCIONADO FUE EN INTEGER "+Integer.parseInt(idsArboles.get(i)));
+                        idsSeleccionados.add(Integer.parseInt(idsArboles.get(i)));
                     }
+                }
+                System.out.println("LOS IDS AGREGADOS FUERON");
+                for(int i=0;i<idsSeleccionados.size();i++){
+                    System.out.println("A "+idsSeleccionados.get(i).toString());
                 }
                 Intent intent = new Intent();
                 intent.putExtra("arbolesActividad", (ArrayList<Integer>) idsSeleccionados);
                 setResult(RESULT_OK, intent);
-                //finish();
-                //token.setArbolEscogido(true);
+                finish();
+                token.setArbolEscogido(true);
             }
         });
         RequestQueue queue = Volley.newRequestQueue(ListaArbolesSeleccionActivity.this);

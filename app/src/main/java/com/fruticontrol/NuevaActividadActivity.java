@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NuevaActividadActivity extends AppCompatActivity {
@@ -48,6 +49,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
     private Button guardarNuevoProcesoButton;
     private Button seleccionarArbolesButton;
     private Token token;
+    private ArrayList<Integer> listaArbolesSeleccionados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ListaArbolesSeleccionActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,100);
             }
         });
         guardarNuevoProcesoButton.setOnClickListener(new View.OnClickListener() {
@@ -107,10 +109,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
                     String arboles="\"[\""+17+"\",\""+18+"\"]\"";
 
-
-                    ArrayList<Integer> lista = new ArrayList<>();
-                    lista.add(17);
-                    lista.add(18);
+                    ArrayList<Integer> lista = listaArbolesSeleccionados;
                     JSONArray care_type = new JSONArray();
                     for(int i=0; i < lista.size(); i++) {
                         care_type.put(lista.get(i));   // create array and add items into that
@@ -131,7 +130,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Log.i("newTreeAPI", response.toString());
+                                    Log.i("newActivityAPI", response.toString());
 
                                     if (response.has("error")) {
                                         try {
@@ -242,7 +241,9 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
-
+        if(listaArbolesSeleccionados==null){
+            valid=false;
+        }
         int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipo.getItemAtPosition(selectedItemOfMySpinner);
         if (actualPositionOfMySpinner.equals("Seleccione el tipo de actividad...")) {
@@ -321,17 +322,31 @@ public class NuevaActividadActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("XXXXXXXXXXXX ENTRA A ON ACTIVITY RESULT");
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            listaArbolesSeleccionados = data.getIntegerArrayListExtra("arbolesActividad");
+            System.out.println("LOS IDS DE LOS ARBOLES SELECCIONADOS FUERON ");
+            if(listaArbolesSeleccionados!=null){
+                for(int i=0;i<listaArbolesSeleccionados.size();i++){
+                    System.out.println("A "+listaArbolesSeleccionados.get(i).toString());
+                }
+            }
+        }
+    }
+
+
     private String traductorRiegos(String tipo) {
-        if (tipo.equals("Sanitaria")) {
+        if (tipo.equals("Sistema")) {
             return "S";
         }
-        if (tipo.equals("Formación")) {
-            return "F";
-        }
-        if (tipo.equals("Mantenimiento")) {
+        if (tipo.equals("Manual")) {
             return "M";
-        } else {
-            return "L";
+        }
+        else {
+            return "N";
         }
     }
 
