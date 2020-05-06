@@ -123,6 +123,14 @@ public class ListaArbolesActivity extends AppCompatActivity {
         queue.add(allTreesRequest);
     }
 
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
     private String inicialTipoInversa(String opcion) {
         switch (opcion) {
             case "M":

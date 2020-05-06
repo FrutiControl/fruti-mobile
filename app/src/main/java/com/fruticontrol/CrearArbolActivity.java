@@ -201,8 +201,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
-                                        Intent intent = new Intent(v.getContext(), AccionesActivity.class);
-                                        startActivity(intent);
+                                        finish();
                                     }
                                 }
                             }, new Response.ErrorListener() {
