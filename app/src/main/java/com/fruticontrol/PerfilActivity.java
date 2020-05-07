@@ -11,6 +11,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,18 +33,16 @@ public class PerfilActivity extends AppCompatActivity {
     private Button guardarCambiosButton;
     private EditText nombreET;
     private EditText correoET;
-    private EditText passET;
-    private EditText passRepET;
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        token=(Token)getApplicationContext();
         preferenciasButton = findViewById(R.id.buttonPreferencias);
         nombreET = findViewById(R.id.editTextNombrePerfil);
         correoET = findViewById(R.id.editTextCorreoPerfil);
-        passET = findViewById(R.id.editTextContraPerfil);
-        passRepET = findViewById(R.id.editTextContraRepPerfil);
         guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosPerfil);
         Intent intent=getIntent();
         nombreET.setText(intent.getStringExtra("nombre"));
@@ -48,20 +58,61 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validateForm()) {
-                    Toast.makeText(PerfilActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
+                    RequestQueue queue = Volley.newRequestQueue(PerfilActivity.this);
+                    String nombre=nombreET.getText().toString();
+                    String correo=correoET.getText().toString();
+                    String body = "{\"username\":\"" + correo + "\",\"first_name\":\"" + nombre + "\",\"email\":\"" + correo + "\"}";
+                    Log.i("modificateUserAPI", "Usuario modificado: " + body);
+                    JSONObject modifyUser = null;
+                    try {
+                        modifyUser = new JSONObject(body);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String auxUrl = "http://10.0.2.2:8000/users/user/";
+                    JsonObjectRequest modificateUserRequest = new JsonObjectRequest(Request.Method.PUT,
+                            auxUrl/*TODO: cambiar a URL real para producción!!!!*/, modifyUser,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("modificateUserAPI", response.toString());
+
+                                    if (response.has("error")) {
+                                        try {
+                                            Toast.makeText(PerfilActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        finish();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(PerfilActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Content-Type", "application/json");
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(modificateUserRequest);
                 }
             }
         });
-
-
     }
 
     private boolean validateForm() {
         boolean valid = true;
         Pattern emailPattern = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
         Matcher emailMatcher = emailPattern.matcher(correoET.getText());
-        Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
-        Matcher passMatcher = passPattern.matcher(passET.getText());
         if (TextUtils.isEmpty(nombreET.getText().toString())) {
             nombreET.setError("Requerido");
             valid = false;
@@ -76,22 +127,6 @@ public class PerfilActivity extends AppCompatActivity {
             correoET.setError("Correo inválido");
         } else {
             correoET.setError(null);
-        }
-        if (TextUtils.isEmpty(passET.getText().toString()) && TextUtils.isEmpty(passRepET.getText().toString())) {
-            passET.setError("Requerido");
-            passRepET.setError("Requerido");
-            valid = false;
-        } else if (!passMatcher.matches()) {
-            Log.e("usersAPI", "La contraseña no es válido");
-            passET.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
-            valid = false;
-        } else if (!passRepET.getText().toString().equals(passET.getText().toString())) {
-            passET.setError("Las contraseñas deben coincidir");
-            passRepET.setError("Las contraseñas deben coincidir");
-            valid = false;
-        } else {
-            passET.setError(null);
-            passRepET.setError(null);
         }
         return valid;
     }
