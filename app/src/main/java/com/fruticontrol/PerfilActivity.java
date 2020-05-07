@@ -34,7 +34,9 @@ public class PerfilActivity extends AppCompatActivity {
         passET = findViewById(R.id.editTextContraPerfil);
         passRepET = findViewById(R.id.editTextContraRepPerfil);
         guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosPerfil);
-
+        Intent intent=getIntent();
+        nombreET.setText(intent.getStringExtra("nombre"));
+        correoET.setText(intent.getStringExtra("correo"));
         preferenciasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
