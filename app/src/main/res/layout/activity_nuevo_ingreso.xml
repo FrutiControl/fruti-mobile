@@ -107,7 +107,7 @@
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:hint="@string/total"
-        android:textColor="@color/fontColor3"
+        android:textColor="@color/headerColor"
         android:textColorHint="@color/headerColor"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

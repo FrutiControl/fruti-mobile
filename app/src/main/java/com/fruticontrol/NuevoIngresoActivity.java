@@ -265,7 +265,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     protected void calcularTotal() {
         if (!TextUtils.isEmpty(etValorCanastilla.getText().toString()) && !TextUtils.isEmpty(etCantidadCanastilla.getText().toString())) {
             int total = (Integer.valueOf(etValorCanastilla.getText().toString())) * Integer.valueOf(etCantidadCanastilla.getText().toString());
-            txtTotal.setText(String.valueOf(total));
+            txtTotal.setText("Total: $"+String.valueOf(total));
         }
     }
 }

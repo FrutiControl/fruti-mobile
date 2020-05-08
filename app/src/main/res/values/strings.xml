@@ -78,7 +78,7 @@
     <string name="rboles">Árboles</string>
     <string name="definir_ubicaci_n">Definir ubicación</string>
     <string name="crear_rbol">Crear árbol</string>
-    <string name="total">Total</string>
+    <string name="total">Total: $</string>
     <string name="concepto">Concepto</string>
     <string name="cantidad_de_canastillas">Cantidad de canastillas</string>
     <string name="fecha_de_fin_de_actividad">Fecha de fin de actividad</string>
