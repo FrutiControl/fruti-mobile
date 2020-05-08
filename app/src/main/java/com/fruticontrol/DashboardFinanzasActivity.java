@@ -49,7 +49,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         nuevoGastoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), GastosActivity.class);
+                Intent intent = new Intent(view.getContext(), NuevoGastoActivity.class);
                 startActivity(intent);
             }
         });

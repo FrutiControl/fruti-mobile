@@ -32,7 +32,7 @@
             android:name=".NuevoIngresoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GastosActivity"
+            android:name=".NuevoGastoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".NuevaActividadActivity"

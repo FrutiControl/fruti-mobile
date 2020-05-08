@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,9 +19,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Calendar;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-public class GastosActivity extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+public class NuevoGastoActivity extends AppCompatActivity {
 
     private Spinner spinnerTipo;
     private Spinner spinnerSubtipo;
@@ -33,11 +46,13 @@ public class GastosActivity extends AppCompatActivity {
     private EditText txtNombreProducto;
     private EditText txtValor;
     private Button guardarButton;
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gastos);
+        setContentView(R.layout.activity_nuevo_gasto);
+        token=(Token)getApplicationContext();
 
         guardarButton = findViewById(R.id.buttonGuardarGasto);
         txtNombreProducto = findViewById(R.id.editTextNombreProducto);
@@ -57,7 +72,72 @@ public class GastosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validateForm()) {
-                    Toast.makeText(GastosActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
+                    RequestQueue queue = Volley.newRequestQueue(NuevoGastoActivity.this);
+                    //CONCEPTO DEL INGRESO
+                    String concepto=txtNombreProducto.getText().toString();
+                    //SE TOMA LA FECHA DE SIEMBRA Y SE CAMBIA EL FORMATO
+                    String divide = txtFechaGasto.getText().toString();
+                    String separated[] = divide.split(" ");
+                    String aux = separated[3];
+                    String data[] = aux.split("/");
+                    String auxFecha = data[2] + "-" + data[1] + "-" + data[0];
+                    //VALOR
+                    String valor=txtValor.getText().toString();
+                    //SE AVERIGUA TIPO MATERIALES O MANO DE OBRA
+                    String tipoMatOMano=traductorTipo();
+                    //INICIAL DE TIPO DE ACTIVIDAD
+                    int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
+                    String actualPositionOfMySpinner = (String) spinnerTipo.getItemAtPosition(selectedItemOfMySpinner);
+                    String actividad = traductorTipoActividad(actualPositionOfMySpinner);
+                    //INICIAL DE SUBTIPO DE ACTIVIDAD
+                    int selectedItemOfMySpinner2 = spinnerSubtipo.getSelectedItemPosition();
+                    String actualPositionOfMySpinner2 = (String) spinnerSubtipo.getItemAtPosition(selectedItemOfMySpinner2);
+                    String tipoActividad = traductorSubTipoActividad(actualPositionOfMySpinner2);
+                    String body = "{\"concept\":\"" + concepto + "\",\"date\":\"" + auxFecha + "\",\"value\":\"" + valor + "\",\"recommended\":\"" + false + "\",\"type\":\"" + tipoMatOMano+ "\",\"activity\":\"" + actividad + "\",\"act_type\":\"" + tipoActividad + "\"}";
+                    Log.i("newOutcomeAPI", "Nuevo gasto: " + body);
+                    JSONObject newOutcome = null;
+                    try {
+                        newOutcome = new JSONObject(body);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,
+                            "http://10.0.2.2:8000/money/outcomes/"/*TODO: cambiar a URL real para producción!!!!*/, newOutcome,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("newOutcomeAPI", response.toString());
+
+                                    if (response.has("error")) {
+                                        try {
+                                            Toast.makeText(NuevoGastoActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        finish();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(NuevoGastoActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            //params.put("Content-Type", "application/json");
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(newOutcomeRequest);
+
+                    Toast.makeText(NuevoGastoActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -81,7 +161,7 @@ public class GastosActivity extends AppCompatActivity {
                 int day = calGasto.get(Calendar.DAY_OF_MONTH);
                 int month = calGasto.get(Calendar.MONTH);
                 int year = calGasto.get(Calendar.YEAR);
-                datePGasto = new DatePickerDialog(GastosActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+                datePGasto = new DatePickerDialog(NuevoGastoActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaGasto.setText("Fecha del gasto: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
@@ -122,6 +202,84 @@ public class GastosActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private String traductorTipo(){
+        if(switchMaterialManoDeObra.isChecked()){
+            return "O";
+        }else{
+            return "M";
+        }
+    }
+
+    private String traductorTipoActividad(String tipo){
+        if (tipo.equals("Poda")) {
+            return "P";
+        }
+        if (tipo.equals("Fumigación")) {
+            return "U";
+        }
+        if (tipo.equals("Fertilización")) {
+            return "F";
+        }else{
+            return "R";
+        }
+    }
+
+    private String traductorSubTipoActividad(String tipo) {
+        int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
+        String actualPositionOfMySpinner = (String) spinnerTipo.getItemAtPosition(selectedItemOfMySpinner);
+        String inicial = traductorTipoActividad(actualPositionOfMySpinner);
+
+        if (tipo.equals("Sistema")) {
+            return "R3";
+        }
+        else if (tipo.equals("Manual")) {
+            return "R2";
+        }
+        else if (tipo.equals("Natural")) {
+            return "R1";
+        }
+        else if (tipo.equals("Crecimiento")) {
+            return "F1";
+        }
+        else if (tipo.equals("Produccion")) {
+            return "F2";
+        }
+        else if (inicial.equals("F")){
+            if (tipo.equals("Mantenimiento")) {
+                return "F3";
+            }
+        }
+        else if (tipo.equals("Insectos")) {
+            return "U1";
+        }
+        else if (tipo.equals("Hongos")) {
+            return "U2";
+        }
+        else if (tipo.equals("Hierba")) {
+            return "U3";
+        }
+        else if (tipo.equals("Ácaro")) {
+            return "U4";
+        }
+        else if (tipo.equals("Peste")) {
+            return "U5";
+        }
+        else if (tipo.equals("Sanitaria")) {
+            return "P1";
+        }
+        else if (tipo.equals("Formación")) {
+            return "P2";
+        }
+        else if (inicial.equals("P")){
+            if (tipo.equals("Mantenimiento")) {
+                return "P3";
+            }
+        }else {
+            return "P4";
+        }
+        return "P4";
     }
 
     private void setSpinnerError(Spinner spinner) {
