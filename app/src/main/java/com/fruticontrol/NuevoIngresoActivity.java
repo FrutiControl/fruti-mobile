@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,12 +45,14 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     private TextView txtTotal;
     private Button guardarNuevoIngresoButton;
     private Token token;
+    private DecimalFormat formatea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_ingreso);
         token=(Token)getApplicationContext();
+        formatea = new DecimalFormat("###,###.##");
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbolNuevoIngreso);
         etCantidadCanastilla = findViewById(R.id.editTextCantidadCanastillas);
         etValorCanastilla = findViewById(R.id.editTextValorCanastilla);
@@ -265,7 +268,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     protected void calcularTotal() {
         if (!TextUtils.isEmpty(etValorCanastilla.getText().toString()) && !TextUtils.isEmpty(etCantidadCanastilla.getText().toString())) {
             int total = (Integer.valueOf(etValorCanastilla.getText().toString())) * Integer.valueOf(etCantidadCanastilla.getText().toString());
-            txtTotal.setText("Total: $"+String.valueOf(total));
+            txtTotal.setText("Total: $"+formatea.format(total));
         }
     }
 }

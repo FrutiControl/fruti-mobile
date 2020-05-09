@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +37,13 @@ public class VerIngresosActivity extends AppCompatActivity {
     private static ResumenGastosAdapter adapter;
     private Token token;
     private int totalFinal;
+    private DecimalFormat formatea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_ingresos);
+        formatea = new DecimalFormat("###,###.##");
         totalFinal=0;
         dataModels = new ArrayList<>();
         listView=findViewById(R.id.listaIngresos);
@@ -71,12 +74,12 @@ public class VerIngresosActivity extends AppCompatActivity {
                                 fecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
                                 conceptosIngresos.add(concepto+" - "+fecha);
                                 tiposFrutaIngresos.add(tipo);
-                                cantidadesIngresos.add(cantidad+" canastillas a $"+valor+" c/u");
+                                cantidadesIngresos.add(cantidad+" canastillas a $"+formatea.format(valor)+" c/u");
                                 int auxTotal=Integer.parseInt(cantidad)*Integer.parseInt(valor);
                                 valoresIngresos.add("$"+auxTotal);
                                 totalFinal=totalFinal+auxTotal;
                             }
-                            txTotalFinal.setText("Total: $"+Integer.toString(totalFinal));
+                            txTotalFinal.setText("Total: $"+formatea.format(totalFinal));
                             for (int i = 0; i < conceptosIngresos.size(); i++) {
                                 dataModels.add(new ResumenGastoDataModel(conceptosIngresos.get(i),tiposFrutaIngresos.get(i),cantidadesIngresos.get(i),valoresIngresos.get(i)));
                             }

@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,12 +38,14 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
     private int totalIngresos;
     int auxTotal;
     private Token token;
+    private DecimalFormat formatea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_finanzas);
         auxTotal=0;
+        formatea = new DecimalFormat("###,###.##");
         token=(Token)getApplicationContext();
         txTotalIngresos =findViewById(R.id.textViewIngresosDashboard);
         txTotalGastos =findViewById(R.id.textViewGastosDashboard);
@@ -65,9 +68,10 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                                 String valor = moneyObject.getString("value");
                                 totalGastos = totalGastos+Integer.parseInt(valor);
                             }
-                            txTotalGastos.setText("$"+Integer.toString(totalGastos));
+                            txTotalGastos.setText("$"+formatea.format(totalGastos));
                             auxTotal=auxTotal-totalGastos;
-                            txTotal.setText("Total: $"+Integer.toString(auxTotal));
+                            DecimalFormat formatea = new DecimalFormat("###,###.##");
+                            txTotal.setText("Total: $"+formatea.format(auxTotal));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -101,9 +105,10 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                                 String valor = moneyObject.getString("value");
                                 totalIngresos = totalIngresos+Integer.parseInt(valor);
                             }
-                            txTotalIngresos.setText("$"+Integer.toString(totalIngresos));
+                            txTotalIngresos.setText("$"+formatea.format(totalIngresos));
                             auxTotal=auxTotal+totalIngresos;
-                            txTotal.setText("Total: $"+Integer.toString(auxTotal));
+
+                            txTotal.setText("Total: $"+formatea.format(auxTotal));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +37,14 @@ public class VerGastosActivity extends AppCompatActivity {
     private TextView total;
     private static ResumenGastosAdapter adapter;
     private int totalFinal;
+    private DecimalFormat formatea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_gastos);
         token=(Token)getApplicationContext();
+        formatea = new DecimalFormat("###,###.##");
         totalFinal=0;
         total=findViewById(R.id.textViewTotalHistorialGastos);
         listView = (ListView) findViewById(R.id.listaGastos);
@@ -78,7 +81,7 @@ public class VerGastosActivity extends AppCompatActivity {
                                 totalFinal=totalFinal+Integer.parseInt(valor);
                                 //System.out.println(concepto+" "+valor+" "+actividad+" "+tipo+" "+fecha+" "+subtipo);
                             }
-                            total.setText("Total: $"+Integer.toString(totalFinal));
+                            total.setText("Total: $"+formatea.format(totalFinal));
                             for (int i = 0; i < conceptosGastos.size(); i++) {
                                 dataModels.add(new ResumenGastoDataModel(conceptosGastos.get(i),actividadesGastos.get(i),tiposGastos.get(i),valoresGastos.get(i)));
                             }
