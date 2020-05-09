@@ -65,7 +65,7 @@
     <string name="rbol">Árbol</string>
     <string name="finanzas">Finanzas</string>
     <string name="nuevo_gasto">Nuevo gasto</string>
-    <string name="total_costos">Total costos</string>
+    <string name="total_costos">Total gastos</string>
     <string name="total_ingresos">Total ingresos</string>
     <string name="ver_balance">Ver balance</string>
     <string name="preferencias_de_usuario">Preferencias&#xA;de usuario</string>
