@@ -1,6 +1,7 @@
 package com.fruticontrol;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.IntentCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class PerfilActivity extends AppCompatActivity {
 
     private Button preferenciasButton;
     private Button guardarCambiosButton;
+    private Button cerrarSesionButton;
     private EditText nombreET;
     private EditText correoET;
     private Token token;
@@ -41,12 +43,25 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         token=(Token)getApplicationContext();
         preferenciasButton = findViewById(R.id.buttonPreferencias);
+        cerrarSesionButton=findViewById(R.id.buttonCerrarSersion);
         nombreET = findViewById(R.id.editTextNombrePerfil);
         correoET = findViewById(R.id.editTextCorreoPerfil);
         guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosPerfil);
         Intent intent=getIntent();
         nombreET.setText(intent.getStringExtra("nombre"));
         correoET.setText(intent.getStringExtra("correo"));
+        cerrarSesionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                token.setToken("0");
+                Intent intents = new Intent(PerfilActivity.this, MainActivity.class);
+                intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intents);
+                finish();
+            }
+        });
         preferenciasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
