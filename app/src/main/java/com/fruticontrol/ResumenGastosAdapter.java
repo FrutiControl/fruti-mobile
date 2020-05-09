@@ -11,19 +11,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> implements View.OnClickListener {
+public class ResumenGastosAdapter extends ArrayAdapter<ResumenGastoDataModel> implements View.OnClickListener {
 
-    private ArrayList<ResumenArbolDataModel> dataSet;
+    private ArrayList<ResumenGastoDataModel> dataSet;
     Context mContext;
 
     private static class ViewHolder {
-        TextView txtIdArbol;
-        TextView txtTipoArbol;
-        TextView txtFaseArbol;
+        TextView txtConceptoYFecha;
+        TextView txtActividadSub;
+        TextView txtTipo;
+        TextView txtValor;
     }
 
-    public ResumenArbolesAdapter(ArrayList<ResumenArbolDataModel> data, Context context) {
-        super(context, R.layout.resumen_arbol, data);
+    public ResumenGastosAdapter(ArrayList<ResumenGastoDataModel> data, Context context) {
+        super(context, R.layout.resumen_gasto, data);
         this.dataSet = data;
         this.mContext = context;
 
@@ -34,7 +35,7 @@ public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> i
 
         int position = (Integer) v.getTag();
         Object object = getItem(position);
-        ResumenArbolDataModel dataModel = (ResumenArbolDataModel) object;
+        ResumenGastoDataModel dataModel = (ResumenGastoDataModel) object;
 
     }
 
@@ -43,7 +44,7 @@ public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> i
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        ResumenArbolDataModel dataModel = getItem(position);
+        ResumenGastoDataModel dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
 
@@ -53,16 +54,17 @@ public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> i
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.resumen_arbol, parent, false);
-            viewHolder.txtIdArbol = (TextView) convertView.findViewById(R.id.textViewConceptoYFechaGasto);
-            viewHolder.txtTipoArbol = (TextView) convertView.findViewById(R.id.textViewActividadYSubGasto);
-            viewHolder.txtFaseArbol = (TextView) convertView.findViewById(R.id.textViewTipoGasto);
+            convertView = inflater.inflate(R.layout.resumen_gasto, parent, false);
+            viewHolder.txtConceptoYFecha = (TextView) convertView.findViewById(R.id.textViewConceptoYFechaGasto);
+            viewHolder.txtActividadSub = (TextView) convertView.findViewById(R.id.textViewActividadYSubGasto);
+            viewHolder.txtTipo = (TextView) convertView.findViewById(R.id.textViewTipoGasto);
+            viewHolder.txtValor = (TextView) convertView.findViewById(R.id.textViewValorGasto);
 
             result = convertView;
 
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (ResumenArbolesAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (ResumenGastosAdapter.ViewHolder) convertView.getTag();
             result = convertView;
         }
 
@@ -70,9 +72,10 @@ public class ResumenArbolesAdapter extends ArrayAdapter<ResumenArbolDataModel> i
         result.startAnimation(animation);
         lastPosition = position;
 
-        viewHolder.txtIdArbol.setText(dataModel.getIdArbol());
-        viewHolder.txtTipoArbol.setText(dataModel.getTipoArbol());
-        viewHolder.txtFaseArbol.setText(dataModel.getEtapaArbol());
+        viewHolder.txtConceptoYFecha.setText(dataModel.getConcepto());
+        viewHolder.txtActividadSub.setText(dataModel.getActividad());
+        viewHolder.txtTipo.setText(dataModel.getTipo());
+        viewHolder.txtValor.setText(dataModel.getValor());
 
         return convertView;
     }

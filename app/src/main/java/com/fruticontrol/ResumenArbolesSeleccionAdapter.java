@@ -53,9 +53,9 @@ public class ResumenArbolesSeleccionAdapter extends ArrayAdapter<ResumenArbolSel
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.resumen_arbol_seleccion, parent, false);
-            viewHolder.txtIdArbol= (TextView) convertView.findViewById(R.id.textViewIdArbol);
-            viewHolder.txtTipoArbol= (TextView) convertView.findViewById(R.id.textViewTipoArbol);
-            viewHolder.txtFaseArbol= (TextView) convertView.findViewById(R.id.textViewEtapaArbol);
+            viewHolder.txtIdArbol= (TextView) convertView.findViewById(R.id.textViewConceptoYFechaGasto);
+            viewHolder.txtTipoArbol= (TextView) convertView.findViewById(R.id.textViewActividadYSubGasto);
+            viewHolder.txtFaseArbol= (TextView) convertView.findViewById(R.id.textViewTipoGasto);
 
             result=convertView;
 

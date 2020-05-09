@@ -12,7 +12,6 @@
         android:id="@+id/textViewConceptoYFechaGasto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID: "
         android:textColor="@color/fontColor2"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +19,9 @@
 
     <TextView
         android:id="@+id/textViewActividadYSubGasto"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:drawableRight="@drawable/smalltree"
-        android:text="Tipo árbol:"
         android:textColor="@color/fontColor2"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,9 +32,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Etapa:"
         android:textColor="@color/fontColor2"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewActividadYSubGasto" />
+
+    <TextView
+        android:id="@+id/textViewValorGasto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:textColor="@color/fontColor2"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
