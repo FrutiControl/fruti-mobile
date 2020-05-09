@@ -8,7 +8,7 @@
     tools:context=".DashboardFinanzasActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/linearLayout5"
         android:layout_width="409dp"
         android:layout_height="80dp"
         android:orientation="horizontal"
@@ -159,13 +159,13 @@
         android:id="@+id/textViewTotalFinanzas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto"
         android:text="Total: $"
         android:textColor="@color/headerColor"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

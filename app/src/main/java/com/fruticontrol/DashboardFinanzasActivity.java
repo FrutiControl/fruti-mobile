@@ -32,8 +32,10 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
     private Button verGastosButton;
     private TextView txTotalIngresos;
     private TextView txTotalGastos;
+    private TextView txTotal;
     private int totalGastos;
     private int totalIngresos;
+    int auxTotal;
     private Token token;
 
     @Override
@@ -47,6 +49,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         nuevoGastoButton = findViewById(R.id.buttonNuevoGastoDFinanzas);
         verIngresosButton = findViewById(R.id.buttonVerIngresos);
         verGastosButton = findViewById(R.id.buttonVerGastos);
+        txTotal=findViewById(R.id.textViewTotalFinanzas);
 
         RequestQueue queue = Volley.newRequestQueue(DashboardFinanzasActivity.this);
         JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,
@@ -62,6 +65,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                                 totalGastos = totalGastos+Integer.parseInt(valor);
                             }
                             txTotalGastos.setText("$"+Integer.toString(totalGastos));
+                            auxTotal=-totalGastos;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -96,6 +100,8 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                                 totalIngresos = totalIngresos+Integer.parseInt(valor);
                             }
                             txTotalIngresos.setText("$"+Integer.toString(totalIngresos));
+                            auxTotal=auxTotal+totalIngresos;
+                            txTotal.setText("Total: $"+Integer.toString(auxTotal));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
