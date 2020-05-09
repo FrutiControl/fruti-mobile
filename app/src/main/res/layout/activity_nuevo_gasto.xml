@@ -28,7 +28,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/escoja_en_que_tipo_y_subtipo_de_actividad_en_que_gast_dinero"
-        android:textColor="@color/headerColor"
+        android:textColor="@color/fontColor2"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
