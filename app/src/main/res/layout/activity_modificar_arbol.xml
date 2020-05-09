@@ -30,6 +30,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/tipo_de_rbol"
         android:textColor="@color/fontColor2"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
@@ -52,6 +53,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/fecha_de_siembra"
         android:textColor="@color/fontColor2"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerModificarTipoArbol" />
 
