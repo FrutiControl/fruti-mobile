@@ -42,6 +42,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_finanzas);
+        auxTotal=0;
         token=(Token)getApplicationContext();
         txTotalIngresos =findViewById(R.id.textViewIngresosDashboard);
         txTotalGastos =findViewById(R.id.textViewGastosDashboard);
@@ -65,7 +66,8 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                                 totalGastos = totalGastos+Integer.parseInt(valor);
                             }
                             txTotalGastos.setText("$"+Integer.toString(totalGastos));
-                            auxTotal=-totalGastos;
+                            auxTotal=auxTotal-totalGastos;
+                            txTotal.setText("Total: $"+Integer.toString(auxTotal));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -152,5 +154,14 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 }
