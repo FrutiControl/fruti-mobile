@@ -55,6 +55,10 @@ public class CrearArbolActivity extends AppCompatActivity {
     private Token token;
     private String lat;
     private String lon;
+    private Boolean consumoPoda;
+    private Boolean consumoFumigacion;
+    private Boolean consumoFertilzacion;
+    private Boolean consumoRiego;
 
 
     @Override
@@ -64,6 +68,10 @@ public class CrearArbolActivity extends AppCompatActivity {
         statusCheck();
         token = (Token) getApplicationContext();
         token.setArbolEscogido(false);
+        consumoPoda=true;
+        consumoFumigacion=true;
+        consumoFertilzacion=true;
+        consumoRiego=true;
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         textUltimaPoda = findViewById(R.id.textUltimaPoda);
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
@@ -162,6 +170,10 @@ public class CrearArbolActivity extends AppCompatActivity {
         buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                consumoPoda=true;
+                consumoFumigacion=true;
+                consumoFertilzacion=true;
+                consumoRiego=true;
                 if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(CrearArbolActivity.this);
                     //SE TOMA EL TIPO DE ARBOL Y SE AVERIGUA LA INICIAL
@@ -339,44 +351,210 @@ public class CrearArbolActivity extends AppCompatActivity {
         }
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
-
         if (actualPositionOfMySpinner.equals("Seleccione el tipo de árbol...")) {
             setSpinnerError(spinnerTipoArbol);
             valid = false;
         }
-/*
+//VALIDACION FECHA Y TIPO PODA
         int selectedItemOfMySpinnerPoda = spinnerTipoPoda.getSelectedItemPosition();
         String actualPositionOfMySpinnerPoda = (String) spinnerTipoPoda.getItemAtPosition(selectedItemOfMySpinnerPoda);
-
-        if (actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...")) {
-            setSpinnerError(spinnerTipoPoda);
-            valid = false;
+        if(!actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...") || !TextUtils.isEmpty(textUltimaPoda.getText().toString())){
+            if (!actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...")) {
+                if (!TextUtils.isEmpty(textUltimaPoda.getText().toString())) {
+                    String divide = textUltimaPoda.getText().toString();
+                    String separated[] = divide.split(" ");
+                    String aux = separated[4];
+                    String data[] = aux.split("/");
+                    Calendar cal = Calendar.getInstance();
+                    cal.getTime();
+                    Calendar cal2 = Calendar.getInstance();
+                    System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                    cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                    if (cal.compareTo(cal2) > 0) {
+                        textUltimaPoda.setError(null);
+                    } else {
+                        textUltimaPoda.setError("La fecha debe ser la actual o anterior a la actual");
+                        valid = false;
+                        consumoPoda=false;
+                    }
+                } else {
+                    textUltimaPoda.setError("Debe seleccionar una fecha");
+                    consumoPoda=false;
+                }
+            }else{
+                String divide = textUltimaPoda.getText().toString();
+                String separated[] = divide.split(" ");
+                String aux = separated[4];
+                String data[] = aux.split("/");
+                Calendar cal = Calendar.getInstance();
+                cal.getTime();
+                Calendar cal2 = Calendar.getInstance();
+                System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                if (cal.compareTo(cal2) > 0) {
+                    textUltimaPoda.setError(null);
+                } else {
+                    textUltimaPoda.setError("La fecha debe ser la actual o anterior a la actual");
+                    consumoPoda=false;
+                    valid = false;
+                }
+                if (actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...")) {
+                    consumoPoda=false;
+                    setSpinnerError(spinnerTipoPoda);
+                    valid = false;
+                }
+            }
         }
-
+//VALIDACION FECHA Y TIPO FUMIGACION
         int selectedItemOfMySpinnerFumigacion = spinnerTipoFumigacion.getSelectedItemPosition();
         String actualPositionOfMySpinnerFumigacion = (String) spinnerTipoFumigacion.getItemAtPosition(selectedItemOfMySpinnerFumigacion);
-
-        if (actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...")) {
-            setSpinnerError(spinnerTipoFumigacion);
-            valid = false;
+        if(!actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...") || !TextUtils.isEmpty(textUltimaFumigacion.getText().toString())){
+            if (!actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...")) {
+                if (!TextUtils.isEmpty(textUltimaFumigacion.getText().toString())) {
+                    String divide = textUltimaFumigacion.getText().toString();
+                    String separated[] = divide.split(" ");
+                    String aux = separated[4];
+                    String data[] = aux.split("/");
+                    Calendar cal = Calendar.getInstance();
+                    cal.getTime();
+                    Calendar cal2 = Calendar.getInstance();
+                    System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                    cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                    if (cal.compareTo(cal2) > 0) {
+                        textUltimaFumigacion.setError(null);
+                    } else {
+                        textUltimaFumigacion.setError("La fecha debe ser la actual o anterior a la actual");
+                        valid = false;
+                        consumoFumigacion=false;
+                    }
+                } else {
+                    textUltimaFumigacion.setError("Debe seleccionar una fecha");
+                    consumoFumigacion=false;
+                }
+            }else{
+                String divide = textUltimaFumigacion.getText().toString();
+                String separated[] = divide.split(" ");
+                String aux = separated[4];
+                String data[] = aux.split("/");
+                Calendar cal = Calendar.getInstance();
+                cal.getTime();
+                Calendar cal2 = Calendar.getInstance();
+                System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                if (cal.compareTo(cal2) > 0) {
+                    textUltimaFumigacion.setError(null);
+                } else {
+                    textUltimaFumigacion.setError("La fecha debe ser la actual o anterior a la actual");
+                    consumoFumigacion=false;
+                    valid = false;
+                }
+                if (actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...")) {
+                    consumoFumigacion=false;
+                    setSpinnerError(spinnerTipoFumigacion);
+                    valid = false;
+                }
+            }
         }
-
+//VALIDACION FECHA Y TIPO FERTILIZACION
         int selectedItemOfMySpinnerFertilizacion = spinnerTipoFertilizacion.getSelectedItemPosition();
         String actualPositionOfMySpinnerFertilizacion = (String) spinnerTipoFertilizacion.getItemAtPosition(selectedItemOfMySpinnerFertilizacion);
-
-        if (actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...")) {
-            setSpinnerError(spinnerTipoFertilizacion);
-            valid = false;
+        if(!actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...") || !TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())){
+            if (!actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...")) {
+                if (!TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
+                    String divide = textUltimaFertilizacion.getText().toString();
+                    String separated[] = divide.split(" ");
+                    String aux = separated[4];
+                    String data[] = aux.split("/");
+                    Calendar cal = Calendar.getInstance();
+                    cal.getTime();
+                    Calendar cal2 = Calendar.getInstance();
+                    System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                    cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                    if (cal.compareTo(cal2) > 0) {
+                        textUltimaFertilizacion.setError(null);
+                    } else {
+                        textUltimaFertilizacion.setError("La fecha debe ser la actual o anterior a la actual");
+                        valid = false;
+                        consumoFertilzacion=false;
+                    }
+                } else {
+                    textUltimaFertilizacion.setError("Debe seleccionar una fecha");
+                    consumoFertilzacion=false;
+                }
+            }else{
+                String divide = textUltimaFertilizacion.getText().toString();
+                String separated[] = divide.split(" ");
+                String aux = separated[4];
+                String data[] = aux.split("/");
+                Calendar cal = Calendar.getInstance();
+                cal.getTime();
+                Calendar cal2 = Calendar.getInstance();
+                System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                if (cal.compareTo(cal2) > 0) {
+                    textUltimaFertilizacion.setError(null);
+                } else {
+                    textUltimaFertilizacion.setError("La fecha debe ser la actual o anterior a la actual");
+                    consumoFertilzacion=false;
+                    valid = false;
+                }
+                if (actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...")) {
+                    consumoFertilzacion=false;
+                    setSpinnerError(spinnerTipoFertilizacion);
+                    valid = false;
+                }
+            }
         }
-
+//VALIDACION FECHA Y TIPO RIEGO
         int selectedItemOfMySpinnerRiego = spinnerTipoRiego.getSelectedItemPosition();
         String actualPositionOfMySpinnerRiego = (String) spinnerTipoRiego.getItemAtPosition(selectedItemOfMySpinnerRiego);
-
-        if (actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...")) {
-            setSpinnerError(spinnerTipoRiego);
-            valid = false;
+        if(!actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...") || !TextUtils.isEmpty(textUltimoRiego.getText().toString())){
+            if (!actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...")) {
+                if (!TextUtils.isEmpty(textUltimoRiego.getText().toString())) {
+                    String divide = textUltimoRiego.getText().toString();
+                    String separated[] = divide.split(" ");
+                    String aux = separated[4];
+                    String data[] = aux.split("/");
+                    Calendar cal = Calendar.getInstance();
+                    cal.getTime();
+                    Calendar cal2 = Calendar.getInstance();
+                    System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                    cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                    if (cal.compareTo(cal2) > 0) {
+                        textUltimoRiego.setError(null);
+                    } else {
+                        textUltimoRiego.setError("La fecha debe ser la actual o anterior a la actual");
+                        valid = false;
+                        consumoRiego=false;
+                    }
+                } else {
+                    textUltimoRiego.setError("Debe seleccionar una fecha");
+                    consumoRiego=false;
+                }
+            }else{
+                String divide = textUltimoRiego.getText().toString();
+                String separated[] = divide.split(" ");
+                String aux = separated[4];
+                String data[] = aux.split("/");
+                Calendar cal = Calendar.getInstance();
+                cal.getTime();
+                Calendar cal2 = Calendar.getInstance();
+                System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
+                cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
+                if (cal.compareTo(cal2) > 0) {
+                    textUltimoRiego.setError(null);
+                } else {
+                    textUltimoRiego.setError("La fecha debe ser la actual o anterior a la actual");
+                    consumoRiego=false;
+                    valid = false;
+                }
+                if (actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...")) {
+                    consumoRiego=false;
+                    setSpinnerError(spinnerTipoRiego);
+                    valid = false;
+                }
+            }
         }
-*/
 //VALIDACION FECHA DE SIEMBRA
         if (TextUtils.isEmpty(textFechaSiembra.getText().toString())) {
             textFechaSiembra.setError("Requerido");
@@ -399,7 +577,7 @@ public class CrearArbolActivity extends AppCompatActivity {
             }
         }
 //VALIDACIONES DE FECHA DE ACTIVIDAD
-        if (!TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
+        /*if (!TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
             String divide = textUltimaFertilizacion.getText().toString();
             String separated[] = divide.split(" ");
             String aux = separated[4];
@@ -437,44 +615,8 @@ public class CrearArbolActivity extends AppCompatActivity {
         } else {
             textUltimoRiego.setError(null);
         }
-        if (!TextUtils.isEmpty(textUltimaPoda.getText().toString())) {
-            String divide = textUltimaPoda.getText().toString();
-            String separated[] = divide.split(" ");
-            String aux = separated[4];
-            String data[] = aux.split("/");
-            Calendar cal = Calendar.getInstance();
-            cal.getTime();
-            Calendar cal2 = Calendar.getInstance();
-            System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
-            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
-            if (cal.compareTo(cal2) > 0) {
-                textUltimaPoda.setError(null);
-            } else {
-                textUltimaPoda.setError("La fecha debe ser la actual o anterior a la actual");
-                valid = false;
-            }
-        } else {
-            textUltimaPoda.setError(null);
-        }
-        if (!TextUtils.isEmpty(textUltimaFumigacion.getText().toString())) {
-            String divide = textUltimaFumigacion.getText().toString();
-            String separated[] = divide.split(" ");
-            String aux = separated[4];
-            String data[] = aux.split("/");
-            Calendar cal = Calendar.getInstance();
-            cal.getTime();
-            Calendar cal2 = Calendar.getInstance();
-            System.out.println("La seleccionada es " + data[2] + data[1] + data[0]);
-            cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 00, 00);
-            if (cal.compareTo(cal2) > 0) {
-                textUltimaFumigacion.setError(null);
-            } else {
-                textUltimaFumigacion.setError("La fecha debe ser la actual o anterior a la actual");
-                valid = false;
-            }
-        } else {
-            textUltimaFumigacion.setError(null);
-        }
+*/
+
         return valid;
     }
 
