@@ -29,12 +29,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class CrearArbolActivity extends AppCompatActivity {
 
@@ -59,6 +61,7 @@ public class CrearArbolActivity extends AppCompatActivity {
     private Boolean consumoFumigacion;
     private Boolean consumoFertilzacion;
     private Boolean consumoRiego;
+    private Integer auxIdArbol;
 
 
     @Override
@@ -68,6 +71,7 @@ public class CrearArbolActivity extends AppCompatActivity {
         statusCheck();
         token = (Token) getApplicationContext();
         token.setArbolEscogido(false);
+        auxIdArbol=0;
         consumoPoda=true;
         consumoFumigacion=true;
         consumoFertilzacion=true;
@@ -213,6 +217,12 @@ public class CrearArbolActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        try {
+                                            auxIdArbol=Integer.getInteger(response.getString("id"));
+                                            System.out.println("XXXXXXXXXX EL ID ES "+response.getString("id"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                         finish();
                                     }
                                 }
@@ -233,6 +243,231 @@ public class CrearArbolActivity extends AppCompatActivity {
                         }
                     };
                     queue.add(newTreeRequest);
+                    //CONSUMO DE LAS ACTIVIDADES
+                    //ARREGLO ARBOL
+                    JSONArray care_type = new JSONArray();
+                    care_type.put(auxIdArbol);
+                    System.out.println("XXXXXXXXXXXXXXXXXXXX AUX ID ARBOL ES "+auxIdArbol.toString());
+                    if(consumoPoda){
+                        String url = "http://10.0.2.2:8000/app/";
+                        String auxTipo=traductorPodas(spinnerTipoPoda.getSelectedItem().toString());
+                        url = url + "prunings/";
+                        //EXTRACCION FECHA
+                        String divide2 = textUltimaPoda.getText().toString();
+                        String separated2[] = divide2.split(" ");
+                        String aux2 = separated2[4];
+                        String data2[] = aux2.split("/");
+                        String auxFecha2 = data2[2] + "-" + data2[1] + "-" + data2[0];
+                        //ACABA EXTRACCION DE DATOS ACTIVIDAD Y SE ARMA EL BODY Y LA PETICION CON LOS MISMOS
+                        String body2 = "{\"start_date\":\"" + auxFecha2 + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + auxTipo + "\",\"work_cost\":\"" + "0" + "\",\"tools_cost\":\"" + "0" + "\"}";
+                        System.out.println("XXXXXXXXXXXXXXXXXX BODY PODA ES "+body2);
+                        JSONObject newLastActivity = null;
+                        try {
+                            newLastActivity = new JSONObject(body2);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
+                                url/*TODO: cambiar a URL real para producción!!!!*/, newLastActivity,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.i("newActivityAPI", response.toString());
+
+                                        if (response.has("error")) {
+                                            try {
+                                                Toast.makeText(CrearArbolActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(CrearArbolActivity.this, "Actividad creada", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                                Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                            }
+                        }) {    //this is the part, that adds the header to the request
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("Content-Type", "application/json");
+                                params.put("Authorization", "Token " + token.getToken());
+                                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                                return params;
+                            }
+                        };
+                        queue.add(lastActivityRequest);
+                    }
+                    if(consumoFertilzacion){
+                        String url = "http://10.0.2.2:8000/app/";
+                        String auxTipo=traductorFertilizaciones(spinnerTipoFertilizacion.getSelectedItem().toString());
+                        url = url + "fertilizations/";
+                        //EXTRACCION FECHA
+                        String divide2 = textUltimaFertilizacion.getText().toString();
+                        String separated2[] = divide2.split(" ");
+                        String aux2 = separated2[4];
+                        String data2[] = aux2.split("/");
+                        String auxFecha2 = data2[2] + "-" + data2[1] + "-" + data2[0];
+                        //ACABA EXTRACCION DE DATOS ACTIVIDAD Y SE ARMA EL BODY Y LA PETICION CON LOS MISMOS
+                        String body2 = "{\"start_date\":\"" + auxFecha2 + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + auxTipo + "\",\"work_cost\":\"" + "0" + "\",\"tools_cost\":\"" + "0" + "\"}";
+                        System.out.println("XXXXXXXXXXXXXXXXXX BODY FERTILIZACION ES "+body2);
+                        JSONObject newLastActivity = null;
+                        try {
+                            newLastActivity = new JSONObject(body2);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
+                                url/*TODO: cambiar a URL real para producción!!!!*/, newLastActivity,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.i("newActivityAPI", response.toString());
+
+                                        if (response.has("error")) {
+                                            try {
+                                                Toast.makeText(CrearArbolActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(CrearArbolActivity.this, "Actividad creada", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                                Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                            }
+                        }) {    //this is the part, that adds the header to the request
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("Content-Type", "application/json");
+                                params.put("Authorization", "Token " + token.getToken());
+                                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                                return params;
+                            }
+                        };
+                        queue.add(lastActivityRequest);
+                    }
+                    if(consumoFumigacion){
+                        String url = "http://10.0.2.2:8000/app/";
+                        String auxTipo=traductorFumigaciones(spinnerTipoFumigacion.getSelectedItem().toString());
+                        url = url + "fumigations/";
+                        //EXTRACCION FECHA
+                        String divide2 = textUltimaFumigacion.getText().toString();
+                        String separated2[] = divide2.split(" ");
+                        String aux2 = separated2[4];
+                        String data2[] = aux2.split("/");
+                        String auxFecha2 = data2[2] + "-" + data2[1] + "-" + data2[0];
+                        //ACABA EXTRACCION DE DATOS ACTIVIDAD Y SE ARMA EL BODY Y LA PETICION CON LOS MISMOS
+                        String body2 = "{\"start_date\":\"" + auxFecha2 + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + auxTipo + "\",\"work_cost\":\"" + "0" + "\",\"tools_cost\":\"" + "0" + "\"}";
+                        System.out.println("XXXXXXXXXXXXXXXXXX BODY FUMIGACION ES "+body2);
+                        JSONObject newLastActivity = null;
+                        try {
+                            newLastActivity = new JSONObject(body2);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
+                                url/*TODO: cambiar a URL real para producción!!!!*/, newLastActivity,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.i("newActivityAPI", response.toString());
+
+                                        if (response.has("error")) {
+                                            try {
+                                                Toast.makeText(CrearArbolActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(CrearArbolActivity.this, "Actividad creada", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                                Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                            }
+                        }) {    //this is the part, that adds the header to the request
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("Content-Type", "application/json");
+                                params.put("Authorization", "Token " + token.getToken());
+                                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                                return params;
+                            }
+                        };
+                        queue.add(lastActivityRequest);
+                    }
+                    if(consumoRiego){
+                        String url = "http://10.0.2.2:8000/app/";
+                        String auxTipo=traductorRiegos(spinnerTipoRiego.getSelectedItem().toString());
+                        url = url + "waterings/";
+                        //EXTRACCION FECHA
+                        String divide2 = textUltimoRiego.getText().toString();
+                        String separated2[] = divide2.split(" ");
+                        String aux2 = separated2[4];
+                        String data2[] = aux2.split("/");
+                        String auxFecha2 = data2[2] + "-" + data2[1] + "-" + data2[0];
+                        //ACABA EXTRACCION DE DATOS ACTIVIDAD Y SE ARMA EL BODY Y LA PETICION CON LOS MISMOS
+                        String body2 = "{\"start_date\":\"" + auxFecha2 + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + auxTipo + "\",\"work_cost\":\"" + "0" + "\",\"tools_cost\":\"" + "0" + "\"}";
+                        System.out.println("XXXXXXXXXXXXXXXXXX BODY RIEGO ES "+body2);
+                        JSONObject newLastActivity = null;
+                        try {
+                            newLastActivity = new JSONObject(body2);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
+                                url/*TODO: cambiar a URL real para producción!!!!*/, newLastActivity,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.i("newActivityAPI", response.toString());
+
+                                        if (response.has("error")) {
+                                            try {
+                                                Toast.makeText(CrearArbolActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(CrearArbolActivity.this, "Actividad creada", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                                Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                            }
+                        }) {    //this is the part, that adds the header to the request
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("Content-Type", "application/json");
+                                params.put("Authorization", "Token " + token.getToken());
+                                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                                return params;
+                            }
+                        };
+                        queue.add(lastActivityRequest);
+                    }
                 }
             }
         });
@@ -358,6 +593,9 @@ public class CrearArbolActivity extends AppCompatActivity {
 //VALIDACION FECHA Y TIPO PODA
         int selectedItemOfMySpinnerPoda = spinnerTipoPoda.getSelectedItemPosition();
         String actualPositionOfMySpinnerPoda = (String) spinnerTipoPoda.getItemAtPosition(selectedItemOfMySpinnerPoda);
+        if(actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...") || TextUtils.isEmpty(textUltimaPoda.getText().toString())){
+            consumoPoda=false;
+        }
         if(!actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...") || !TextUtils.isEmpty(textUltimaPoda.getText().toString())){
             if (!actualPositionOfMySpinnerPoda.equals("Seleccione el tipo de poda...")) {
                 if (!TextUtils.isEmpty(textUltimaPoda.getText().toString())) {
@@ -408,6 +646,9 @@ public class CrearArbolActivity extends AppCompatActivity {
 //VALIDACION FECHA Y TIPO FUMIGACION
         int selectedItemOfMySpinnerFumigacion = spinnerTipoFumigacion.getSelectedItemPosition();
         String actualPositionOfMySpinnerFumigacion = (String) spinnerTipoFumigacion.getItemAtPosition(selectedItemOfMySpinnerFumigacion);
+        if(actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...") || TextUtils.isEmpty(textUltimaFumigacion.getText().toString())){
+            consumoFumigacion=false;
+        }
         if(!actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...") || !TextUtils.isEmpty(textUltimaFumigacion.getText().toString())){
             if (!actualPositionOfMySpinnerFumigacion.equals("Seleccione el tipo de fumigación...")) {
                 if (!TextUtils.isEmpty(textUltimaFumigacion.getText().toString())) {
@@ -458,6 +699,9 @@ public class CrearArbolActivity extends AppCompatActivity {
 //VALIDACION FECHA Y TIPO FERTILIZACION
         int selectedItemOfMySpinnerFertilizacion = spinnerTipoFertilizacion.getSelectedItemPosition();
         String actualPositionOfMySpinnerFertilizacion = (String) spinnerTipoFertilizacion.getItemAtPosition(selectedItemOfMySpinnerFertilizacion);
+        if(actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...") || TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())){
+            consumoFertilzacion=false;
+        }
         if(!actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...") || !TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())){
             if (!actualPositionOfMySpinnerFertilizacion.equals("Seleccione el tipo de fertilización...")) {
                 if (!TextUtils.isEmpty(textUltimaFertilizacion.getText().toString())) {
@@ -508,6 +752,9 @@ public class CrearArbolActivity extends AppCompatActivity {
 //VALIDACION FECHA Y TIPO RIEGO
         int selectedItemOfMySpinnerRiego = spinnerTipoRiego.getSelectedItemPosition();
         String actualPositionOfMySpinnerRiego = (String) spinnerTipoRiego.getItemAtPosition(selectedItemOfMySpinnerRiego);
+        if(actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...") || TextUtils.isEmpty(textUltimoRiego.getText().toString())){
+            consumoRiego=false;
+        }
         if(!actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...") || !TextUtils.isEmpty(textUltimoRiego.getText().toString())){
             if (!actualPositionOfMySpinnerRiego.equals("Seleccione el tipo de riego...")) {
                 if (!TextUtils.isEmpty(textUltimoRiego.getText().toString())) {
@@ -720,4 +967,62 @@ public class CrearArbolActivity extends AppCompatActivity {
         };
         return lastActivityRequest
     }*/
+
+    private String traductorRiegos(String tipo) {
+        if (tipo.equals("Sistema")) {
+            return "S";
+        }
+        if (tipo.equals("Manual")) {
+            return "M";
+        }
+        else {
+            return "N";
+        }
+    }
+
+
+    private String traductorFertilizaciones(String tipo) {
+        if (tipo.equals("Crecimiento")) {
+            return "C";
+        }
+        if (tipo.equals("Produccion")) {
+            return "P";
+        } else {
+            return "M";
+        }
+    }
+
+
+    private String traductorFumigaciones(String tipo) {
+        if (tipo.equals("Insectos")) {
+            return "I";
+        }
+        if (tipo.equals("Hongos")) {
+            return "F";
+        }
+        if (tipo.equals("Hierba")) {
+            return "H";
+        }
+        if (tipo.equals("Ácaro")) {
+            return "A";
+        } else {
+            return "P";
+        }
+    }
+
+
+    private String traductorPodas(String tipo) {
+
+        if (tipo.equals("Sanitaria")) {
+            return "S";
+        }
+        if (tipo.equals("Formación")) {
+            return "F";
+        }
+        if (tipo.equals("Mantenimiento")) {
+            return "M";
+        } else {
+            return "L";
+        }
+    }
 }
