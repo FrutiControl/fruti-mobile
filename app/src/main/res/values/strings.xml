@@ -106,7 +106,7 @@
     <string name="ver_gastos">Ver gastos</string>
     <string name="historial_de_ingresos">Historial de ingresos</string>
     <string name="historial_de_gastos">Historial de gastos</string>
-    <string name="en_caso_de_que_no_haya_aplicado_alguna_actividad_o_no_recuerde_la_fecha_puede_dejar_los_campos_vac_os_el_tipo_de_rbol_la_fecha_de_siembra_y_la_ubicaci_n_son_obligatorias">En caso de que no haya aplicado alguna actividad o no recuerde la fecha, puede dejar los campos vacíos, pero si selecciona un tipo de riego, poda, fertilización o fumigación, debe ingresar la fecha del mismo. El tipo de árbol, la fecha de siembra y la ubicación son obligatorias.</string>
+    <string name="en_caso_de_que_no_haya_aplicado_alguna_actividad_o_no_recuerde_la_fecha_puede_dejar_los_campos_vac_os_el_tipo_de_rbol_la_fecha_de_siembra_y_la_ubicaci_n_son_obligatorias">El tipo de árbol, la fecha de siembra y la ubicación son obligatorias.</string>
     <string name="fecha_de_siembra">Fecha de siembra</string>
     <string name="tipo_de_rbol">Tipo de árbol</string>
     <string name="modificar_ubicaci_n">Modificar ubicación</string>
