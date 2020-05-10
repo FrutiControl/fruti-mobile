@@ -64,9 +64,9 @@ public class VerIngresosActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject moneyObject = response.getJSONObject(i);
                                 String concepto = moneyObject.getString("concept");
-                                String valor = moneyObject.getString("value");
+                                String valor = moneyObject.getString("value").toString();
                                 String tipo = inicialTipoInversa(moneyObject.getString("fruit_type"));
-                                String cantidad=moneyObject.getString("quantity");
+                                String cantidad=moneyObject.getString("quantity").toString();
                                 //CONVERSION DE FECHA
                                 String fecha = moneyObject.getString("date");
                                 String divide2 = fecha;
@@ -74,7 +74,7 @@ public class VerIngresosActivity extends AppCompatActivity {
                                 fecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
                                 conceptosIngresos.add(concepto+" - "+fecha);
                                 tiposFrutaIngresos.add(tipo);
-                                cantidadesIngresos.add(cantidad+" canastillas a $"+formatea.format(valor)+" c/u");
+                                cantidadesIngresos.add(cantidad+" canastillas a $"+valor+" c/u");
                                 int auxTotal=Integer.parseInt(cantidad)*Integer.parseInt(valor);
                                 valoresIngresos.add("$"+auxTotal);
                                 totalFinal=totalFinal+auxTotal;
