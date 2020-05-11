@@ -29,6 +29,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     private Button crearGranjaButton;
     private EditText nombraGranjaET;
     private Token token;
+    private Button crearPoligono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,16 @@ public class NuevaGranjaActivity extends AppCompatActivity {
         token = (Token) getApplicationContext();
         System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES " + token.getToken());
         crearGranjaButton = findViewById(R.id.buttonCrearGranja);
+        crearPoligono=findViewById(R.id.buttonCrearPoligono);
         nombraGranjaET = findViewById(R.id.editTextNombreGranja);
         System.out.println("El token que se recibe es " + token.getToken());
+        crearPoligono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(),MapaPoligonoGranjaActivity.class);
+                startActivity(intent);
+            }
+        });
         crearGranjaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {

@@ -50,6 +50,9 @@
             android:name=".MapaModificarArbolActivity"
             android:label="Map" />
         <activity
+            android:name=".MapaPoligonoGranjaActivity"
+            android:label="Map" />
+        <activity
             android:name=".NuevaGranjaActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -64,4 +64,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28"
         app:srcCompat="@drawable/art256" />
+
+    <Button
+        android:id="@+id/buttonCrearPoligono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_button"
+        android:text="Ubicar granja en mapa"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCrearGranja"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
