@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NuevaGranjaActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     private EditText nombraGranjaET;
     private Token token;
     private Button crearPoligono;
+    private List<String> puntosPoligono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
         crearPoligono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),MapaPoligonoGranjaActivity.class);
-                startActivity(intent);
+                startActivityForResult(new Intent(getApplicationContext(), MapaPoligonoGranjaActivity.class), 100);
             }
         });
         crearGranjaButton.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +123,15 @@ public class NuevaGranjaActivity extends AppCompatActivity {
             nombraGranjaET.setError(null);
         }
         return valid;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            System.out.println("Entro en activity results");
+        }
     }
 }
 

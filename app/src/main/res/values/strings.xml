@@ -113,4 +113,6 @@
     <string name="seleccione_la_fecha_de_siembra">Seleccione la fecha de siembra</string>
     <string name="eliminar_rbol">Eliminar árbol</string>
     <string name="si_desea_modificar_o_eliminar_un_rbol_de_la_lista_debe_tocarlo">Si desea modificar o eliminar un árbol de la lista debe tocarlo</string>
+    <string name="marcar_punto">Marcar punto</string>
+    <string name="finalizar_marcado">Finalizar marcado</string>
 </resources>
