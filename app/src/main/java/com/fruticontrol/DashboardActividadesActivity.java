@@ -49,6 +49,9 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         listaTiposActividades=new ArrayList<>();
         listaFechas=new ArrayList<>();
         cargarFertilizaciones();
+        cargarFumigaciones();
+        cargarPodas();
+        cargarRiegos();
 
         nuevaActividadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,23 +89,157 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
                                 //SE AGREGAN A LA LISTA DE FECHAS
                                 listaFechas.add(auxFecha+"-"+auxFechaFin);
-
-
-                                /*String tipo = activityObject.getString("type");
-                                System.out.println(activityObject.getString("trees"));
-                                JSONArray auxJson=activityObject.getJSONArray("trees");
-                                for(int j=0;j<auxJson.length();j++){
-                                    System.out.println("XXXXXXXXXXX IMPRESION # "+j);
-                                    System.out.println(auxJson.get(j).toString());
-                                }*/
                             }
-                            if (!listaTiposActividades.isEmpty()) {
-                                //SE LLENA LA LISTA
-                                for (int i = 0; i < listaTiposActividades.size(); i++) {
-                                    dataModels.add(new ResumenActividadDataModel(listaTiposActividades.get(i).toString(), listaFechas.get(i),"0"));
-                                }
-                                adapter = new ResumenActividadesAdapter(dataModels, getApplicationContext());
-                                listView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        }) {    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Token " + token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                return params;
+            }
+        };
+        queue.add(newFarmRequest);
+    }
+
+    private void cargarRiegos(){
+        RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
+                "http://10.0.2.2:8000/app/waterings/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("wateringsList", response.toString());
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject activityObject = response.getJSONObject(i);
+                                listaIds.add(activityObject.getString("id"));
+                                //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                String auxTipo=traductorRiegosInverso(activityObject.getString("type"));
+                                listaTiposActividades.add("Riego: "+auxTipo);
+                                //SE TRADUCE FECHA INICIO
+                                String auxFecha = activityObject.getString("start_date");
+                                String divide2 = auxFecha;
+                                String[] separated2 = divide2.split("-");
+                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                //SE TRADUCE FECHA FIN
+                                String auxFechaFin = activityObject.getString("start_date");
+                                String divide3 = auxFechaFin;
+                                String[] separated3 = divide3.split("-");
+                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                //SE AGREGAN A LA LISTA DE FECHAS
+                                listaFechas.add(auxFecha+"-"+auxFechaFin);
+                            }
+                            llenadoLista();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        }) {    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Token " + token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                return params;
+            }
+        };
+        queue.add(newFarmRequest);
+    }
+
+    private void cargarPodas(){
+        RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
+                "http://10.0.2.2:8000/app/prunings/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("pruningsList", response.toString());
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject activityObject = response.getJSONObject(i);
+                                listaIds.add(activityObject.getString("id"));
+                                //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                String auxTipo=traductorPodasInverso(activityObject.getString("type"));
+                                listaTiposActividades.add("Poda: "+auxTipo);
+                                //SE TRADUCE FECHA INICIO
+                                String auxFecha = activityObject.getString("start_date");
+                                String divide2 = auxFecha;
+                                String[] separated2 = divide2.split("-");
+                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                //SE TRADUCE FECHA FIN
+                                String auxFechaFin = activityObject.getString("start_date");
+                                String divide3 = auxFechaFin;
+                                String[] separated3 = divide3.split("-");
+                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                //SE AGREGAN A LA LISTA DE FECHAS
+                                listaFechas.add(auxFecha+"-"+auxFechaFin);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        }) {    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Token " + token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                return params;
+            }
+        };
+        queue.add(newFarmRequest);
+    }
+
+    private void cargarFumigaciones(){
+        RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
+                "http://10.0.2.2:8000/app/fumigations/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("fumigationsList", response.toString());
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject activityObject = response.getJSONObject(i);
+                                listaIds.add(activityObject.getString("id"));
+                                //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                String auxTipo=traductorFumigacionesInverso(activityObject.getString("type"));
+                                listaTiposActividades.add("Fumigacion: "+auxTipo);
+                                //SE TRADUCE FECHA INICIO
+                                String auxFecha = activityObject.getString("start_date");
+                                String divide2 = auxFecha;
+                                String[] separated2 = divide2.split("-");
+                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                //SE TRADUCE FECHA FIN
+                                String auxFechaFin = activityObject.getString("start_date");
+                                String divide3 = auxFechaFin;
+                                String[] separated3 = divide3.split("-");
+                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                //SE AGREGAN A LA LISTA DE FECHAS
+                                listaFechas.add(auxFecha+"-"+auxFechaFin);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -193,4 +330,16 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     }
 
 
+    private void llenadoLista(){
+        if (!listaTiposActividades.isEmpty()) {
+            System.out.println("XXXXXXXXXXXXXXXXXXXX TAMAÑANO DE LISTA ACTIVIDAES ES "+listaTiposActividades.size());
+            for (int i = 0; i < listaTiposActividades.size(); i++) {
+                dataModels.add(new ResumenActividadDataModel(listaTiposActividades.get(i).toString(), listaFechas.get(i),"0"));
+            }
+            adapter = new ResumenActividadesAdapter(dataModels, getApplicationContext());
+            listView.setAdapter(adapter);
+        }else{
+            System.out.println("XXXXXXXXXXXXXXXXXXXX ESTA VACIA");
+        }
+    }
 }
