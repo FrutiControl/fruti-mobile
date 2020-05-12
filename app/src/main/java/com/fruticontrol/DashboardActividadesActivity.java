@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,13 +30,24 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private Button nuevaActividadButton;
     private Token token;
+    private List<String> listaIds;
+    private List<String> listaTiposActividades;
+    private List<String> listaFechas;
+    ArrayList<ResumenActividadDataModel> dataModels;
+    ListView listView;
+    private static ResumenActividadesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_actividades);
         nuevaActividadButton = findViewById(R.id.buttonNuevaActividad);
+        listView=findViewById(R.id.listaActividades);
         token=(Token)getApplicationContext();
+        dataModels = new ArrayList<>();
+        listaIds=new ArrayList<>();
+        listaTiposActividades=new ArrayList<>();
+        listaFechas=new ArrayList<>();
         cargarFertilizaciones();
 
         nuevaActividadButton.setOnClickListener(new View.OnClickListener() {
@@ -57,25 +69,41 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                         Log.i("fertilizationsList", response.toString());
                         try {
                             for (int i = 0; i < response.length(); i++) {
-                                JSONObject farmObject = response.getJSONObject(i);
-                                String tipo = farmObject.getString("type");
-                                System.out.println(farmObject.getString("trees"));
-                                JSONArray auxJson=farmObject.getJSONArray("trees");
+                                JSONObject activityObject = response.getJSONObject(i);
+                                listaIds.add(activityObject.getString("id"));
+                                //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                String auxTipo=traductorFertilizacionesInverso(activityObject.getString("type"));
+                                listaTiposActividades.add("Fertilizacion: "+auxTipo);
+                                //SE TRADUCE FECHA INICIO
+                                String auxFecha = activityObject.getString("start_date");
+                                String divide2 = auxFecha;
+                                String[] separated2 = divide2.split("-");
+                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                //SE TRADUCE FECHA FIN
+                                String auxFechaFin = activityObject.getString("start_date");
+                                String divide3 = auxFechaFin;
+                                String[] separated3 = divide3.split("-");
+                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                //SE AGREGAN A LA LISTA DE FECHAS
+                                listaFechas.add(auxFecha+"-"+auxFechaFin);
+
+
+                                /*String tipo = activityObject.getString("type");
+                                System.out.println(activityObject.getString("trees"));
+                                JSONArray auxJson=activityObject.getJSONArray("trees");
                                 for(int j=0;j<auxJson.length();j++){
                                     System.out.println("XXXXXXXXXXX IMPRESION # "+j);
                                     System.out.println(auxJson.get(j).toString());
-                                }
-                                System.out.println("VA EL JSON ARRAY ACA ");
-                                System.out.println(farmObject.getJSONArray("trees"));
+                                }*/
                             }
-                            /*if (!nombresGranjas.isEmpty()) {
+                            if (!listaTiposActividades.isEmpty()) {
                                 //SE LLENA LA LISTA
-                                for (int i = 0; i < nombresGranjas.size(); i++) {
-                                    dataModels.add(new ResumenGranjaDataModel(nombresGranjas.get(i).toString(), "Tareas: 3", "Pendientes: 2"));
+                                for (int i = 0; i < listaTiposActividades.size(); i++) {
+                                    dataModels.add(new ResumenActividadDataModel(listaTiposActividades.get(i).toString(), listaFechas.get(i),"0"));
                                 }
-                                adapter = new ResumenGranjasAdapter(dataModels, getApplicationContext());
+                                adapter = new ResumenActividadesAdapter(dataModels, getApplicationContext());
                                 listView.setAdapter(adapter);
-                            }*/
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
