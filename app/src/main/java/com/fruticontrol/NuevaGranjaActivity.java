@@ -2,6 +2,7 @@ package com.fruticontrol;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     private EditText nombraGranjaET;
     private Token token;
     private Button crearPoligono;
-    private List<String> puntosPoligono;
+    private ArrayList<String> puntosPoligono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
         token = (Token) getApplicationContext();
         System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES " + token.getToken());
         crearGranjaButton = findViewById(R.id.buttonCrearGranja);
+        puntosPoligono=new ArrayList<>();
         crearPoligono=findViewById(R.id.buttonCrearPoligono);
         nombraGranjaET = findViewById(R.id.editTextNombreGranja);
         System.out.println("El token que se recibe es " + token.getToken());
@@ -55,7 +58,17 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                 if (validateForm()) {
                     Toast.makeText(NuevaGranjaActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
                     RequestQueue queue = Volley.newRequestQueue(NuevaGranjaActivity.this);
-                    String body = "{\"name\":\"" + nombraGranjaET.getText().toString() + "\",\"polygon\":\"" + "POLYGON((4.644170871871879 -74.39120971462567,4.643984913336387 -74.39120833085109,4.643794905169881 -74.39113830848265,4.643726255135453 -74.39123278334219, 4.644170871871879 -74.39120971462567))" + "\"}";
+                    String auxPuntosPoligono="POLYGON((";
+                    for(int i=0;i<puntosPoligono.size();i=i+2){
+                        if(i==puntosPoligono.size()-2){
+                            auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                            auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(0)+" "+puntosPoligono.get(1);
+                        }else{
+                            auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                        }
+                    }
+                    auxPuntosPoligono=auxPuntosPoligono+"))";
+                    String body = "{\"name\":\"" + nombraGranjaET.getText().toString() + "\",\"polygon\":\"" + auxPuntosPoligono + "\"}";
                     Log.i("newFarmAPI", "Nueva Granja: " + body);
                     JSONObject newFarm = null;
                     try {
@@ -116,6 +129,10 @@ public class NuevaGranjaActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
+        if(puntosPoligono.isEmpty()){
+            valid=false;
+            Toast.makeText(NuevaGranjaActivity.this, "Debe ubicar la granja en el mapa para poder continuar", Toast.LENGTH_LONG).show();
+        }
         if (TextUtils.isEmpty(nombraGranjaET.getText().toString())) {
             nombraGranjaET.setError("Requerido");
             valid = false;
@@ -130,7 +147,17 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            System.out.println("Entro en activity results");
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                if (extras.containsKey("puntoPoligono")) {
+                    System.out.println("VLAOR DERICIBO EN EL BUNDLE ");
+                }else{
+                    System.out.println("EL BUNDLE NO TIENE NADA");
+                }
+            }else{
+                System.out.println("EXTRAS ES NULLL");
+            }
+            puntosPoligono=extras.getStringArrayList("puntoPoligono");
         }
     }
 }

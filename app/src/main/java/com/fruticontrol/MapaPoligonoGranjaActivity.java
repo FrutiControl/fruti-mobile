@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.Task;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,13 +57,13 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
     private Button finalizarMarcadoButton;
     private ImageView marcadorArbol;
     private Token token;
-    private List<String> puntosEscogidos;
+    private ArrayList<String> puntosEscogidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_poligono_granja);
-        puntosEscogidos=new ArrayList<>();
+        puntosEscogidos=new ArrayList<String>();
         token = (Token) getApplicationContext();
         marcarPuntoButton = findViewById(R.id.buttonEscogerUbicacion);
         finalizarMarcadoButton=findViewById(R.id.buttonFinalizarMarcado);
@@ -97,6 +99,10 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
             public void onClick(View view) {
                 if(puntosEscogidos.size()>=6){
                     Intent intent = new Intent();
+                    Bundle bundle=new Bundle();
+                    bundle.putStringArrayList("puntoPoligono", puntosEscogidos);
+                    intent.putStringArrayListExtra("puntoPoligono", puntosEscogidos);
+                    intent.putExtra("bundle",bundle);
                     setResult(Activity.RESULT_OK,intent);
                     finish();
                 }else{
