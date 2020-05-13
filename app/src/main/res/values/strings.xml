@@ -115,4 +115,5 @@
     <string name="si_desea_modificar_o_eliminar_un_rbol_de_la_lista_debe_tocarlo">Si desea modificar o eliminar un árbol de la lista debe tocarlo</string>
     <string name="marcar_punto">Marcar punto</string>
     <string name="finalizar_marcado">Finalizar marcado</string>
+    <string name="si_desea_modificar_el_progreso_de_una_actividad_debe_tocarla">Si desea modificar el porcentaje de avance de una actividad debe tocarla</string>
 </resources>
