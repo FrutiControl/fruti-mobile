@@ -17,9 +17,7 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
 
     // View lookup cache
     private static class ViewHolder {
-        TextView txtNombreGranja;
         TextView txtTareasGranja;
-        TextView txtPendientesGranja;
     }
 
     public ResumenGranjasAdapter(ArrayList<ResumenGranjaDataModel> data, Context context) {
@@ -46,9 +44,7 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.resumen_granja, parent, false);
-            viewHolder.txtNombreGranja = convertView.findViewById(R.id.textViewNombreGranja);
             viewHolder.txtTareasGranja = convertView.findViewById(R.id.textViewTareasGranja);
-            viewHolder.txtPendientesGranja = convertView.findViewById(R.id.textViewPendientesGranja);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
@@ -59,9 +55,7 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
         result.startAnimation(animation);
         lastPosition = position;
         assert dataModel != null;
-        viewHolder.txtNombreGranja.setText(dataModel.getNombreGranja());
         viewHolder.txtTareasGranja.setText(dataModel.getTareasGranja());
-        viewHolder.txtPendientesGranja.setText(dataModel.getPendientesGranja());
         // Return the completed view to render on screen
         return convertView;
     }

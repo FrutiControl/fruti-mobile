@@ -63,7 +63,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
                             if (!nombresGranjas.isEmpty()) {
                                 //SE LLENA LA LISTA
                                 for (int i = 0; i < nombresGranjas.size(); i++) {
-                                    dataModels.add(new ResumenGranjaDataModel(nombresGranjas.get(i).toString(), "Tareas: 3", "Pendientes: 2"));
+                                    dataModels.add(new ResumenGranjaDataModel(nombresGranjas.get(i).toString()));
                                 }
                                 adapter = new ResumenGranjasAdapter(dataModels, getApplicationContext());
                                 listView.setAdapter(adapter);

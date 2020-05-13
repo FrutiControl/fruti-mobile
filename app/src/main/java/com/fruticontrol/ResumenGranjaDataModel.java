@@ -2,24 +2,10 @@ package com.fruticontrol;
 
 public class ResumenGranjaDataModel {
 
-    String nombreGranja;
     String tareasGranja;
-    String pendientesGranja;
 
-
-    public ResumenGranjaDataModel(String nombreGranja, String tareasGranja, String pendientesGranja) {
-        this.nombreGranja = nombreGranja;
+    public ResumenGranjaDataModel(String tareasGranja) {
         this.tareasGranja = tareasGranja;
-        this.pendientesGranja = pendientesGranja;
-    }
-
-
-    public String getNombreGranja() {
-        return nombreGranja;
-    }
-
-    public void setNombreGranja(String nombreGranja) {
-        this.nombreGranja = nombreGranja;
     }
 
     public String getTareasGranja() {
@@ -30,11 +16,4 @@ public class ResumenGranjaDataModel {
         this.tareasGranja = tareasGranja;
     }
 
-    public String getPendientesGranja() {
-        return pendientesGranja;
-    }
-
-    public void setPendientesGranja(String pendientesGranja) {
-        this.pendientesGranja = pendientesGranja;
-    }
 }
