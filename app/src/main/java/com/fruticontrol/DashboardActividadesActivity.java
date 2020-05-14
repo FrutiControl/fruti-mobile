@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -37,6 +38,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     private ArrayList<String> listaProgresos;
     private ArrayList<String> listaArboles;
     private ArrayList<String> auxTipos;
+    private TextView txtProceso;
+    private TextView txtPendiente;
     ArrayList<ResumenActividadDataModel> dataModels;
     ListView listView;
     private static ResumenActividadesAdapter adapter;
@@ -47,6 +50,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard_actividades);
         nuevaActividadButton = findViewById(R.id.buttonNuevaActividad);
         listView=findViewById(R.id.listaActividades);
+        txtProceso=findViewById(R.id.textViewActProceso);
+        txtPendiente=findViewById(R.id.textViewActPendientes);
         token=(Token)getApplicationContext();
         dataModels = new ArrayList<>();
         auxTipos=new ArrayList<>();
@@ -132,6 +137,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
+                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -197,6 +203,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             }*/
 
                             llenadoLista();
+                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -257,6 +264,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
+                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -318,6 +326,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
+                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -416,6 +425,20 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         }
     }
 
+    private void actualizarValores(){
+        int contProceso=0;
+        int contPendientes=0;
+        for(int i=0;i<listaTiposActividades.size();i++){
+            if(listaProgresos.get(i).equals("0.0%")){
+                contPendientes++;
+            }else{
+                contProceso++;
+            }
+        }
+        txtPendiente.setText(contPendientes+"\n"+"Actividades"+"\n" +"pendientes");
+        txtProceso.setText(contProceso+"\n"+"Actividades en"+"\n"+"proceso");
+    }
+
     private void consultaAvance(String tipo, String idActividad, int posACambiar){
         final int[] auxProgreso = {0};
         final int pos=posACambiar;
@@ -477,3 +500,4 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         queue.add(newFarmRequest);
     }
 }
+
