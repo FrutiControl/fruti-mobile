@@ -128,7 +128,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
-                                auxPro=String.valueOf(auxProg);
+                                auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
@@ -188,7 +188,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
-                                auxPro=String.valueOf(auxProg);
+                                auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
 
@@ -253,7 +253,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
-                                auxPro=String.valueOf(auxProg);
+                                auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
@@ -314,7 +314,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
-                                auxPro=String.valueOf(auxProg);
+                                auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
