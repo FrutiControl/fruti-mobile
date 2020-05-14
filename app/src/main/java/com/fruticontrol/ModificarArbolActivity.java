@@ -190,7 +190,8 @@ public class ModificarArbolActivity extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), MapaModificarArbolActivity.class);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
-                startActivity(intent);
+                startActivityForResult(intent,100);
+                //startActivity(intent);
             }
         });
         txtFechaSiembra.setOnClickListener(new View.OnClickListener() {
