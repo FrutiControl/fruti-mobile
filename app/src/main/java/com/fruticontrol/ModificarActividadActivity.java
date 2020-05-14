@@ -43,6 +43,8 @@ public class ModificarActividadActivity extends AppCompatActivity {
     private Token token;
     private ArrayList<String> listaEstados;
     private ArrayList<String> listaIds;
+    private String tipo;
+    private String idActividad;
 
     ArrayList<ResumenArbolSeleccionDataModel> dataModels;
     ListView listView;
@@ -64,8 +66,8 @@ public class ModificarActividadActivity extends AppCompatActivity {
         String[] separated = auxFechas.split("-");
         txtFechaFin.setText("Fecha de fin: "+separated[1]);
 
-        String tipo=getIntent().getStringExtra("tipoFoormato");
-        String idActividad=getIntent().getStringExtra("idActividad");
+        tipo=getIntent().getStringExtra("tipoFoormato");
+        idActividad=getIntent().getStringExtra("idActividad");
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
         String url="http://10.0.2.2:8000/app/";
         url=url+tipo+"_trees/?"+tipo+"="+idActividad;
@@ -136,20 +138,108 @@ public class ModificarActividadActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int color = Color.TRANSPARENT;
-                Drawable background = view.getBackground();
-                color = ((ColorDrawable) background).getColor();
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
+                String url="http://10.0.2.2:8000/app/";
+                url=url+tipo+"_trees/?"+tipo+"="+idActividad+"&tree="+listaIds.get(i);
+                System.out.println("XXXXXXXXXXXXXXXXX URL ES "+url);
+                JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
+                        url/*TODO: cambiar a URL real para producción!!!!*/, null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                Log.i("progressList", response.toString());
+                                try {
+                                    System.out.println(response.toString());
+                                    JSONObject activityObject = response.getJSONObject(0);
+                                    System.out.println("EL ESTADO AHORA ES "+activityObject.getString("applied"));
+                                    update();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                        Toast.makeText(ModificarActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                    }
+                }) {    //this is the part, that adds the header to the request
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("Authorization", "Token " + token.getToken());
+                        System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                        return params;
+                    }
+                };
+                queue.add(newFarmRequest);
             }
         });
     }
 
-    public String estadoArbol(String act){
+    private String estadoArbol(String act){
         if(act.equals("true")){
             return "Hecho";
         }else{
             return "Pendiente";
         }
+    }
+
+
+    private void update(){
+        listaEstados.clear();
+        listaIds.clear();
+        RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
+        String url="http://10.0.2.2:8000/app/";
+        url=url+tipo+"_trees/?"+tipo+"="+idActividad;
+        System.out.println("XXXXXXXXXXXXXXXXX URL ES "+url);
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
+                url/*TODO: cambiar a URL real para producción!!!!*/, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("progressList", response.toString());
+                        try {
+                            for (int j = 0; j < response.length(); j++) {
+                                JSONObject activityObject = response.getJSONObject(j);
+                                listaIds.add(activityObject.getString("tree"));
+                                if(activityObject.getString("applied").equals("true")){
+                                    listaEstados.add("true");
+                                }else{
+                                    listaEstados.add("false");
+                                }
+                            }
+                            if(!listaEstados.isEmpty()){
+                                //SE LLENA LA LISTA
+                                dataModels.clear();
+                                for(int i=0;i<listaIds.size();i++){
+                                    dataModels.add(new ResumenArbolSeleccionDataModel("Número de árbol: "+listaIds.get(i).toString(),"Estado: "+estadoArbol(listaEstados.get(i).toString()),""));
+                                }
+                                adapter= new ResumenArbolesSeleccionAdapter(dataModels,getApplicationContext());
+                                listView.setAdapter(adapter);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }}, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                Toast.makeText(ModificarActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        }) {    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Token " + token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                return params;
+            }
+        };
+        queue.add(newFarmRequest);
+
     }
 
 
