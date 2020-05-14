@@ -202,6 +202,7 @@ public class CrearArbolActivity extends AppCompatActivity {
         boolean valid = true;
         if (!token.getArbolEscogido()) {
             valid = false;
+            Toast.makeText(CrearArbolActivity.this, "Debe seleccionar la ubicación del árbol para poder continuar", Toast.LENGTH_LONG).show();
         }
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);

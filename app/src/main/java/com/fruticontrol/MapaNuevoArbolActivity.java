@@ -108,6 +108,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         Log.e("MAP", "Entro a onMapReady");
         arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(4.6272415, -74.0640134)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
         arbolMarker.setVisible(false);
