@@ -38,6 +38,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     private ArrayList<String> listaProgresos;
     private ArrayList<String> listaArboles;
     private ArrayList<String> auxTipos;
+    private ArrayList<String> auxSubtipos;
     private TextView txtProceso;
     private TextView txtPendiente;
     ArrayList<ResumenActividadDataModel> dataModels;
@@ -54,6 +55,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         txtPendiente=findViewById(R.id.textViewActPendientes);
         token=(Token)getApplicationContext();
         dataModels = new ArrayList<>();
+        auxSubtipos=new ArrayList<>();
         auxTipos=new ArrayList<>();
         listaArboles=new ArrayList<>();
         listaIds=new ArrayList<>();
@@ -73,16 +75,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(view.getContext(), ModificarActividadActivity.class);
-                intent.putExtra("idActividad", listaIds.get(i));
-                intent.putExtra("tipoActividad", listaTiposActividades.get(i));
-                intent.putExtra("fecha", listaFechas.get(i));
-                startActivity(intent);
-            }
-        });*/
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -92,6 +85,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                 intent.putExtra("fecha", listaFechas.get(i));
                 intent.putExtra("listaArboles",listaArboles.get(i));
                 intent.putExtra("tipoFoormato",auxTipos.get(i));
+                intent.putExtra("subTipoFormato",auxSubtipos.get(i));
 
 
                 startActivity(intent);
@@ -115,6 +109,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 //SE TRADUCE Y AGREGA TIPO EN LISTA
                                 String auxTipo=traductorFertilizacionesInverso(activityObject.getString("type"));
                                 listaTiposActividades.add("Fertilización: "+auxTipo);
+                                auxSubtipos.add(activityObject.getString("type"));
                                 //SE TRADUCE FECHA INICIO
                                 String auxFecha = activityObject.getString("start_date");
                                 String divide2 = auxFecha;
@@ -176,6 +171,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 //SE TRADUCE Y AGREGA TIPO EN LISTA
                                 String auxTipo=traductorRiegosInverso(activityObject.getString("type"));
                                 listaTiposActividades.add("Riego: "+auxTipo);
+                                auxSubtipos.add(activityObject.getString("type"));
                                 //SE TRADUCE FECHA INICIO
                                 String auxFecha = activityObject.getString("start_date");
                                 String divide2 = auxFecha;
@@ -242,6 +238,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 //SE TRADUCE Y AGREGA TIPO EN LISTA
                                 String auxTipo=traductorPodasInverso(activityObject.getString("type"));
                                 listaTiposActividades.add("Poda: "+auxTipo);
+                                auxSubtipos.add(activityObject.getString("type"));
                                 //SE TRADUCE FECHA INICIO
                                 String auxFecha = activityObject.getString("start_date");
                                 String divide2 = auxFecha;
@@ -304,6 +301,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 //SE TRADUCE Y AGREGA TIPO EN LISTA
                                 String auxTipo=traductorFumigacionesInverso(activityObject.getString("type"));
                                 listaTiposActividades.add("Fumigación: "+auxTipo);
+                                auxSubtipos.add(activityObject.getString("type"));
                                 //SE TRADUCE FECHA INICIO
                                 String auxFecha = activityObject.getString("start_date");
                                 String divide2 = auxFecha;
