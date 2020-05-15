@@ -68,6 +68,8 @@ public class NuevoGastoActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> spinnerAdapterSubtipo = ArrayAdapter.createFromResource(this, R.array.TipoActividad, R.layout.spinner_item);
         spinnerTipo.setAdapter(spinnerAdapterSubtipo);
 
+
+
         guardarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,9 +149,40 @@ public class NuevoGastoActivity extends AppCompatActivity {
                 if (switchMaterialManoDeObra.isChecked()) {
                     tvManoDeObra.setTypeface(null, Typeface.BOLD);
                     tvMateriales.setTypeface(null, Typeface.NORMAL);
+                    RequestQueue queue = Volley.newRequestQueue(NuevoGastoActivity.this);
+                    JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,
+                            "https://app.fruticontrol.me/users/owner/", null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("dayCost", response.toString());
+                                    try {
+                                        txtValor.setText(response.getString("day_cost"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("dayCostAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(NuevoGastoActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }){    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Content-Type", "application/json");
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(dayCostRequest);
                 } else {
                     tvMateriales.setTypeface(null, Typeface.BOLD);
                     tvManoDeObra.setTypeface(null, Typeface.NORMAL);
+                    txtValor.setText("");
                 }
             }
         });
