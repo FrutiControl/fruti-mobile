@@ -146,9 +146,9 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = "http://10.0.2.2:8000/app/trees/" + idArbol + "/";
+                    String auxUrl = "https://app.fruticontrol.me/app/trees/" + idArbol + "/";
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.PUT,
-                            auxUrl/*TODO: cambiar a URL real para producción!!!!*/, newTree,
+                            auxUrl, newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
