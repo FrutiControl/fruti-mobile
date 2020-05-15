@@ -427,9 +427,9 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         int contProceso=0;
         int contPendientes=0;
         for(int i=0;i<listaTiposActividades.size();i++){
-            if(listaProgresos.get(i).equals("0.0%")){
+            if(listaProgresos.get(i).equals("0,0%")){
                 contPendientes++;
-            }else{
+            }else if(!listaProgresos.get(i).equals("0,0%") && !listaProgresos.get(i).equals("100,0%")){
                 contProceso++;
             }
         }
