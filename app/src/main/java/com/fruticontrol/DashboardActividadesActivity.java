@@ -141,7 +141,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
         }) {    //this is the part, that adds the header to the request
             @Override
@@ -208,7 +208,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
         }) {    //this is the part, that adds the header to the request
             @Override
@@ -270,7 +270,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
         }) {    //this is the part, that adds the header to the request
             @Override
@@ -333,7 +333,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
         }) {    //this is the part, that adds the header to the request
             @Override
@@ -484,7 +484,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
         }) {    //this is the part, that adds the header to the request
             @Override
