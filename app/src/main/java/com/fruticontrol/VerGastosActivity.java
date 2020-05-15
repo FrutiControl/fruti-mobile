@@ -55,7 +55,7 @@ public class VerGastosActivity extends AppCompatActivity {
         valoresGastos=new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(VerGastosActivity.this);
         JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/money/outcomes/?recommended=False"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/money/outcomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

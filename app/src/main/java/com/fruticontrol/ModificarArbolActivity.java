@@ -92,9 +92,9 @@ public class ModificarArbolActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(ModificarArbolActivity.this);
-                String auxUrl = "http://10.0.2.2:8000/app/trees/" + idArbol + "/";
+                String auxUrl = "https://app.fruticontrol.me/app/trees/" + idArbol + "/";
                 StringRequest deleteTreeRequest = new StringRequest(Request.Method.DELETE,
-                        auxUrl/*TODO: cambiar a URL real para producción!!!!*/,
+                        auxUrl,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {

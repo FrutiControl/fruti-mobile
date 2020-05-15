@@ -47,7 +47,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
         idGranjas = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(ListaGranjasActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/app/farms/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/app/farms/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

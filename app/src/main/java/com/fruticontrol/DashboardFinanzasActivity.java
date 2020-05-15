@@ -57,7 +57,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(DashboardFinanzasActivity.this);
         JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/money/outcomes/?recommended=False"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/money/outcomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -94,7 +94,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         queue.add(newOutcomeRequest);
 
         JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/money/incomes/?recommended=False"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/money/incomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -103,7 +103,9 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject moneyObject = response.getJSONObject(i);
                                 String valor = moneyObject.getString("value");
-                                totalIngresos = totalIngresos+Integer.parseInt(valor);
+                                String cantidad=moneyObject.getString("quantity");
+                                int totalIngreso=Integer.parseInt(cantidad)*Integer.parseInt(valor);
+                                totalIngresos = totalIngresos+totalIngreso;
                             }
                             txTotalIngresos.setText("$"+formatea.format(totalIngresos));
                             auxTotal=auxTotal+totalIngresos;

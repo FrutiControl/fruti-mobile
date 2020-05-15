@@ -79,11 +79,11 @@ public class ModificarActividadActivity extends AppCompatActivity {
         subTipo=getIntent().getStringExtra("subTipoFormato");
         idActividad=getIntent().getStringExtra("idActividad");
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-        String url="http://10.0.2.2:8000/app/";
+        String url="https://app.fruticontrol.me/app/";
         url=url+tipo+"_trees/?"+tipo+"="+idActividad;
         System.out.println("XXXXXXXXXXXXXXXXX URL ES "+url);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                url/*TODO: cambiar a URL real para producción!!!!*/, null,
+                url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -179,10 +179,10 @@ public class ModificarActividadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = "http://10.0.2.2:8000/app/";
+                    String auxUrl = "https://app.fruticontrol.me/app/";
                     auxUrl = auxUrl+tipo+"s/"+idActividad + "/";
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.PUT,
-                            auxUrl/*TODO: cambiar a URL real para producción!!!!*/, newTree,
+                            auxUrl, newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -223,11 +223,11 @@ public class ModificarActividadActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-                String url="http://10.0.2.2:8000/app/";
+                String url="https://app.fruticontrol.me/app/";
                 url=url+tipo+"_trees/?"+tipo+"="+idActividad+"&tree="+listaIds.get(i);
                 System.out.println("XXXXXXXXXXXXXXXXX URL ES "+url);
                 JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                        url/*TODO: cambiar a URL real para producción!!!!*/, null,
+                        url, null,
                         new Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {
@@ -274,11 +274,11 @@ public class ModificarActividadActivity extends AppCompatActivity {
         listaEstados.clear();
         listaIds.clear();
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-        String url="http://10.0.2.2:8000/app/";
+        String url="https://app.fruticontrol.me/app/";
         url=url+tipo+"_trees/?"+tipo+"="+idActividad;
         System.out.println("XXXXXXXXXXXXXXXXX URL ES "+url);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                url/*TODO: cambiar a URL real para producción!!!!*/, null,
+                url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

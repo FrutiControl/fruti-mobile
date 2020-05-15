@@ -78,7 +78,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                     }
                     String aux;
                     JsonObjectRequest newFarmRequest = new JsonObjectRequest(Request.Method.POST,
-                            "http://10.0.2.2:8000/app/farms/"/*TODO: cambiar a URL real para producción!!!!*/, newFarm,
+                            "https://app.fruticontrol.me/app/farms/", newFarm,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

@@ -103,7 +103,7 @@ public class NuevoGastoActivity extends AppCompatActivity {
                     }
 
                     JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,
-                            "http://10.0.2.2:8000/money/outcomes/"/*TODO: cambiar a URL real para producción!!!!*/, newOutcome,
+                            "https://app.fruticontrol.me/money/outcomes/", newOutcome,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

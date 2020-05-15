@@ -61,7 +61,7 @@ public class RegistroActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST,
-                            "http://10.0.2.2:8000/users/register/"/*TODO: cambiar a URL real para producción!!!!*/, informacion,
+                            "https://app.fruticontrol.me/users/register/", informacion,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

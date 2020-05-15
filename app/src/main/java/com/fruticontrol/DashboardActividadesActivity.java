@@ -96,7 +96,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     private void cargarFertilizaciones(){
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/app/fertilizations/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/app/fertilizations/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -158,7 +158,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     private void cargarRiegos(){
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/app/waterings/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/app/waterings/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -225,7 +225,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     private void cargarPodas(){
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/app/prunings/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/app/prunings/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -287,7 +287,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     private void cargarFumigaciones(){
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/app/fumigations/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/app/fumigations/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

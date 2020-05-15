@@ -55,7 +55,7 @@ public class VerIngresosActivity extends AppCompatActivity {
         token=(Token)getApplicationContext();
         RequestQueue queue = Volley.newRequestQueue(VerIngresosActivity.this);
         JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,
-                "http://10.0.2.2:8000/money/incomes/?recommended=False"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                "https://app.fruticontrol.me/money/incomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

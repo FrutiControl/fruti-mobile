@@ -79,7 +79,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
                     String tipoActividad=spinnerTipo.getSelectedItem().toString();
-                    String url = "http://10.0.2.2:8000/app/";
+                    String url = "https://app.fruticontrol.me/app/";
                     String sutTipo;
                     if (tipoActividad.equals("Poda")) {
                         url = url + "prunings/";

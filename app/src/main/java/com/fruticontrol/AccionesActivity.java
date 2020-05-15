@@ -83,7 +83,7 @@ public class AccionesActivity extends AppCompatActivity {
 
                 RequestQueue queue = Volley.newRequestQueue(AccionesActivity.this);
                 JsonObjectRequest allTreesRequest = new JsonObjectRequest(Request.Method.GET,
-                        "http://10.0.2.2:8000/users/user/"/*TODO: cambiar a URL real para producción!!!!*/, null,
+                        "https://app.fruticontrol.me/users/user/"/*TODO: cambiar a URL real para producción!!!!*/, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {

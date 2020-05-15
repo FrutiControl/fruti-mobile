@@ -117,7 +117,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                     }
 
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,
-                            "http://10.0.2.2:8000/app/trees/"/*TODO: cambiar a URL real para producción!!!!*/, newTree,
+                            "https://app.fruticontrol.me/app/trees/", newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

@@ -96,7 +96,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                     }
 
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,
-                            "http://10.0.2.2:8000/money/incomes/"/*TODO: cambiar a URL real para producción!!!!*/, newTree,
+                            "https://app.fruticontrol.me/money/incomes/", newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

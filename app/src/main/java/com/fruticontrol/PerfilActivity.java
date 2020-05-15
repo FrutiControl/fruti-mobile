@@ -84,9 +84,9 @@ public class PerfilActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = "http://10.0.2.2:8000/users/user/";
+                    String auxUrl = "https://app.fruticontrol.me/users/user/";
                     JsonObjectRequest modificateUserRequest = new JsonObjectRequest(Request.Method.PUT,
-                            auxUrl/*TODO: cambiar a URL real para producción!!!!*/, modifyUser,
+                            auxUrl, modifyUser,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
