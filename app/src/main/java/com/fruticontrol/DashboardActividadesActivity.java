@@ -44,6 +44,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
     ArrayList<ResumenActividadDataModel> dataModels;
     ListView listView;
     private static ResumenActividadesAdapter adapter;
+    int contProceso=0;
+    int contPendientes=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,11 +130,11 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
+                                actualizarValores(auxProg);
                                 auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
-                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -190,16 +192,11 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
+                                actualizarValores(auxProg);
                                 auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
-
-                            /*for(int j=0;j<listaTiposActividades.size();j++){
-                                consultaAvance(auxTipos.get(j),listaIds.get(j),j);
-                            }*/
-
                             llenadoLista();
-                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -257,11 +254,11 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
+                                actualizarValores(auxProg);
                                 auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
-                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -320,11 +317,11 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 String auxPro=activityObject.getString("progress");
                                 float auxProg=Float.parseFloat(auxPro);
                                 auxProg=auxProg*100;
+                                actualizarValores(auxProg);
                                 auxPro=String.format("%.1f", auxProg);
                                 listaProgresos.add(auxPro+"%");
                             }
                             llenadoLista();
-                            actualizarValores();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -423,18 +420,14 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         }
     }
 
-    private void actualizarValores(){
-        int contProceso=0;
-        int contPendientes=0;
-        for(int i=0;i<listaTiposActividades.size();i++){
-            if(listaProgresos.get(i).equals("0,0%")){
-                contPendientes++;
-            }else if(!listaProgresos.get(i).equals("0,0%")){
-                if(!listaProgresos.get(i).equals("100,0%")){
-                    contProceso++;
-                }
-            }
+    private void actualizarValores(float number){
+
+        if(number>0 && number<100){
+            contProceso++;
+        }else if(number>-1 && number<1){
+            contPendientes++;
         }
+
         txtPendiente.setText(contPendientes+"\n"+"Actividades"+"\n" +"pendientes");
         txtProceso.setText(contProceso+"\n"+"Actividades en"+"\n"+"proceso");
     }
