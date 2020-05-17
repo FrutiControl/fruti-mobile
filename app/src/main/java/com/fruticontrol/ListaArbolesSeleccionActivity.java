@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,9 +32,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListaArbolesSeleccionActivity extends AppCompatActivity {
+public class ListaArbolesSeleccionActivity extends AppCompatActivity implements android.widget.CompoundButton.OnCheckedChangeListener{
 
     ArrayList<ResumenArbolSeleccionDataModel> dataModels;
+    ArrayList<Arbol> arbolList;
+    ArbolAdapter arAdapter;
+
     ListView listView;
     private static ResumenArbolesSeleccionAdapter adapter;
     private ArrayList<String> idsArboles;
@@ -59,8 +63,6 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
         fechasSiembra=new ArrayList<>();
         localizacionesArboles=new ArrayList<>();
 
-
-
         nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +70,7 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int color = Color.TRANSPARENT;
@@ -82,7 +84,7 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
                     places[i]=true;
                 }
             }
-        });
+        });*/
         nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,6 +134,11 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
                                     localizacionesArboles.add(localizacion);
                                 }
                             }
+                            places=new Boolean[idsArboles.size()];
+                            for(int i=0;i<places.length;i++){
+                                places[i]=false;
+                            }
+                            /*
                             if(!idsArboles.isEmpty()){
                                 //SE LLENA LA LISTA
                                 for(int i=0;i<idsArboles.size();i++){
@@ -146,6 +153,8 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
                                     places[i]=false;
                                 }
                             }
+                            */
+                            showTrees();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -166,6 +175,18 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
             }
         };
         queue.add(allTreesRequest);
+    }
+
+
+    private void showTrees(){
+        arbolList= new ArrayList<Arbol>();
+        for(int i=0;i<idsArboles.size();i++){
+            String auxId="Número de árbol: "+idsArboles.get(i);
+            String auxTipo=tiposArboles.get(i);
+            arbolList.add(new Arbol(auxId,auxTipo));
+        }
+        arAdapter=new ArbolAdapter(arbolList,this);
+        listView.setAdapter(arAdapter);
     }
 
 
@@ -201,5 +222,21 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity {
             return "Produccion";
         else
             return "Post-Produccion";
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        int pos=listView.getPositionForView(buttonView);
+        if(pos!=ListView.INVALID_POSITION){
+            Arbol a=arbolList.get(pos);
+            if(isChecked){
+                places[pos]=true;
+            }else{
+                places[pos]=false;
+            }
+            a.setSelected(isChecked);
+
+            //Toast.makeText(this,"Chosen one: "+a.getId()+" and type is "+isChecked,Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Toque los árboles que hacen parte de esta actividad"
+        android:text="Toque los cuadros al lado de los árboles que desea agregar a la actividad"
         android:textColor="@color/fontColor2"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
