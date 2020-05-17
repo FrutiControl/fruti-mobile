@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                                     token = (Token) getApplicationContext();
                                     try {
                                         token.setToken(response.getString("token"));
+                                        Toast.makeText(MainActivity.this, "Sesión iniciada", Toast.LENGTH_SHORT).show();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

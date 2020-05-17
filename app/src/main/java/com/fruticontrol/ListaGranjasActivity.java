@@ -35,6 +35,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
     private Token token;
     private ArrayList<String> nombresGranjas;
     private ArrayList<String> idGranjas;
+    private ArrayList<String> puntosGranjas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
         token = (Token) getApplicationContext();
         listView = (ListView) findViewById(R.id.listaGranjasList);
         dataModels = new ArrayList<>();
+        puntosGranjas = new ArrayList<>();
         nombresGranjas = new ArrayList<>();
         idGranjas = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(ListaGranjasActivity.this);
@@ -57,8 +59,10 @@ public class ListaGranjasActivity extends AppCompatActivity {
                                 JSONObject farmObject = response.getJSONObject(i);
                                 String id = farmObject.getString("id");
                                 String name = farmObject.getString("name");
+                                String puntos = farmObject.getString("polygon");
                                 nombresGranjas.add(name);
                                 idGranjas.add(id);
+                                puntosGranjas.add(puntos);
                             }
                             if (!nombresGranjas.isEmpty()) {
                                 //SE LLENA LA LISTA
@@ -92,6 +96,11 @@ public class ListaGranjasActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 token.setGranjaActual(idGranjas.get(i));
+
+                String separated[] = puntosGranjas.get(i).split("\\(");
+                String aux[] = separated[2].split("\\)");
+                token.setPuntosPoligonoGranja(aux[0]);
+
                 Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                 startActivity(intent);
             }
