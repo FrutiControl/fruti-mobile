@@ -429,8 +429,10 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         for(int i=0;i<listaTiposActividades.size();i++){
             if(listaProgresos.get(i).equals("0,0%")){
                 contPendientes++;
-            }else if(!listaProgresos.get(i).equals("0,0%") && !listaProgresos.get(i).equals("100,0%")){
-                contProceso++;
+            }else if(!listaProgresos.get(i).equals("0,0%")){
+                if(!listaProgresos.get(i).equals("100,0%")){
+                    contProceso++;
+                }
             }
         }
         txtPendiente.setText(contPendientes+"\n"+"Actividades"+"\n" +"pendientes");

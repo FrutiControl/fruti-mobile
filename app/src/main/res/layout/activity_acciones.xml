@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:background="@drawable/rounded_button"
-                    android:text="@string/rbol"
+                    android:text="@string/rboles"
                     android:textAllCaps="false" />
 
                 <ImageView
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:background="@drawable/rounded_button"
-                    android:text="@string/ver_granjas"
+                    android:text="@string/granjas"
                     android:textAllCaps="false" />
 
             </LinearLayout>

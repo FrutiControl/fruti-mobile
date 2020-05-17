@@ -244,6 +244,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
         boolean valid = true;
         if(listaArbolesSeleccionados==null){
             valid=false;
+            Toast.makeText(NuevaActividadActivity.this, "Debe seleccionar al menos un árbol al que se le va a aplicar la actividad", Toast.LENGTH_LONG).show();
         }
         int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipo.getItemAtPosition(selectedItemOfMySpinner);
