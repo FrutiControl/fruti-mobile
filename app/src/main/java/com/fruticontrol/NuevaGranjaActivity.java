@@ -58,14 +58,31 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                 if (validateForm()) {
                     Toast.makeText(NuevaGranjaActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
                     RequestQueue queue = Volley.newRequestQueue(NuevaGranjaActivity.this);
-                    String auxPuntosPoligono="POLYGON((";
+                    String auxPuntosPoligono="POLYGON ((";
+                    String auxTokenPuntos="";
                     for(int i=0;i<puntosPoligono.size();i=i+2){
-                        if(i==puntosPoligono.size()-2){
-                            auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
-                            auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(0)+" "+puntosPoligono.get(1);
+                        if(i==0){
+                            if(i==puntosPoligono.size()-2){
+                                auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                                auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(0)+" "+puntosPoligono.get(1);
+                                auxTokenPuntos=auxTokenPuntos+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                                auxTokenPuntos=auxTokenPuntos+puntosPoligono.get(0)+" "+puntosPoligono.get(1);
+                            }else{
+                                auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                                auxTokenPuntos=auxTokenPuntos+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                            }
                         }else{
-                            auxPuntosPoligono=auxPuntosPoligono+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                            if(i==puntosPoligono.size()-2){
+                                auxPuntosPoligono=auxPuntosPoligono+" "+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                                auxPuntosPoligono=auxPuntosPoligono+" "+puntosPoligono.get(0)+" "+puntosPoligono.get(1);
+                                auxTokenPuntos=auxTokenPuntos+" "+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                                auxTokenPuntos=auxTokenPuntos+" "+puntosPoligono.get(0)+" "+puntosPoligono.get(1);
+                            }else{
+                                auxPuntosPoligono=auxPuntosPoligono+" "+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                                auxTokenPuntos=auxTokenPuntos+" "+puntosPoligono.get(i)+" "+puntosPoligono.get(i+1)+",";
+                            }
                         }
+
                     }
                     auxPuntosPoligono=auxPuntosPoligono+"))";
                     String body = "{\"name\":\"" + nombraGranjaET.getText().toString() + "\",\"polygon\":\"" + auxPuntosPoligono + "\"}";
@@ -77,6 +94,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     String aux;
+                    final String finalAuxTokenPuntos = auxTokenPuntos;
                     JsonObjectRequest newFarmRequest = new JsonObjectRequest(Request.Method.POST,
                             "https://app.fruticontrol.me/app/farms/", newFarm,
                             new Response.Listener<JSONObject>() {
@@ -93,6 +111,9 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                                     } else {
                                         try {
                                             token.setGranjaActual(response.getString("id"));
+                                            System.out.println("xxxxxxxxxxxxxx AUX PUNTOS POLIGONO ES "+ finalAuxTokenPuntos);
+                                            token.setPuntosPoligonoGranja(finalAuxTokenPuntos);
+
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }

@@ -21,7 +21,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapaModificarArbolActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -107,6 +112,34 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                     mMap.addMarker(new MarkerOptions().position(center)).setVisible(false);
                     cameraLatitude = center.latitude;
                     cameraLongitude = center.longitude;
+
+                    //SE DIBUJA LIMITES DE POLIGONO GRANJA
+                    String xyJuntas[]=token.getPuntosPoligonoGranja().split(",");
+                    System.out.println("xxxxxxxxxxxxx LOS PUNTOS DEL POLIGONO SON "+token.getPuntosPoligonoGranja());
+                    List<LatLng> auxPolygonArray=new ArrayList<>();
+                    for(int i=0;i<xyJuntas.length;i++){
+                        if(i==0){
+                            String auxCoordenadas[]=xyJuntas[i].split(" ");
+                            String auxX=auxCoordenadas[0];
+                            String auxY=auxCoordenadas[1];
+                            System.out.println("XXXXXXXXXXXX LAS COORDENADAS SON X "+auxX+" Y "+auxY);
+                            auxPolygonArray.add(new LatLng(Double.parseDouble(auxX),Double.parseDouble(auxY)));
+                        }else if(i!=xyJuntas.length-1){
+                            String auxCoordenadas[]=xyJuntas[i].split(" ");
+                            String auxX=auxCoordenadas[1];
+                            String auxY=auxCoordenadas[2];
+                            System.out.println("XXXXXXXXXXXX LAS COORDENADAS SON X "+auxX+" Y "+auxY);
+                            auxPolygonArray.add(new LatLng(Double.parseDouble(auxX),Double.parseDouble(auxY)));
+                        }
+                    }
+                    Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(
+                            new LatLng(4.731199083413069,-74.03176970779896),
+                            new LatLng(4.731256220275831,-74.03191421180964),
+                            new LatLng(4.73149612822121,-74.03193466365337),
+                            new LatLng(4.731448681252535,-74.0316815301776)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
+                    System.out.println("EL POLIGONO RECUPERADO ES "+auxPolygonArray);
+                    polygon1.setPoints(auxPolygonArray);
+                    //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
                 }
             }
         });
