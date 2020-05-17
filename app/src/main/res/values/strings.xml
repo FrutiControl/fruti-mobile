@@ -95,7 +95,7 @@
     <string name="nombre_de_la_granja">Nombre de la granja</string>
     <string name="crear_granja">Crear granja</string>
     <string name="cerrar_sesi_n">Cerrar sesión</string>
-    <string name="escoja_en_que_tipo_y_subtipo_de_actividad_en_que_gast_dinero">Escoja en que tipo y subtipo de actividad gastó dinero. Si selecciona mano de obra se va a llenar con el valor por defecto de jornal. Para moficarlo puede ir a Perfil, Preferencias y modificarlo</string>
+    <string name="escoja_en_que_tipo_y_subtipo_de_actividad_en_que_gast_dinero">Escoja en que tipo y subtipo de actividad gastó dinero. Si selecciona mano de obra se va a llenar con el valor por defecto de jornal. Para modificarlo puede ir a Perfil, Preferencias y modificarlo</string>
     <string name="materiales">Materiales</string>
     <string name="mano_de_obra">Mano de obra</string>
     <string name="valor">Valor</string>
