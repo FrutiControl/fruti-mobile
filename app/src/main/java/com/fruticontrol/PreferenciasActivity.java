@@ -102,6 +102,7 @@ public class PreferenciasActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        Toast.makeText(PreferenciasActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }

@@ -195,6 +195,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        Toast.makeText(ModificarActividadActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }

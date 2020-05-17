@@ -118,6 +118,7 @@ public class NuevoGastoActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        Toast.makeText(NuevoGastoActivity.this, "Gasto creado", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }

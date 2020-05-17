@@ -53,6 +53,7 @@ public class PerfilActivity extends AppCompatActivity {
         cerrarSesionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(PerfilActivity.this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
                 token.setToken("0");
                 Intent intents = new Intent(PerfilActivity.this, MainActivity.class);
                 intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -99,6 +100,7 @@ public class PerfilActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        Toast.makeText(PerfilActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }

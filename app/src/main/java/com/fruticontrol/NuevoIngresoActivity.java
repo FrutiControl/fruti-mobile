@@ -109,6 +109,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        Toast.makeText(NuevoIngresoActivity.this, "Ingreso creado", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }

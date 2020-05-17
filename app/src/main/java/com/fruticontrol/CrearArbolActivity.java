@@ -130,6 +130,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        Toast.makeText(CrearArbolActivity.this,"Árbol creado con éxito", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }

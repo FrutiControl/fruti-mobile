@@ -117,6 +117,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
+                                        Toast.makeText(NuevaGranjaActivity.this, "Granja creada", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                                         startActivity(intent);
                                     }

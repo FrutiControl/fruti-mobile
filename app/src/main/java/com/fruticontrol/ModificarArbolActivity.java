@@ -115,6 +115,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
+                                        Toast.makeText(ModificarArbolActivity.this, "Árbol eliminado", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }, new Response.ErrorListener() {
@@ -181,6 +182,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
+                                        Toast.makeText(ModificarArbolActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }
