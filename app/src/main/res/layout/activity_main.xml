@@ -75,7 +75,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/no_tienes_cuenta_registrate_ac"
         android:textColor="@color/headerColor"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonIniciarSesion" />

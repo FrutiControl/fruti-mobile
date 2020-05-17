@@ -2,9 +2,12 @@ package com.fruticontrol;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -91,32 +94,49 @@ public class ModificarArbolActivity extends AppCompatActivity {
         eliminarArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestQueue queue = Volley.newRequestQueue(ModificarArbolActivity.this);
-                String auxUrl = "https://app.fruticontrol.me/app/trees/" + idArbol + "/";
-                StringRequest deleteTreeRequest = new StringRequest(Request.Method.DELETE,
-                        auxUrl,
-                        new Response.Listener<String>() {
+
+                AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
+                builder.setCancelable(true);
+                builder.setTitle(Html.fromHtml("<font color='#964F2D'>Eliminar árbol</font>"));
+                builder.setMessage(Html.fromHtml("<font color='#910C00'>¿Está seguro de que desea eliminar el árbol?</font>"));
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.setPositiveButton("Si, eliminar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        RequestQueue queue = Volley.newRequestQueue(ModificarArbolActivity.this);
+                        String auxUrl = "https://app.fruticontrol.me/app/trees/" + idArbol + "/";
+                        StringRequest deleteTreeRequest = new StringRequest(Request.Method.DELETE,
+                                auxUrl,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        finish();
+                                    }
+                                }, new Response.ErrorListener() {
                             @Override
-                            public void onResponse(String response) {
-                                finish();
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TreeAPI", "Error en la invocación a la API " + Arrays.toString(error.getStackTrace()));
+                                Toast.makeText(ModificarArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                             }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TreeAPI", "Error en la invocación a la API " + Arrays.toString(error.getStackTrace()));
-                        Toast.makeText(ModificarArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }) {    //this is the part, that adds the header to the request
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("Content-Type", "application/json");
+                                params.put("Authorization", "Token " + token.getToken());
+                                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                                return params;
+                            }
+                        };
+                        queue.add(deleteTreeRequest);
                     }
-                }) {    //this is the part, that adds the header to the request
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Content-Type", "application/json");
-                        params.put("Authorization", "Token " + token.getToken());
-                        System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
-                        return params;
-                    }
-                };
-                queue.add(deleteTreeRequest);
+                });
+                builder.show();
             }
         });
         guardarCambiosButton.setOnClickListener(new View.OnClickListener() {

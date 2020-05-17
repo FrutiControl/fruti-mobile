@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="El estado indica si la actividad ya fue o no realizada sobre ese árbol, este puede variar enter hecho y pendiente. Para cambiar el estado de un árbol solo debe tocarlo"
+        android:text="El estado indica si la actividad ya fue o no realizada sobre ese árbol, este puede variar entre hecho y pendiente. Para cambiar el estado de un árbol solo debe tocarlo"
         android:textColor="@color/fontColor2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
