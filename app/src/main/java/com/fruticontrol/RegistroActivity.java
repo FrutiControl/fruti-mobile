@@ -73,6 +73,8 @@ public class RegistroActivity extends AppCompatActivity {
                                         Toast.makeText(RegistroActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(view.getContext(), NuevaGranjaActivity.class);
                                         startActivity(intent);
+                                        MainActivity.getInstance().finish();
+                                        finish();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

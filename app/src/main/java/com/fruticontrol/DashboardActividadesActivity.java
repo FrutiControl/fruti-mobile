@@ -106,33 +106,35 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject activityObject = response.getJSONObject(i);
-                                auxTipos.add("fertilization");
-                                listaIds.add(activityObject.getString("id"));
-                                //SE TRADUCE Y AGREGA TIPO EN LISTA
-                                String auxTipo=traductorFertilizacionesInverso(activityObject.getString("type"));
-                                listaTiposActividades.add("Fertilización: "+auxTipo);
-                                auxSubtipos.add(activityObject.getString("type"));
-                                //SE TRADUCE FECHA INICIO
-                                String auxFecha = activityObject.getString("start_date");
-                                String divide2 = auxFecha;
-                                String[] separated2 = divide2.split("-");
-                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
-                                //SE TRADUCE FECHA FIN
-                                String auxFechaFin = activityObject.getString("end_date");
-                                String divide3 = auxFechaFin;
-                                String[] separated3 = divide3.split("-");
-                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
-                                //SE AGREGAN A LA LISTA DE FECHAS
-                                listaFechas.add(auxFecha+"-"+auxFechaFin);
-                                listaArboles.add(activityObject.getString("trees"));
+                                if(token.getGranjaActual().equals(activityObject.getString("farm"))){
+                                    auxTipos.add("fertilization");
+                                    listaIds.add(activityObject.getString("id"));
+                                    //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                    String auxTipo=traductorFertilizacionesInverso(activityObject.getString("type"));
+                                    listaTiposActividades.add("Fertilización: "+auxTipo);
+                                    auxSubtipos.add(activityObject.getString("type"));
+                                    //SE TRADUCE FECHA INICIO
+                                    String auxFecha = activityObject.getString("start_date");
+                                    String divide2 = auxFecha;
+                                    String[] separated2 = divide2.split("-");
+                                    auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                    //SE TRADUCE FECHA FIN
+                                    String auxFechaFin = activityObject.getString("end_date");
+                                    String divide3 = auxFechaFin;
+                                    String[] separated3 = divide3.split("-");
+                                    auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                    //SE AGREGAN A LA LISTA DE FECHAS
+                                    listaFechas.add(auxFecha+"-"+auxFechaFin);
+                                    listaArboles.add(activityObject.getString("trees"));
 
-                                System.out.println("PROGRESO ES "+activityObject.getString("progress"));
-                                String auxPro=activityObject.getString("progress");
-                                float auxProg=Float.parseFloat(auxPro);
-                                auxProg=auxProg*100;
-                                actualizarValores(auxProg);
-                                auxPro=String.format("%.1f", auxProg);
-                                listaProgresos.add(auxPro+"%");
+                                    System.out.println("PROGRESO ES "+activityObject.getString("progress"));
+                                    String auxPro=activityObject.getString("progress");
+                                    float auxProg=Float.parseFloat(auxPro);
+                                    auxProg=auxProg*100;
+                                    actualizarValores(auxProg);
+                                    auxPro=String.format("%.1f", auxProg);
+                                    listaProgresos.add(auxPro+"%");
+                                }
                             }
                             llenadoLista();
                         } catch (JSONException e) {
@@ -168,33 +170,35 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject activityObject = response.getJSONObject(i);
-                                auxTipos.add("watering");
-                                listaIds.add(activityObject.getString("id"));
-                                //SE TRADUCE Y AGREGA TIPO EN LISTA
-                                String auxTipo=traductorRiegosInverso(activityObject.getString("type"));
-                                listaTiposActividades.add("Riego: "+auxTipo);
-                                auxSubtipos.add(activityObject.getString("type"));
-                                //SE TRADUCE FECHA INICIO
-                                String auxFecha = activityObject.getString("start_date");
-                                String divide2 = auxFecha;
-                                String[] separated2 = divide2.split("-");
-                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
-                                //SE TRADUCE FECHA FIN
-                                String auxFechaFin = activityObject.getString("end_date");
-                                String divide3 = auxFechaFin;
-                                String[] separated3 = divide3.split("-");
-                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
-                                //SE AGREGAN A LA LISTA DE FECHAS
-                                listaFechas.add(auxFecha+"-"+auxFechaFin);
-                                listaArboles.add(activityObject.getString("trees"));
+                                if(token.getGranjaActual().equals(activityObject.getString("farm"))){
+                                    auxTipos.add("watering");
+                                    listaIds.add(activityObject.getString("id"));
+                                    //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                    String auxTipo=traductorRiegosInverso(activityObject.getString("type"));
+                                    listaTiposActividades.add("Riego: "+auxTipo);
+                                    auxSubtipos.add(activityObject.getString("type"));
+                                    //SE TRADUCE FECHA INICIO
+                                    String auxFecha = activityObject.getString("start_date");
+                                    String divide2 = auxFecha;
+                                    String[] separated2 = divide2.split("-");
+                                    auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                    //SE TRADUCE FECHA FIN
+                                    String auxFechaFin = activityObject.getString("end_date");
+                                    String divide3 = auxFechaFin;
+                                    String[] separated3 = divide3.split("-");
+                                    auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                    //SE AGREGAN A LA LISTA DE FECHAS
+                                    listaFechas.add(auxFecha+"-"+auxFechaFin);
+                                    listaArboles.add(activityObject.getString("trees"));
 
-                                System.out.println("PROGRESO ES "+activityObject.getString("progress"));
-                                String auxPro=activityObject.getString("progress");
-                                float auxProg=Float.parseFloat(auxPro);
-                                auxProg=auxProg*100;
-                                actualizarValores(auxProg);
-                                auxPro=String.format("%.1f", auxProg);
-                                listaProgresos.add(auxPro+"%");
+                                    System.out.println("PROGRESO ES "+activityObject.getString("progress"));
+                                    String auxPro=activityObject.getString("progress");
+                                    float auxProg=Float.parseFloat(auxPro);
+                                    auxProg=auxProg*100;
+                                    actualizarValores(auxProg);
+                                    auxPro=String.format("%.1f", auxProg);
+                                    listaProgresos.add(auxPro+"%");
+                                }
                             }
                             llenadoLista();
                         } catch (JSONException e) {
@@ -230,33 +234,35 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject activityObject = response.getJSONObject(i);
-                                auxTipos.add("pruning");
-                                listaIds.add(activityObject.getString("id"));
-                                //SE TRADUCE Y AGREGA TIPO EN LISTA
-                                String auxTipo=traductorPodasInverso(activityObject.getString("type"));
-                                listaTiposActividades.add("Poda: "+auxTipo);
-                                auxSubtipos.add(activityObject.getString("type"));
-                                //SE TRADUCE FECHA INICIO
-                                String auxFecha = activityObject.getString("start_date");
-                                String divide2 = auxFecha;
-                                String[] separated2 = divide2.split("-");
-                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
-                                //SE TRADUCE FECHA FIN
-                                String auxFechaFin = activityObject.getString("end_date");
-                                String divide3 = auxFechaFin;
-                                String[] separated3 = divide3.split("-");
-                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
-                                //SE AGREGAN A LA LISTA DE FECHAS
-                                listaFechas.add(auxFecha+"-"+auxFechaFin);
-                                listaArboles.add(activityObject.getString("trees"));
+                                if(token.getGranjaActual().equals(activityObject.getString("farm"))){
+                                    auxTipos.add("pruning");
+                                    listaIds.add(activityObject.getString("id"));
+                                    //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                    String auxTipo=traductorPodasInverso(activityObject.getString("type"));
+                                    listaTiposActividades.add("Poda: "+auxTipo);
+                                    auxSubtipos.add(activityObject.getString("type"));
+                                    //SE TRADUCE FECHA INICIO
+                                    String auxFecha = activityObject.getString("start_date");
+                                    String divide2 = auxFecha;
+                                    String[] separated2 = divide2.split("-");
+                                    auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                    //SE TRADUCE FECHA FIN
+                                    String auxFechaFin = activityObject.getString("end_date");
+                                    String divide3 = auxFechaFin;
+                                    String[] separated3 = divide3.split("-");
+                                    auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                    //SE AGREGAN A LA LISTA DE FECHAS
+                                    listaFechas.add(auxFecha+"-"+auxFechaFin);
+                                    listaArboles.add(activityObject.getString("trees"));
 
-                                System.out.println("PROGRESO ES "+activityObject.getString("progress"));
-                                String auxPro=activityObject.getString("progress");
-                                float auxProg=Float.parseFloat(auxPro);
-                                auxProg=auxProg*100;
-                                actualizarValores(auxProg);
-                                auxPro=String.format("%.1f", auxProg);
-                                listaProgresos.add(auxPro+"%");
+                                    System.out.println("PROGRESO ES "+activityObject.getString("progress"));
+                                    String auxPro=activityObject.getString("progress");
+                                    float auxProg=Float.parseFloat(auxPro);
+                                    auxProg=auxProg*100;
+                                    actualizarValores(auxProg);
+                                    auxPro=String.format("%.1f", auxProg);
+                                    listaProgresos.add(auxPro+"%");
+                                }
                             }
                             llenadoLista();
                         } catch (JSONException e) {
@@ -293,33 +299,35 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 System.out.println("RESPONSE ES "+response.toString());
                                 JSONObject activityObject = response.getJSONObject(i);
-                                auxTipos.add("fumigation");
-                                listaIds.add(activityObject.getString("id"));
-                                //SE TRADUCE Y AGREGA TIPO EN LISTA
-                                String auxTipo=traductorFumigacionesInverso(activityObject.getString("type"));
-                                listaTiposActividades.add("Fumigación: "+auxTipo);
-                                auxSubtipos.add(activityObject.getString("type"));
-                                //SE TRADUCE FECHA INICIO
-                                String auxFecha = activityObject.getString("start_date");
-                                String divide2 = auxFecha;
-                                String[] separated2 = divide2.split("-");
-                                auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
-                                //SE TRADUCE FECHA FIN
-                                String auxFechaFin = activityObject.getString("end_date");
-                                String divide3 = auxFechaFin;
-                                String[] separated3 = divide3.split("-");
-                                auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
-                                //SE AGREGAN A LA LISTA DE FECHAS
-                                listaFechas.add(auxFecha+"-"+auxFechaFin);
-                                listaArboles.add(activityObject.getString("trees"));
+                                if(token.getGranjaActual().equals(activityObject.getString("farm"))){
+                                    auxTipos.add("fumigation");
+                                    listaIds.add(activityObject.getString("id"));
+                                    //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                    String auxTipo=traductorFumigacionesInverso(activityObject.getString("type"));
+                                    listaTiposActividades.add("Fumigación: "+auxTipo);
+                                    auxSubtipos.add(activityObject.getString("type"));
+                                    //SE TRADUCE FECHA INICIO
+                                    String auxFecha = activityObject.getString("start_date");
+                                    String divide2 = auxFecha;
+                                    String[] separated2 = divide2.split("-");
+                                    auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                    //SE TRADUCE FECHA FIN
+                                    String auxFechaFin = activityObject.getString("end_date");
+                                    String divide3 = auxFechaFin;
+                                    String[] separated3 = divide3.split("-");
+                                    auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                    //SE AGREGAN A LA LISTA DE FECHAS
+                                    listaFechas.add(auxFecha+"-"+auxFechaFin);
+                                    listaArboles.add(activityObject.getString("trees"));
 
-                                System.out.println("PROGRESO ES "+activityObject.getString("progress"));
-                                String auxPro=activityObject.getString("progress");
-                                float auxProg=Float.parseFloat(auxPro);
-                                auxProg=auxProg*100;
-                                actualizarValores(auxProg);
-                                auxPro=String.format("%.1f", auxProg);
-                                listaProgresos.add(auxPro+"%");
+                                    System.out.println("PROGRESO ES "+activityObject.getString("progress"));
+                                    String auxPro=activityObject.getString("progress");
+                                    float auxProg=Float.parseFloat(auxPro);
+                                    auxProg=auxProg*100;
+                                    actualizarValores(auxProg);
+                                    auxPro=String.format("%.1f", auxProg);
+                                    listaProgresos.add(auxPro+"%");
+                                }
                             }
                             llenadoLista();
                         } catch (JSONException e) {

@@ -38,11 +38,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtUsername;
     private TextView txtPass;
     private Token token;
+    static MainActivity mainActivity;
+
+    public static MainActivity getInstance(){
+        return   mainActivity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivity=this;
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
@@ -78,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                             }, new Response.ErrorListener() {
                         @Override
