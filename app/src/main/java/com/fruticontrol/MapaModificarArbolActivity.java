@@ -31,7 +31,7 @@ import java.util.List;
 public class MapaModificarArbolActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Marker arbolMarker;
+    public Marker arbolMarker;
     double latitude = 0;
     double longitude = 0;
     double cameraLatitude;
@@ -52,7 +52,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         System.out.println("lon recibida es  " + lonAux);
         latitude = Double.parseDouble(latAux);
         longitude = Double.parseDouble(lonAux);
-        System.out.println("XXXXXXXXXXXXXX DESPUES DE CONVERTIDAS LAS COORDENADAS SON: "+latitude+" "+longitude);
+        System.out.println("XXXXXXXXXXXXXX DESPUES DE CONVERTIDAS LAS COORDENADAS SON: " + latitude + " " + longitude);
         cameraLatitude = latitude;
         cameraLongitude = longitude;
         token = (Token) getApplicationContext();
@@ -90,25 +90,28 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
         //mMap.getUiSettings().setZoomControlsEnabled(true);
         Log.e("MAP", "Entro a onMapReady");
         //SE DIBUJA LIMITES DE POLIGONO GRANJA
-        ArrayList<String>puntosEscogidos=token.getPuntosPoligonoGranja();
+        ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
         //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
-        List<LatLng>auxPolygonArray=new ArrayList<>();
-        for(int i=0;i<puntosEscogidos.size();i=i+2){
-            Double a1=Double.parseDouble(puntosEscogidos.get(i));
-            Double a2=Double.parseDouble(puntosEscogidos.get(i+1));
-            LatLng auxLL=new LatLng(a1,a2);
+        List<LatLng> auxPolygonArray = new ArrayList<>();
+        for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
+            Double a1 = Double.parseDouble(puntosEscogidos.get(i));
+            Double a2 = Double.parseDouble(puntosEscogidos.get(i + 1));
+            LatLng auxLL = new LatLng(a1, a2);
             auxPolygonArray.add(auxLL);
         }
-        Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
+        Polygon polygon1 = mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
                 new LatLng(-33.852, 151.211),
                 new LatLng(-37.813, 144.962),
                 new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
         polygon1.setPoints(auxPolygonArray);
         //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
         arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
+        System.out.println("XXXXXXXXXXXXXX POS_MARKER " + arbolMarker.getPosition().toString());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(arbolMarker.getPosition()));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
         arbolMarker.setVisible(false);
@@ -124,16 +127,16 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                     cameraLongitude = center.longitude;
 
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA
-                    ArrayList<String>puntosEscogidos=token.getPuntosPoligonoGranja();
+                    ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
                     //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
-                    List<LatLng>auxPolygonArray=new ArrayList<>();
-                    for(int i=0;i<puntosEscogidos.size();i=i+2){
-                        Double a1=Double.parseDouble(puntosEscogidos.get(i));
-                        Double a2=Double.parseDouble(puntosEscogidos.get(i+1));
-                        LatLng auxLL=new LatLng(a1,a2);
+                    List<LatLng> auxPolygonArray = new ArrayList<>();
+                    for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
+                        Double a1 = Double.parseDouble(puntosEscogidos.get(i));
+                        Double a2 = Double.parseDouble(puntosEscogidos.get(i + 1));
+                        LatLng auxLL = new LatLng(a1, a2);
                         auxPolygonArray.add(auxLL);
                     }
-                    Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
+                    Polygon polygon1 = mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
                             new LatLng(-33.852, 151.211),
                             new LatLng(-37.813, 144.962),
                             new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
