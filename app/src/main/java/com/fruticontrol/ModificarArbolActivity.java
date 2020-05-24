@@ -76,10 +76,10 @@ public class ModificarArbolActivity extends AppCompatActivity {
         String[] separated = divide.split("\\(");
         String[] anotherAux = separated[1].split(" ");
         lat = anotherAux[0];
-        System.out.println("XXXXXXX ESTO ES " + anotherAux[0]);
+        System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LAT" + anotherAux[0]);
         String[] lonAux = anotherAux[1].split("\\)");
         lon = lonAux[0];
-        System.out.println("XXXXXXX ESTO ES " + lonAux[0]);
+        System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LON" + lonAux[0]);
         newLat = lat;
         newLon = lon;
         System.out.println("XXXXXXXXXXXXxx new lat es " + newLat);

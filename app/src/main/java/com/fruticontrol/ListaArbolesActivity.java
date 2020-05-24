@@ -67,6 +67,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                 intent.putExtra("tipo", tiposArboles.get(i));
                 intent.putExtra("fecha", fechasSiembra.get(i));
                 intent.putExtra("localizacion", localizacionesArboles.get(i));
+                System.out.println("LA LOCALIZACION DEL ARBOL SELECCIONADO FUE "+localizacionesArboles.get(i));
                 startActivity(intent);
             }
         });

@@ -32,15 +32,10 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
 
     private GoogleMap mMap;
     private Marker arbolMarker;
-    private LocationRequest mLocationRequest;
-    private LocationCallback mLocationCallback;
-    FusedLocationProviderClient mFusedLocationClient;
     double latitude = 0;
     double longitude = 0;
     double cameraLatitude;
     double cameraLongitude;
-    int gottenLocations = 0;
-    Task removeCallback;
     private Button seleccionarUbicacionButton;
     private ImageView marcadorArbol;
     private Token token;
@@ -57,11 +52,10 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         System.out.println("lon recibida es  " + lonAux);
         latitude = Double.parseDouble(latAux);
         longitude = Double.parseDouble(lonAux);
+        System.out.println("XXXXXXXXXXXXXX DESPUES DE CONVERTIDAS LAS COORDENADAS SON: "+latitude+" "+longitude);
         cameraLatitude = latitude;
         cameraLongitude = longitude;
         token = (Token) getApplicationContext();
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mLocationRequest = createLocationRequest();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
         seleccionarUbicacionButton.setOnClickListener(new View.OnClickListener() {
@@ -96,8 +90,24 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        //mMap.getUiSettings().setZoomControlsEnabled(true);
         Log.e("MAP", "Entro a onMapReady");
+        //SE DIBUJA LIMITES DE POLIGONO GRANJA
+        ArrayList<String>puntosEscogidos=token.getPuntosPoligonoGranja();
+        //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
+        List<LatLng>auxPolygonArray=new ArrayList<>();
+        for(int i=0;i<puntosEscogidos.size();i=i+2){
+            Double a1=Double.parseDouble(puntosEscogidos.get(i));
+            Double a2=Double.parseDouble(puntosEscogidos.get(i+1));
+            LatLng auxLL=new LatLng(a1,a2);
+            auxPolygonArray.add(auxLL);
+        }
+        Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
+                new LatLng(-33.852, 151.211),
+                new LatLng(-37.813, 144.962),
+                new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
+        polygon1.setPoints(auxPolygonArray);
+        //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
         arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(arbolMarker.getPosition()));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
@@ -114,44 +124,24 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                     cameraLongitude = center.longitude;
 
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA
-                    String xyJuntas[]=token.getPuntosPoligonoGranja().split(",");
-                    System.out.println("xxxxxxxxxxxxx LOS PUNTOS DEL POLIGONO SON "+token.getPuntosPoligonoGranja());
-                    List<LatLng> auxPolygonArray=new ArrayList<>();
-                    for(int i=0;i<xyJuntas.length;i++){
-                        if(i==0){
-                            String auxCoordenadas[]=xyJuntas[i].split(" ");
-                            String auxX=auxCoordenadas[0];
-                            String auxY=auxCoordenadas[1];
-                            System.out.println("XXXXXXXXXXXX LAS COORDENADAS SON X "+auxX+" Y "+auxY);
-                            auxPolygonArray.add(new LatLng(Double.parseDouble(auxX),Double.parseDouble(auxY)));
-                        }else if(i!=xyJuntas.length-1){
-                            String auxCoordenadas[]=xyJuntas[i].split(" ");
-                            String auxX=auxCoordenadas[1];
-                            String auxY=auxCoordenadas[2];
-                            System.out.println("XXXXXXXXXXXX LAS COORDENADAS SON X "+auxX+" Y "+auxY);
-                            auxPolygonArray.add(new LatLng(Double.parseDouble(auxX),Double.parseDouble(auxY)));
-                        }
+                    ArrayList<String>puntosEscogidos=token.getPuntosPoligonoGranja();
+                    //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
+                    List<LatLng>auxPolygonArray=new ArrayList<>();
+                    for(int i=0;i<puntosEscogidos.size();i=i+2){
+                        Double a1=Double.parseDouble(puntosEscogidos.get(i));
+                        Double a2=Double.parseDouble(puntosEscogidos.get(i+1));
+                        LatLng auxLL=new LatLng(a1,a2);
+                        auxPolygonArray.add(auxLL);
                     }
-                    Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(
-                            new LatLng(4.731199083413069,-74.03176970779896),
-                            new LatLng(4.731256220275831,-74.03191421180964),
-                            new LatLng(4.73149612822121,-74.03193466365337),
-                            new LatLng(4.731448681252535,-74.0316815301776)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
-                    System.out.println("EL POLIGONO RECUPERADO ES "+auxPolygonArray);
+                    Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
+                            new LatLng(-33.852, 151.211),
+                            new LatLng(-37.813, 144.962),
+                            new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
                     polygon1.setPoints(auxPolygonArray);
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
                 }
             }
         });
-    }
-
-
-    protected LocationRequest createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10);
-        mLocationRequest.setFastestInterval(5);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        return mLocationRequest;
     }
 }
 

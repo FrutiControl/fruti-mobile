@@ -9,12 +9,12 @@ public class Token extends Application {
     private String token;
     private String granjaActual;
     private Boolean arbolEscogido;
-    private String puntosPoligonoGranja;
+    private ArrayList<String> puntosPoligonoGranja;
 
     public Token() {
     }
 
-    public Token(String token, String granjaActual, Boolean arbolEscogido, String puntosPoligonoGranja) {
+    public Token(String token, String granjaActual, Boolean arbolEscogido, ArrayList<String> puntosPoligonoGranja) {
         this.token = token;
         this.granjaActual = granjaActual;
         this.arbolEscogido = arbolEscogido;
@@ -45,11 +45,11 @@ public class Token extends Application {
         this.arbolEscogido = arbolEscogido;
     }
 
-    public String getPuntosPoligonoGranja() {
+    public ArrayList<String> getPuntosPoligonoGranja() {
         return puntosPoligonoGranja;
     }
 
-    public void setPuntosPoligonoGranja(String puntosPoligonoGranja) {
+    public void setPuntosPoligonoGranja(ArrayList<String> puntosPoligonoGranja) {
         this.puntosPoligonoGranja = puntosPoligonoGranja;
     }
 }

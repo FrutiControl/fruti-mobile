@@ -55,7 +55,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_nuevo_arbol);
         token = (Token) getApplicationContext();
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        /*mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();
         mLocationCallback = new LocationCallback() {
             @Override
@@ -78,7 +78,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                 }
             }
         };
-        //startLocationUpdates();
+        startLocationUpdates();*/
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
         seleccionarUbicacionButton.setOnClickListener(new View.OnClickListener() {
@@ -117,14 +117,14 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         Log.e("MAP", "Entro a onMapReady");
 
         //PARA UBICAR ARBOL EN PRIMER PUNTO DE GRANJA
-        String auxPuntos=token.getPuntosPoligonoGranja();
-        String auxLatInit[]= auxPuntos.split(" ");
-        String auxLongInit[]= auxLatInit[1].split(",");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(auxLatInit[0]), Double.parseDouble(auxLongInit[0]))));
+        ArrayList<String> auxPuntos=token.getPuntosPoligonoGranja();
+        String XGranjaPrimerPunto= auxPuntos.get(0);
+        String YGranjaPrimerPunto= auxPuntos.get(1);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(XGranjaPrimerPunto), Double.parseDouble(YGranjaPrimerPunto))));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
         //PARA UBICAR ARBOL EN PRIMER PUNTO DE GRANJA ACABA
 
-        arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(auxLatInit[0]), Double.parseDouble(auxLongInit[0]))).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
+        arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(XGranjaPrimerPunto), Double.parseDouble(YGranjaPrimerPunto))).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
         arbolMarker.setVisible(false);
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
@@ -138,30 +138,19 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                     cameraLongitude = center.longitude;
 
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA
-                    String xyJuntas[]=token.getPuntosPoligonoGranja().split(",");
-                    System.out.println("xxxxxxxxxxxxx LOS PUNTOS DEL POLIGONO SON "+token.getPuntosPoligonoGranja());
-                    List<LatLng> auxPolygonArray=new ArrayList<>();
-                    for(int i=0;i<xyJuntas.length;i++){
-                        if(i==0){
-                            String auxCoordenadas[]=xyJuntas[i].split(" ");
-                            String auxX=auxCoordenadas[0];
-                            String auxY=auxCoordenadas[1];
-                            System.out.println("XXXXXXXXXXXX LAS COORDENADAS SON X "+auxX+" Y "+auxY);
-                            auxPolygonArray.add(new LatLng(Double.parseDouble(auxX),Double.parseDouble(auxY)));
-                        }else if(i!=xyJuntas.length-1){
-                            String auxCoordenadas[]=xyJuntas[i].split(" ");
-                            String auxX=auxCoordenadas[1];
-                            String auxY=auxCoordenadas[2];
-                            System.out.println("XXXXXXXXXXXX LAS COORDENADAS SON X "+auxX+" Y "+auxY);
-                            auxPolygonArray.add(new LatLng(Double.parseDouble(auxX),Double.parseDouble(auxY)));
-                        }
+                    ArrayList<String>puntosEscogidos=token.getPuntosPoligonoGranja();
+                    //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
+                    List<LatLng>auxPolygonArray=new ArrayList<>();
+                    for(int i=0;i<puntosEscogidos.size();i=i+2){
+                        Double a1=Double.parseDouble(puntosEscogidos.get(i));
+                        Double a2=Double.parseDouble(puntosEscogidos.get(i+1));
+                        LatLng auxLL=new LatLng(a1,a2);
+                        auxPolygonArray.add(auxLL);
                     }
-                    Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(
-                            new LatLng(4.731199083413069,-74.03176970779896),
-                            new LatLng(4.731256220275831,-74.03191421180964),
-                            new LatLng(4.73149612822121,-74.03193466365337),
-                            new LatLng(4.731448681252535,-74.0316815301776)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
-                    System.out.println("EL POLIGONO RECUPERADO ES "+auxPolygonArray);
+                    Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
+                            new LatLng(-33.852, 151.211),
+                            new LatLng(-37.813, 144.962),
+                            new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
                     polygon1.setPoints(auxPolygonArray);
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
 
@@ -170,7 +159,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         });
     }
 
-    private void startLocationUpdates() {
+    /*private void startLocationUpdates() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
         }
@@ -182,7 +171,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         mLocationRequest.setFastestInterval(5);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         return mLocationRequest;
-    }
+    }*/
 }
 
 //Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>

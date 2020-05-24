@@ -24,7 +24,7 @@
         <Button
             android:id="@+id/buttonEliminarUltimoPunto"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
@@ -35,7 +35,7 @@
         <Button
             android:id="@+id/buttonEscogerUbicacion"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_gravity="bottom|center"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -48,7 +48,7 @@
         <Button
             android:id="@+id/buttonFinalizarMarcado"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"

@@ -99,7 +99,21 @@ public class ListaGranjasActivity extends AppCompatActivity {
 
                 String separated[] = puntosGranjas.get(i).split("\\(");
                 String aux[] = separated[2].split("\\)");
-                token.setPuntosPoligonoGranja(aux[0]);
+                System.out.println("SEPARATED 2 ES "+separated[2]);
+                String soloXY[]=aux[0].split(",");
+                ArrayList<String>auxPuntosLimpios=new ArrayList<>();
+                for(int a=0;a<soloXY.length;a++){
+                    if(a==0){
+                        String otroAux[]=soloXY[0].split(" ");
+                        auxPuntosLimpios.add(otroAux[0]);
+                        auxPuntosLimpios.add(otroAux[1]);
+                    }else{
+                        String otroAux[]=soloXY[a].split(" ");
+                        auxPuntosLimpios.add(otroAux[1]);
+                        auxPuntosLimpios.add(otroAux[2]);
+                    }
+                }
+                token.setPuntosPoligonoGranja(auxPuntosLimpios);
 
                 Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                 startActivity(intent);
