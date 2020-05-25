@@ -92,7 +92,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
-        //mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         Log.e("MAP", "Entro a onMapReady");
         //SE DIBUJA LIMITES DE POLIGONO GRANJA
         ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();

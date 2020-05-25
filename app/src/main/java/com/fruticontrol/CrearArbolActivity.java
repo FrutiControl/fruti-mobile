@@ -83,8 +83,10 @@ public class CrearArbolActivity extends AppCompatActivity {
         buttonUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startActivityForResult(new Intent(getApplicationContext(), MapaNuevoArbolActivity.class), 100);
+                Intent intent=new Intent(view.getContext(),MapaNuevoArbolActivity.class);
+                intent.putExtra("lat",token.getPuntosPoligonoGranja().get(0));
+                intent.putExtra("lon",token.getPuntosPoligonoGranja().get(1));
+                startActivityForResult(intent, 100);
 
             }
         });

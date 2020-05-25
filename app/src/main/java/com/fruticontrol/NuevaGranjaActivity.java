@@ -1,6 +1,9 @@
 package com.fruticontrol;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -11,6 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +34,8 @@ import java.util.Map;
 
 public class NuevaGranjaActivity extends AppCompatActivity {
 
+    static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
+    static final int REQUEST_CHECK_SETTINGS = 200;
     private Button crearGranjaButton;
     private EditText nombraGranjaET;
     private Token token;
@@ -40,6 +47,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_granja);
         token = (Token) getApplicationContext();
+        requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES " + token.getToken());
         crearGranjaButton = findViewById(R.id.buttonCrearGranja);
         puntosPoligono=new ArrayList<>();
@@ -138,6 +146,15 @@ public class NuevaGranjaActivity extends AppCompatActivity {
             url = http://10.0.2.2:8000/farms/
             body = {name,polygon} para polygon seguir el formato de https://docs.djangoproject.com/en/3.0/ref/contrib/gis/geos/#django.contrib.gis.geos.Polygon
          */
+    }
+
+    private void requestPermission(Activity context, String permiso, String justificacion, int idCode) {
+        if (ContextCompat.checkSelfPermission(context, permiso) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(context, justificacion, Toast.LENGTH_LONG).show();
+            }
+            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, idCode);
+        }
     }
 
     private boolean validateForm() {
