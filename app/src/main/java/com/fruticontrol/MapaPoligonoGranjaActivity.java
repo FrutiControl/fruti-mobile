@@ -76,11 +76,11 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_poligono_granja);
-        puntosEscogidos=new ArrayList<String>();
+        puntosEscogidos = new ArrayList<String>();
         token = (Token) getApplicationContext();
-        eliminarPuntoButton=findViewById(R.id.buttonEliminarUltimoPunto);
+        eliminarPuntoButton = findViewById(R.id.buttonEliminarUltimoPunto);
         marcarPuntoButton = findViewById(R.id.buttonEscogerUbicacion);
-        finalizarMarcadoButton=findViewById(R.id.buttonFinalizarMarcado);
+        finalizarMarcadoButton = findViewById(R.id.buttonFinalizarMarcado);
         marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();
@@ -93,8 +93,10 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
                     gottenLocations++;
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
+                    mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
                 }
-                if (gottenLocations > 0) {
+                if (gottenLocations > 2) {
                     removeCallback = mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                     arbolMarker.setPosition(new LatLng(latitude, longitude));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(arbolMarker.getPosition()));
@@ -111,23 +113,23 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
         finalizarMarcadoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(puntosEscogidos.size()>=6){
+                if (puntosEscogidos.size() >= 6) {
                     Intent intent = new Intent();
-                    Bundle bundle=new Bundle();
+                    Bundle bundle = new Bundle();
                     bundle.putStringArrayList("puntoPoligono", puntosEscogidos);
                     intent.putStringArrayListExtra("puntoPoligono", puntosEscogidos);
-                    intent.putExtra("bundle",bundle);
-                    setResult(Activity.RESULT_OK,intent);
+                    intent.putExtra("bundle", bundle);
+                    setResult(Activity.RESULT_OK, intent);
                     finish();
-                }else{
-                    Toast.makeText(view.getContext(),"Debe escoger por lo menos 3 puntos",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(view.getContext(), "Debe escoger por lo menos 3 puntos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         eliminarPuntoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setCancelable(true);
                 builder.setTitle(Html.fromHtml("<font color='#964F2D'>Eliminar último punto</font>"));
                 builder.setMessage(Html.fromHtml("<font color='#910C00'>¿Está seguro de que desea eliminar el último punto?</font>"));
@@ -140,31 +142,31 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
                 builder.setPositiveButton("Si, eliminar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ArrayList<String> auxList=new ArrayList<>();
-                        for(int a=0;a<puntosEscogidos.size()-2;a++){
+                        ArrayList<String> auxList = new ArrayList<>();
+                        for (int a = 0; a < puntosEscogidos.size() - 2; a++) {
                             auxList.add(puntosEscogidos.get(a));
                         }
                         puntosEscogidos.clear();
-                        puntosEscogidos=auxList;
+                        puntosEscogidos = auxList;
                         mMap.clear();
                         //SE PONEN DE NUEVO TODOS LOS MARCADORES
-                        if(!puntosEscogidos.isEmpty()){
-                            for(int j=0;j<puntosEscogidos.size();j=j+2){
-                                LatLng auxPoint=new LatLng(Double.parseDouble(puntosEscogidos.get(j)),Double.parseDouble(puntosEscogidos.get(j+1)));
+                        if (!puntosEscogidos.isEmpty()) {
+                            for (int j = 0; j < puntosEscogidos.size(); j = j + 2) {
+                                LatLng auxPoint = new LatLng(Double.parseDouble(puntosEscogidos.get(j)), Double.parseDouble(puntosEscogidos.get(j + 1)));
                                 mMap.addMarker(new MarkerOptions().position(auxPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.seo32fin)));
                             }
                         }
                         //SE VERIFICA SI HAY AL MENOS 3 PUNTOS PARA AGREGAR EL POLYGON
-                        if(puntosEscogidos.size()>=6){
+                        if (puntosEscogidos.size() >= 6) {
                             //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
-                            List<LatLng>auxPolygonArray=new ArrayList<>();
-                            for(int b=0;b<puntosEscogidos.size();b=b+2){
-                                Double a1=Double.parseDouble(puntosEscogidos.get(b));
-                                Double a2=Double.parseDouble(puntosEscogidos.get(b+1));
-                                LatLng auxLL=new LatLng(a1,a2);
+                            List<LatLng> auxPolygonArray = new ArrayList<>();
+                            for (int b = 0; b < puntosEscogidos.size(); b = b + 2) {
+                                Double a1 = Double.parseDouble(puntosEscogidos.get(b));
+                                Double a2 = Double.parseDouble(puntosEscogidos.get(b + 1));
+                                LatLng auxLL = new LatLng(a1, a2);
                                 auxPolygonArray.add(auxLL);
                             }
-                            Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
+                            Polygon polygon1 = mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
                                     new LatLng(-33.852, 151.211),
                                     new LatLng(-37.813, 144.962),
                                     new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
@@ -181,28 +183,28 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
                 //SE LIMPIA EL MAPA CUANDO SE AGREGA UN NUEVO MARCADOR
                 mMap.clear();
                 //SE PONEN DE NUEVO TODOS LOS MARCADORES
-                if(!puntosEscogidos.isEmpty()){
-                    for(int i=0;i<puntosEscogidos.size();i=i+2){
-                        LatLng auxPoint=new LatLng(Double.parseDouble(puntosEscogidos.get(i)),Double.parseDouble(puntosEscogidos.get(i+1)));
+                if (!puntosEscogidos.isEmpty()) {
+                    for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
+                        LatLng auxPoint = new LatLng(Double.parseDouble(puntosEscogidos.get(i)), Double.parseDouble(puntosEscogidos.get(i + 1)));
                         mMap.addMarker(new MarkerOptions().position(auxPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.seo32fin)));
                     }
                 }
                 //SE AGREGA EL ULTIMO MARCADOR ESCOGIDO AL MAPA Y A LA LISTA DE PUNTOS
-                LatLng point=new LatLng(cameraLatitude,cameraLongitude);
+                LatLng point = new LatLng(cameraLatitude, cameraLongitude);
                 mMap.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.fromResource(R.drawable.seo32fin)));
                 puntosEscogidos.add(String.valueOf(cameraLatitude));
                 puntosEscogidos.add(String.valueOf(cameraLongitude));
                 //SE VERIFICA SI HAY AL MENOS 3 PUNTOS PARA AGREGAR EL POLYGON
-                if(puntosEscogidos.size()>=6){
+                if (puntosEscogidos.size() >= 6) {
                     //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
-                    List<LatLng>auxPolygonArray=new ArrayList<>();
-                    for(int i=0;i<puntosEscogidos.size();i=i+2){
-                        Double a1=Double.parseDouble(puntosEscogidos.get(i));
-                        Double a2=Double.parseDouble(puntosEscogidos.get(i+1));
-                        LatLng auxLL=new LatLng(a1,a2);
+                    List<LatLng> auxPolygonArray = new ArrayList<>();
+                    for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
+                        Double a1 = Double.parseDouble(puntosEscogidos.get(i));
+                        Double a2 = Double.parseDouble(puntosEscogidos.get(i + 1));
+                        LatLng auxLL = new LatLng(a1, a2);
                         auxPolygonArray.add(auxLL);
                     }
-                    Polygon polygon1=mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
+                    Polygon polygon1 = mMap.addPolygon(new PolygonOptions().clickable(false).add(new LatLng(-27.457, 153.040),
                             new LatLng(-33.852, 151.211),
                             new LatLng(-37.813, 144.962),
                             new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
@@ -258,8 +260,8 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
 
     protected LocationRequest createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10);
-        mLocationRequest.setFastestInterval(5);
+        mLocationRequest.setInterval(100);
+        mLocationRequest.setFastestInterval(50);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         return mLocationRequest;
     }
