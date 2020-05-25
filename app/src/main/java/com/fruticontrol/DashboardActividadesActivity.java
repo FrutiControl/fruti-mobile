@@ -64,6 +64,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         listaTiposActividades=new ArrayList<>();
         listaFechas=new ArrayList<>();
         listaProgresos=new ArrayList<>();
+        cargarRecolecciones();
         cargarFertilizaciones();
         cargarFumigaciones();
         cargarPodas();
@@ -352,6 +353,71 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         queue.add(newFarmRequest);
     }
 
+    private void cargarRecolecciones(){
+        RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
+                "https://app.fruticontrol.me/app/recollections/", null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("recollectionsList", response.toString());
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                System.out.println("RESPONSE ES "+response.toString());
+                                JSONObject activityObject = response.getJSONObject(i);
+                                if(token.getGranjaActual().equals(activityObject.getString("farm"))){
+                                    auxTipos.add("recollection");
+                                    listaIds.add(activityObject.getString("id"));
+                                    //SE TRADUCE Y AGREGA TIPO EN LISTA
+                                    String auxTipo=inicialTipoInversa(activityObject.getString("type"));
+                                    listaTiposActividades.add("Recolección: "+auxTipo);
+                                    auxSubtipos.add(activityObject.getString("type"));
+                                    //SE TRADUCE FECHA INICIO
+                                    String auxFecha = activityObject.getString("start_date");
+                                    String divide2 = auxFecha;
+                                    String[] separated2 = divide2.split("-");
+                                    auxFecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                    //SE TRADUCE FECHA FIN
+                                    String auxFechaFin = activityObject.getString("end_date");
+                                    String divide3 = auxFechaFin;
+                                    String[] separated3 = divide3.split("-");
+                                    auxFechaFin=separated3[2] + "/" + separated3[1] + "/" + separated3[0];
+                                    //SE AGREGAN A LA LISTA DE FECHAS
+                                    listaFechas.add(auxFecha+"-"+auxFechaFin);
+                                    listaArboles.add(activityObject.getString("trees"));
+
+                                    System.out.println("PROGRESO ES "+activityObject.getString("progress"));
+                                    String auxPro=activityObject.getString("progress");
+                                    float auxProg=Float.parseFloat(auxPro);
+                                    auxProg=auxProg*100;
+                                    actualizarValores(auxProg);
+                                    auxPro=String.format("%.1f", auxProg);
+                                    listaProgresos.add(auxPro+"%");
+                                }
+                            }
+                            llenadoLista();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                //Toast.makeText(DashboardActividadesActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        }) {    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Token " + token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                return params;
+            }
+        };
+        queue.add(newFarmRequest);
+    }
+
     @Override
     public void onRestart()
     {
@@ -438,6 +504,25 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
         txtPendiente.setText(contPendientes+"\n"+"Actividades"+"\n" +"pendientes");
         txtProceso.setText(contProceso+"\n"+"Actividades en"+"\n"+"proceso");
+    }
+
+    private String inicialTipoInversa(String opcion) {
+        switch (opcion) {
+            case "M":
+                return "Mango tommy";
+            case "F":
+                return "Mango farchil";
+            case "N":
+                return "Naranja";
+            case "D":
+                return "Mandarina";
+            case "L":
+                return "Limon";
+            case "A":
+                return "Aguacate";
+            default:
+                return "Banano";
+        }
     }
 
     private void consultaAvance(String tipo, String idActividad, int posACambiar){

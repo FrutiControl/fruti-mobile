@@ -92,7 +92,11 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     else if (tipoActividad.equals("Fertilización")) {
                         url = url + "fertilizations/";
                         sutTipo = traductorFertilizaciones(spinnerSubtipo.getSelectedItem().toString());
-                    } else {
+                    }
+                    else if (tipoActividad.equals("Recolección")) {
+                        url = url + "recollections/";
+                        sutTipo = traductorFertilizaciones(spinnerSubtipo.getSelectedItem().toString());
+                    }else {
                         url = url + "waterings/";
                         sutTipo = traductorRiegos(spinnerSubtipo.getSelectedItem().toString());
                     }
@@ -187,6 +191,10 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 if (tipo.equals("Riego")) {
                     ArrayAdapter<CharSequence> spinnerAdapterRiego = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoRiego, R.layout.spinner_item);
                     spinnerSubtipo.setAdapter(spinnerAdapterRiego);
+                }
+                if (tipo.equals("Recolección")) {
+                    ArrayAdapter<CharSequence> spinnerAdapterRecoleccion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoArbolFrutal, R.layout.spinner_item);
+                    spinnerSubtipo.setAdapter(spinnerAdapterRecoleccion);
                 }
             }
 

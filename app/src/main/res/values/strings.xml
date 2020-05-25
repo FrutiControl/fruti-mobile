@@ -53,6 +53,7 @@
         <item> Fumigación </item>
         <item> Fertilización </item>
         <item> Riego </item>
+        <item> Recolección </item>
     </string-array>
     <string name="title_activity_mapa_nuevo_arbol">Map</string>
     <string name="escoger_ubicaci_n">Escoger ubicación</string>
