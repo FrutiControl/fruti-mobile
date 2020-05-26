@@ -1,6 +1,9 @@
 package com.fruticontrol;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +13,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,11 +41,14 @@ public class ListaGranjasActivity extends AppCompatActivity {
     private ArrayList<String> nombresGranjas;
     private ArrayList<String> idGranjas;
     private ArrayList<String> puntosGranjas;
+    static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
+    static final int REQUEST_CHECK_SETTINGS = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_granjas);
+        requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         token = (Token) getApplicationContext();
         listView = (ListView) findViewById(R.id.listaGranjasList);
         dataModels = new ArrayList<>();
@@ -128,5 +136,14 @@ public class ListaGranjasActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void requestPermission(Activity context, String permiso, String justificacion, int idCode) {
+        if (ContextCompat.checkSelfPermission(context, permiso) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(context, justificacion, Toast.LENGTH_LONG).show();
+            }
+            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, idCode);
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,6 +44,8 @@ public class NuevaActividadActivity extends AppCompatActivity {
     private Calendar calFin;
     private EditText txtFechaInicio;
     private EditText txtFechaFin;
+    private EditText txtCostoMatActividad;
+    private EditText txtCostoManoActividad;
     private DatePickerDialog datePInicio;
     private DatePickerDialog datePFin;
     private Spinner spinnerTipo;
@@ -56,7 +59,10 @@ public class NuevaActividadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_actividad);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         token = (Token) getApplicationContext();
+        txtCostoManoActividad=findViewById(R.id.editTextCostoManoActividad);
+        txtCostoMatActividad=findViewById(R.id.editTextCostoMaterialesActividad);
         txtFechaInicio = findViewById(R.id.fechaInicio);
         txtFechaFin = findViewById(R.id.fechaFin);
         spinnerTipo = findViewById(R.id.spinnerTipoProceso);
@@ -95,7 +101,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     }
                     else if (tipoActividad.equals("Recolección")) {
                         url = url + "recollections/";
-                        sutTipo = traductorFertilizaciones(spinnerSubtipo.getSelectedItem().toString());
+                        sutTipo = inicialTipo2(spinnerSubtipo.getSelectedItem().toString());
                     }else {
                         url = url + "waterings/";
                         sutTipo = traductorRiegos(spinnerSubtipo.getSelectedItem().toString());
@@ -165,6 +171,129 @@ public class NuevaActividadActivity extends AppCompatActivity {
                         }
                     };
                     queue.add(lastActivityRequest);
+
+
+
+
+                    //SE HACE CONSUMO PARA AGREGAR NUEVOS GASTOS
+                    String concepto2="Recoleccion "+spinnerSubtipo.getSelectedItem().toString();
+                    //SE TOMA LA FECHA DE INICIO Y SE CAMBIA EL FORMATO
+                    String divide4 = txtFechaInicio.getText().toString();
+                    String separated4[] = divide4.split(" ");
+                    String aux4 = separated4[3];
+                    String data4[] = aux4.split("/");
+                    String auxFecha4 = data4[2] + "-" + data4[1] + "-" + data4[0];
+                    //VALOR
+                    String valor=txtCostoManoActividad.getText().toString();
+                    //INICIAL DE SUBTIPO DE ACTIVIDAD
+                    int selectedItemOfMySpinner2 = spinnerSubtipo.getSelectedItemPosition();
+                    String actualPositionOfMySpinner2 = (String) spinnerSubtipo.getItemAtPosition(selectedItemOfMySpinner2);
+                    String tipoActividad2 = inicialTipo(actualPositionOfMySpinner2);
+                    String body3 = "{\"concept\":\"" + concepto2 + "\",\"date\":\"" + auxFecha4 + "\",\"value\":\"" + valor + "\",\"recommended\":\"" + true + "\",\"type\":\"" + "O"+ "\",\"activity\":\"" + "H" + "\",\"act_type\":\"" + tipoActividad2 + "\"}";
+                    Log.i("newOutcomeAPI", "Nuevo gasto: " + body3);
+                    JSONObject newOutcome = null;
+                    try {
+                        newOutcome = new JSONObject(body3);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,
+                            "https://app.fruticontrol.me/money/outcomes/", newOutcome,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("newOutcomeAPI", response.toString());
+
+                                    if (response.has("error")) {
+                                        try {
+                                            Toast.makeText(NuevaActividadActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        finish();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            //params.put("Content-Type", "application/json");
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(newOutcomeRequest);
+
+
+
+
+
+
+
+
+                    //VALOR
+                    String valor5=txtCostoMatActividad.getText().toString();
+                    String body4 = "{\"concept\":\"" + concepto2 + "\",\"date\":\"" + auxFecha4 + "\",\"value\":\"" + valor5 + "\",\"recommended\":\"" + true + "\",\"type\":\"" + "M"+ "\",\"activity\":\"" + "H" + "\",\"act_type\":\"" + tipoActividad2 + "\"}";
+                    Log.i("newOutcomeAPI", "Nuevo gasto: " + body4);
+                    JSONObject newOutcome2 = null;
+                    try {
+                        newOutcome2 = new JSONObject(body3);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    JsonObjectRequest newOutcomeRequest2 = new JsonObjectRequest(Request.Method.POST,
+                            "https://app.fruticontrol.me/money/outcomes/", newOutcome2,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.i("newOutcomeAPI", response.toString());
+
+                                    if (response.has("error")) {
+                                        try {
+                                            Toast.makeText(NuevaActividadActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        finish();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            //params.put("Content-Type", "application/json");
+                            params.put("Authorization", "Token " + token.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(newOutcomeRequest2);
+
+
+
+
+
+
+
+
+
+
+
                 }
             }
         });
@@ -239,6 +368,45 @@ public class NuevaActividadActivity extends AppCompatActivity {
         });
     }
 
+
+    private String inicialTipo(String opcion) {
+        if (opcion.equals("Mango tommy")) {
+            return "S1";
+        } else if (opcion.equals("Mango farchil")) {
+            return "S2";
+        } else if (opcion.equals("Naranja")) {
+            return "S3";
+        } else if (opcion.equals("Aguacate")) {
+            return "S4";
+        } else if (opcion.equals("Mandarina")) {
+            return "S5";
+        } else if (opcion.equals("Limon")) {
+            return "S6";
+        } else {
+            return "S7";
+        }
+    }
+
+
+    private String inicialTipo2(String opcion) {
+        if (opcion.equals("Mango tommy")) {
+            return "M";
+        } else if (opcion.equals("Mango farchil")) {
+            return "F";
+        } else if (opcion.equals("Naranja")) {
+            return "N";
+        } else if (opcion.equals("Aguacate")) {
+            return "A";
+        } else if (opcion.equals("Mandarina")) {
+            return "D";
+        } else if (opcion.equals("Limon")) {
+            return "L";
+        } else {
+            return "B";
+        }
+    }
+
+
     private void setSpinnerError(Spinner spinner) {
         View selectedView = spinner.getSelectedView();
         if (selectedView instanceof TextView) {
@@ -248,11 +416,24 @@ public class NuevaActividadActivity extends AppCompatActivity {
         }
     }
 
+
     private boolean validateForm() {
         boolean valid = true;
         if(listaArbolesSeleccionados==null){
             valid=false;
             Toast.makeText(NuevaActividadActivity.this, "Debe seleccionar al menos un árbol al que se le va a aplicar la actividad", Toast.LENGTH_LONG).show();
+        }
+        if (TextUtils.isEmpty(txtCostoMatActividad.getText().toString())) {
+            txtCostoMatActividad.setError("Requerido");
+            valid = false;
+        }else{
+            txtCostoMatActividad.setError(null);
+        }
+        if (TextUtils.isEmpty(txtCostoManoActividad.getText().toString())) {
+            txtCostoManoActividad.setError("Requerido");
+            valid = false;
+        }else{
+            txtCostoManoActividad.setError(null);
         }
         int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipo.getItemAtPosition(selectedItemOfMySpinner);
@@ -408,3 +589,4 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
 
 }
+
