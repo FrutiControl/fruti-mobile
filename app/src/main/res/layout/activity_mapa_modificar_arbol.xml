@@ -40,7 +40,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/tree80center"
+        android:src="@drawable/marker32mod"
         android:contentDescription="TODO" />
+
+    <Button
+        android:id="@+id/buttonGhostModificar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:background="@android:color/transparent" />
 
 </FrameLayout>

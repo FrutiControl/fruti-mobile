@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -52,6 +53,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
     private Token token;
     private String newLat;
     private String newLon;
+    private ArrayList<String> localizacionesArboles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
         tipo = intent.getStringExtra("tipo");
         fecha = intent.getStringExtra("fecha");
         localizacion = intent.getStringExtra("localizacion");
+        localizacionesArboles=intent.getStringArrayListExtra("todosArboles");
 
         String divide = localizacion;
         String[] separated = divide.split("\\(");
@@ -212,6 +215,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), MapaModificarArbolActivity.class);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
+                intent.putExtra("todosArboles",(ArrayList<String>) localizacionesArboles);
                 startActivityForResult(intent,100);
                 //startActivity(intent);
             }

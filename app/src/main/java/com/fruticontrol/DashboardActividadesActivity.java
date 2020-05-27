@@ -28,6 +28,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class DashboardActividadesActivity extends AppCompatActivity {
 
     private Button nuevaActividadButton;
@@ -70,6 +75,20 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         cargarPodas();
         cargarRiegos();
         llenadoLista();
+
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(false)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("En esta pantalla puede visualizar el estado general y la lista de actividades, para crear una nueva actividad haga clic en nueva actividad")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(nuevaActividadButton)
+                .setUsageId("dash_actividades_showcase")
+                .show();
 
         nuevaActividadButton.setOnClickListener(new View.OnClickListener() {
             @Override

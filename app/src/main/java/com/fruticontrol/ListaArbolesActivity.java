@@ -26,6 +26,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class ListaArbolesActivity extends AppCompatActivity {
 
     ArrayList<ResumenArbolDataModel> dataModels;
@@ -52,10 +57,24 @@ public class ListaArbolesActivity extends AppCompatActivity {
         etapasArboles = new ArrayList<>();
         fechasSiembra = new ArrayList<>();
         localizacionesArboles = new ArrayList<>();
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(false)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("En esta pantalla puede visualizar la lista de árboles de su granja cuando los haya creado, para crear un nuevo árbol haga clic en crear árbol")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(nuevoArbolButton)
+                .setUsageId("lista_arboles_showcase")
+                .show();
         nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CrearArbolActivity.class);
+                intent.putExtra("todosArboles",(ArrayList<String>) localizacionesArboles);
                 startActivity(intent);
             }
         });
@@ -67,6 +86,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                 intent.putExtra("tipo", tiposArboles.get(i));
                 intent.putExtra("fecha", fechasSiembra.get(i));
                 intent.putExtra("localizacion", localizacionesArboles.get(i));
+                intent.putExtra("todosArboles",(ArrayList<String>) localizacionesArboles);
                 System.out.println("LA LOCALIZACION DEL ARBOL SELECCIONADO FUE "+localizacionesArboles.get(i));
                 startActivity(intent);
             }

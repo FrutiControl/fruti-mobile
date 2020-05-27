@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,11 +32,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class ListaGranjasActivity extends AppCompatActivity {
 
     Button nuevaGranjaButton;
     ArrayList<ResumenGranjaDataModel> dataModels;
     ListView listView;
+    TextView txTituloGrnja;
     private static ResumenGranjasAdapter adapter;
     private Token token;
     private ArrayList<String> nombresGranjas;
@@ -51,10 +58,27 @@ public class ListaGranjasActivity extends AppCompatActivity {
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         token = (Token) getApplicationContext();
         listView = (ListView) findViewById(R.id.listaGranjasList);
+        txTituloGrnja=findViewById(R.id.textViewTituloGrnjas);
+        nuevaGranjaButton = findViewById(R.id.buttonNuevaGranja);
         dataModels = new ArrayList<>();
         puntosGranjas = new ArrayList<>();
         nombresGranjas = new ArrayList<>();
         idGranjas = new ArrayList<>();
+
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(false)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("En esta pantalla puede visualizar su lista de granjas, para crear una nueva granja haga clic en el boton nueva granja")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(nuevaGranjaButton)
+                .setUsageId("lista_granja_showcase")
+                .show();
+
         RequestQueue queue = Volley.newRequestQueue(ListaGranjasActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
                 "https://app.fruticontrol.me/app/farms/", null,
@@ -127,7 +151,6 @@ public class ListaGranjasActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        nuevaGranjaButton = findViewById(R.id.buttonNuevaGranja);
         nuevaGranjaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +167,18 @@ public class ListaGranjasActivity extends AppCompatActivity {
                 Toast.makeText(context, justificacion, Toast.LENGTH_LONG).show();
             }
             ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, idCode);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CHECK_SETTINGS: {
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(this, "sin acceso a localizacion, hardware deshabilitado!", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 }

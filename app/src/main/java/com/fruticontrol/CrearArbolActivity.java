@@ -33,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +51,7 @@ public class CrearArbolActivity extends AppCompatActivity {
     private Token token;
     private String lat;
     private String lon;
+    private ArrayList<String> listaArboles;
 
 
     @Override
@@ -61,7 +63,7 @@ public class CrearArbolActivity extends AppCompatActivity {
         token.setArbolEscogido(false);
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
-
+        listaArboles=getIntent().getStringArrayListExtra("todosArboles");
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapter);
         buttonUbicacion = findViewById(R.id.buttonDefinirUbicacion);
@@ -84,6 +86,7 @@ public class CrearArbolActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(view.getContext(),MapaNuevoArbolActivity.class);
+                intent.putExtra("todosArboles",listaArboles);
                 intent.putExtra("lat",token.getPuntosPoligonoGranja().get(0));
                 intent.putExtra("lon",token.getPuntosPoligonoGranja().get(1));
                 startActivityForResult(intent, 100);

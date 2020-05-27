@@ -3,6 +3,8 @@ package com.fruticontrol;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +48,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -55,8 +62,10 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
     double cameraLatitude;
     double cameraLongitude;
     private Button seleccionarUbicacionButton;
+    private Button ghostButton;
     private ImageView marcadorArbol;
     private Token token;
+    private ArrayList<String> listaArboles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +77,33 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         System.out.println("lat recibida es  " + latAux);
         String lonAux = intent.getStringExtra("lon");
         System.out.println("lon recibida es  " + lonAux);
+        listaArboles = intent.getStringArrayListExtra("todosArboles");
         latitude = Double.parseDouble(latAux);
         longitude = Double.parseDouble(lonAux);
         System.out.println("DESPUES DE CONVERTIDOS LOS PUNTOS INICIALES SON "+latitude+" "+longitude);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
+        ghostButton=findViewById(R.id.buttonGhostNuevo);
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(true)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("Para definir la ubicación del árbol debe arrastrar el mapa, y cuando finalmente esté ubicado en la posición deseada presione escoger ubicación")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(ghostButton)
+                .setUsageId("nuevo_showcase")
+                .show();
+        ghostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button button = (Button) view;
+                button.setVisibility(View.INVISIBLE);
+            }
+        });
         seleccionarUbicacionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +156,22 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                 new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
         polygon1.setPoints(auxPolygonArray);
         //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
+
+        //SE DIBUJAN ARBOLES SOBRE EL MAPA
+        for (int i = 0; i < listaArboles.size(); i = i + 1) {
+            String divide = listaArboles.get(i);
+            String[] separated = divide.split("\\(");
+            String[] anotherAux = separated[1].split(" ");
+            String lat = anotherAux[0];
+            System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LAT" + anotherAux[0]);
+            String[] lonAux = anotherAux[1].split("\\)");
+            String lon = lonAux[0];
+            System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LON" + lonAux[0]);
+            Double a1 = Double.parseDouble(lat);
+            Double a2 = Double.parseDouble(lon);
+            mMap.addMarker(new MarkerOptions().position(new LatLng(a1, a2)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(false));
+        }
+
         arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
         System.out.println("XXXXXXXXXXXXXX POS_MARKER " + arbolMarker.getPosition().toString());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(arbolMarker.getPosition()));
@@ -157,6 +204,24 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                             new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
                     polygon1.setPoints(auxPolygonArray);
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
+
+                    //SE DIBUJAN ARBOLES SOBRE EL MAPA
+                    for (int i = 0; i < listaArboles.size(); i = i + 1) {
+                        String divide = listaArboles.get(i);
+                        String[] separated = divide.split("\\(");
+                        String[] anotherAux = separated[1].split(" ");
+                        String lat = anotherAux[0];
+                        System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LAT" + anotherAux[0]);
+                        String[] lonAux = anotherAux[1].split("\\)");
+                        String lon = lonAux[0];
+                        System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LON" + lonAux[0]);
+                        Double a1 = Double.parseDouble(lat);
+                        Double a2 = Double.parseDouble(lon);
+                        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.tree);
+                        Bitmap b = bitmapdraw.getBitmap();
+                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(a1, a2)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).draggable(false));
+                    }
                 }
             }
         });

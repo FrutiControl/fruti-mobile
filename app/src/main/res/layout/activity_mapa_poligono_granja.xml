@@ -65,13 +65,13 @@
         android:layout_gravity="center"
         android:src="@drawable/marker32mod" />
 
-    <TextView
-        android:id="@+id/textView15"
+    <Button
+        android:id="@+id/buttonGhostGranja"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/backgroundColor"
-        android:text="Cada vez que oprima el botón marcar punto, quedará marcado el punto en el mapa. Mueva el mapa y vuelva a oprimir el botón marcar punto. Repita este paso tantas veces hasta que se forme un poligono delimitando la granja, debe marcar al menos 3 puntos para establecer de manera correcta la ubicación. Para eliminar un punto haga clic en eliminar último punto"
-        android:textColor="@color/fontColor2"
-        android:textSize="14sp" />
+        android:layout_height="65dp"
+        android:layout_gravity="center|right"
+        android:background="@android:color/transparent"
+        android:text="."
+        android:textColor="@android:color/transparent" />
 
 </FrameLayout>

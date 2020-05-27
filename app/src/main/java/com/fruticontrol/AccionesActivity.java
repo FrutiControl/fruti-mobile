@@ -24,6 +24,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class AccionesActivity extends AppCompatActivity {
 
     private Button arbolButton;
@@ -45,6 +50,20 @@ public class AccionesActivity extends AppCompatActivity {
         perfilButton = findViewById(R.id.buttonPerfil);
         verGranjasButton = findViewById(R.id.buttonVerGranjas);
         System.out.println("XXXXXX LA GRANJA TOUCHADA FUE LA " + token.getGranjaActual());
+
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(false)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("Para comenzar debe agregar árboles a la granja, esto lo puede realizar desde la opción Árboles. Luego, puede crear actividades a partir de los árboles ya agregados desde el botón actividades. Además de esto puede manejar sus finanzas en el botón finanzas y cambiar de granja en el botón granja. Por último en perfil puede modificar los datos de la cuenta y la preferencia del valor del jornal")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(arbolButton)
+                .setUsageId("first_showcase")
+                .show();
 
         verGranjasButton.setOnClickListener(new View.OnClickListener() {
             @Override

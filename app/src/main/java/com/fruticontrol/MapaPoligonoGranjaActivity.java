@@ -52,6 +52,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.target.ViewTarget;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -68,6 +74,7 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
     private Button marcarPuntoButton;
     private Button finalizarMarcadoButton;
     private Button eliminarPuntoButton;
+    private Button ghostButton;
     private ImageView marcadorArbol;
     private Token token;
     private ArrayList<String> puntosEscogidos;
@@ -78,10 +85,24 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
         setContentView(R.layout.activity_mapa_poligono_granja);
         puntosEscogidos = new ArrayList<String>();
         token = (Token) getApplicationContext();
+        ghostButton=findViewById(R.id.buttonGhostGranja);
         eliminarPuntoButton = findViewById(R.id.buttonEliminarUltimoPunto);
         marcarPuntoButton = findViewById(R.id.buttonEscogerUbicacion);
         finalizarMarcadoButton = findViewById(R.id.buttonFinalizarMarcado);
         marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(true)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("Arrastre el mapa y oprima marcar punto para ubicar un punto en el mapa. Repita este paso tantas veces hasta que se forme un poligono delimitando la granja, debe marcar al menos 3 puntos. Para eliminar un punto haga clic en eliminar último punto, y para finalizar la delimitación de la granja oprimar finalizar marcado")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(ghostButton)
+                .setUsageId("granja_showcase")
+                .show();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();
         mLocationCallback = new LocationCallback() {
@@ -110,6 +131,13 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
         startLocationUpdates();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
+        ghostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button button = (Button) view;
+                button.setVisibility(View.INVISIBLE);
+            }
+        });
         finalizarMarcadoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,12 +240,12 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
                 }
             }
         });
-        marcadorArbol.setOnClickListener(new View.OnClickListener() {
+        /*marcadorArbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDialog(cameraLatitude, cameraLongitude);
             }
-        });
+        });*/
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }

@@ -27,6 +27,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class PerfilActivity extends AppCompatActivity {
 
 
@@ -50,6 +55,21 @@ public class PerfilActivity extends AppCompatActivity {
         Intent intent=getIntent();
         nombreET.setText(intent.getStringExtra("nombre"));
         correoET.setText(intent.getStringExtra("correo"));
+
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(false)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("En esta pantalla puede modificar los datos con los que se registró y modificarlos si lo desea. Con el botón preferencias puede modificar el valor de jornal")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(preferenciasButton)
+                .setUsageId("preferencias_showcase")
+                .show();
+
         cerrarSesionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -25,6 +25,11 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
 public class DashboardFinanzasActivity extends AppCompatActivity {
 
     private Button nuevoIngresoButton;
@@ -34,6 +39,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
     private TextView txTotalIngresos;
     private TextView txTotalGastos;
     private TextView txTotal;
+    private TextView txFinanzas;
     private int totalGastos;
     private int totalIngresos;
     int auxTotal;
@@ -47,6 +53,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         auxTotal=0;
         formatea = new DecimalFormat("###,###.##");
         token=(Token)getApplicationContext();
+        txFinanzas=findViewById(R.id.textViewTituloFinanzas);
         txTotalIngresos =findViewById(R.id.textViewIngresosDashboard);
         txTotalGastos =findViewById(R.id.textViewGastosDashboard);
         nuevoIngresoButton = findViewById(R.id.buttonNuevoIngresoDFinanzas);
@@ -54,6 +61,20 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         verIngresosButton = findViewById(R.id.buttonVerIngresos);
         verGastosButton = findViewById(R.id.buttonVerGastos);
         txTotal=findViewById(R.id.textViewTotalFinanzas);
+
+        new MaterialIntroView.Builder(this)
+                .enableDotAnimation(false)
+                .enableIcon(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(1000)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText("En esta pantalla puede ver su total de ingresos y gastos. Con los botones de ver gastos e ingresos puede ver el detalle y con los botones de nuevo gasto e ingreso puede agregarlos")
+                .setShape(ShapeType.CIRCLE)
+                .setTarget(txFinanzas)
+                .setUsageId("dash_finanzas_showcase")
+                .show();
 
         RequestQueue queue = Volley.newRequestQueue(DashboardFinanzasActivity.this);
         JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,
