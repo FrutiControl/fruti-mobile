@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -32,11 +33,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class NuevaActividadActivity extends AppCompatActivity {
 
@@ -54,6 +60,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
     private Button seleccionarArbolesButton;
     private Token token;
     private ArrayList<Integer> listaArbolesSeleccionados;
+    private int valorJornal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +78,8 @@ public class NuevaActividadActivity extends AppCompatActivity {
         guardarNuevoProcesoButton = findViewById(R.id.buttonGuardarNuevoProceso);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoActividad, R.layout.spinner_item);
         spinnerTipo.setAdapter(spinnerAdapter);
+
+        traerValorJornal();
 
         seleccionarArbolesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +136,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     }
 
 
-                    String body = "{\"start_date\":\"" + auxFecha + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + sutTipo + "\",\"work_cost\":\"" + "0" + "\",\"tools_cost\":\"" + "0" + "\"}";
+                    String body = "{\"start_date\":\"" + auxFecha + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + sutTipo + "\",\"work_cost\":\"" + txtCostoManoActividad.getText().toString() + "\",\"tools_cost\":\"" + "0" + "\"}";
 
                     System.out.println("XXXXXXXXXXXXXXXXXX BODY ES "+body);
                     JSONObject newLastActivity = null;
@@ -175,7 +184,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
 
 
-                    //SE HACE CONSUMO PARA AGREGAR NUEVOS GASTOS
+                    //SE HACE CONSUMO PARA AGREGAR NUEVOS GASTOS MANO DE OBRA
                     String concepto2="Recoleccion "+spinnerSubtipo.getSelectedItem().toString();
                     //SE TOMA LA FECHA DE INICIO Y SE CAMBIA EL FORMATO
                     String divide4 = txtFechaInicio.getText().toString();
@@ -233,13 +242,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     queue.add(newOutcomeRequest);
 
 
-
-
-
-
-
-
-                    //VALOR
+                    //GASTO MATERIAL
                     String valor5=txtCostoMatActividad.getText().toString();
                     String body4 = "{\"concept\":\"" + concepto2 + "\",\"date\":\"" + auxFecha4 + "\",\"value\":\"" + valor5 + "\",\"recommended\":\"" + true + "\",\"type\":\"" + "M"+ "\",\"activity\":\"" + "H" + "\",\"act_type\":\"" + tipoActividad2 + "\"}";
                     Log.i("newOutcomeAPI", "Nuevo gasto: " + body4);
@@ -283,16 +286,6 @@ public class NuevaActividadActivity extends AppCompatActivity {
                         }
                     };
                     queue.add(newOutcomeRequest2);
-
-
-
-
-
-
-
-
-
-
 
                 }
             }
@@ -344,11 +337,14 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaInicio.setText("Fecha de inicio: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
+                        calcularManoObra();
                     }
                 }, year, month, day);
                 datePInicio.show();
             }
         });
+
+
 
         txtFechaFin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,6 +357,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
                         txtFechaFin.setText("Fecha de fin: " + String.format("%s/%s/%s", mDayOfMonth, mMonth + 1, mYear));
+                        calcularManoObra();
                     }
                 }, year, month, day);
                 datePFin.show();
@@ -404,6 +401,65 @@ public class NuevaActividadActivity extends AppCompatActivity {
         } else {
             return "B";
         }
+    }
+
+
+    private void calcularManoObra(){
+        if(!TextUtils.isEmpty(txtFechaInicio.getText().toString())){
+            if(!TextUtils.isEmpty(txtFechaFin.getText().toString())){
+                String divide = txtFechaInicio.getText().toString();
+                String[] separated = divide.split(" ");
+                String aux = separated[3];
+                String[] data = aux.split("/");
+                Calendar cal2 = Calendar.getInstance();
+                cal2.set(Integer.parseInt(data[2]), Integer.parseInt(data[1]) - 1, Integer.parseInt(data[0]), 23, 59);
+                String divide2 = txtFechaFin.getText().toString();
+                String[] separated2 = divide2.split(" ");
+                String aux2 = separated2[3];
+                String[] data2 = aux2.split("/");
+                Calendar cal4 = Calendar.getInstance();
+                cal4.set(Integer.parseInt(data2[2]), Integer.parseInt(data2[1]) - 1, Integer.parseInt(data2[0]), 23, 59);
+                long msDiff = cal4.getTimeInMillis() - cal2.getTimeInMillis();
+                long daysDiff = TimeUnit.MILLISECONDS.toDays(msDiff);
+                daysDiff++;
+                int total=valorJornal*Math.round(daysDiff);
+                txtCostoManoActividad.setText(String.valueOf(total));
+            }
+        }
+    }
+
+
+    private void traerValorJornal(){
+        RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
+        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,
+                "https://app.fruticontrol.me/users/owner/", null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("dayCost", response.toString());
+                        try {
+                            valorJornal=Integer.parseInt(response.getString("day_cost"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("dayCostAPI", "Error en la invocación a la API " + error.getCause());
+                Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        }){    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "Token " + token.getToken());
+                System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                return params;
+            }
+        };
+        queue.add(dayCostRequest);
     }
 
 
