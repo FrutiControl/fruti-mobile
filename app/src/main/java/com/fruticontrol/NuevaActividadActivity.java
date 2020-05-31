@@ -96,6 +96,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     String tipoActividad=spinnerTipo.getSelectedItem().toString();
                     String url = "https://app.fruticontrol.me/app/";
                     String sutTipo;
+                    int costoMateriales=0;
                     if (tipoActividad.equals("Poda")) {
                         url = url + "prunings/";
                         sutTipo = traductorPodas(spinnerSubtipo.getSelectedItem().toString());
@@ -181,17 +182,14 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     };
                     queue.add(lastActivityRequest);
 
-
-
-
                     //SE HACE CONSUMO PARA AGREGAR NUEVOS GASTOS MANO DE OBRA
-                    String concepto2="Recoleccion "+spinnerSubtipo.getSelectedItem().toString();
                     //SE TOMA LA FECHA DE INICIO Y SE CAMBIA EL FORMATO
                     String divide4 = txtFechaInicio.getText().toString();
                     String separated4[] = divide4.split(" ");
                     String aux4 = separated4[3];
                     String data4[] = aux4.split("/");
                     String auxFecha4 = data4[2] + "-" + data4[1] + "-" + data4[0];
+                    String concepto2=spinnerTipo.getSelectedItem().toString()+": "+spinnerSubtipo.getSelectedItem().toString()+" "+separated4[3];
                     //VALOR
                     String valor=txtCostoManoActividad.getText().toString();
                     //INICIAL DE SUBTIPO DE ACTIVIDAD
@@ -199,7 +197,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     String actualPositionOfMySpinner2 = (String) spinnerSubtipo.getItemAtPosition(selectedItemOfMySpinner2);
                     String tipoActividad2 = inicialTipo(actualPositionOfMySpinner2);
                     String body3 = "{\"concept\":\"" + concepto2 + "\",\"date\":\"" + auxFecha4 + "\",\"value\":\"" + valor + "\",\"recommended\":\"" + true + "\",\"type\":\"" + "O"+ "\",\"activity\":\"" + "H" + "\",\"act_type\":\"" + tipoActividad2 + "\"}";
-                    Log.i("newOutcomeAPI", "Nuevo gasto: " + body3);
+                    Log.i("handOutcomeAPI", "Nuevo gasto: " + body3);
                     JSONObject newOutcome = null;
                     try {
                         newOutcome = new JSONObject(body3);
@@ -245,7 +243,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     //GASTO MATERIAL
                     String valor5=txtCostoMatActividad.getText().toString();
                     String body4 = "{\"concept\":\"" + concepto2 + "\",\"date\":\"" + auxFecha4 + "\",\"value\":\"" + valor5 + "\",\"recommended\":\"" + true + "\",\"type\":\"" + "M"+ "\",\"activity\":\"" + "H" + "\",\"act_type\":\"" + tipoActividad2 + "\"}";
-                    Log.i("newOutcomeAPI", "Nuevo gasto: " + body4);
+                    Log.i("materialOutcomeAPI", "Nuevo gasto: " + body4);
                     JSONObject newOutcome2 = null;
                     try {
                         newOutcome2 = new JSONObject(body3);
@@ -301,22 +299,27 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 if (tipo.equals("Poda")) {
                     ArrayAdapter<CharSequence> spinnerAdapterPoda = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoPoda, R.layout.spinner_item);
                     spinnerSubtipo.setAdapter(spinnerAdapterPoda);
+                    txtCostoMatActividad.setText(Integer.toString(15000));
                 }
                 if (tipo.equals("Fumigación")) {
                     ArrayAdapter<CharSequence> spinnerAdapterFumigacion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoFumigacion, R.layout.spinner_item);
                     spinnerSubtipo.setAdapter(spinnerAdapterFumigacion);
+                    txtCostoMatActividad.setText(Integer.toString(60000));
                 }
                 if (tipo.equals("Fertilización")) {
                     ArrayAdapter<CharSequence> spinnerAdapterFertilizacion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoFertilizacion, R.layout.spinner_item);
                     spinnerSubtipo.setAdapter(spinnerAdapterFertilizacion);
+                    txtCostoMatActividad.setText(Integer.toString(60000));
                 }
                 if (tipo.equals("Riego")) {
                     ArrayAdapter<CharSequence> spinnerAdapterRiego = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoRiego, R.layout.spinner_item);
                     spinnerSubtipo.setAdapter(spinnerAdapterRiego);
+                    txtCostoMatActividad.setText(Integer.toString(10000));
                 }
                 if (tipo.equals("Recolección")) {
                     ArrayAdapter<CharSequence> spinnerAdapterRecoleccion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoArbolFrutal, R.layout.spinner_item);
                     spinnerSubtipo.setAdapter(spinnerAdapterRecoleccion);
+                    txtCostoMatActividad.setText(Integer.toString(15000));
                 }
             }
 
