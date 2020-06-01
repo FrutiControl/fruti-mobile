@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
         Pattern emailPattern = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-        Pattern passPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\w~@#$%^&*+=`|{}:;!.?\\\"()\\[\\]-]{8,25}$");
+        Pattern passPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\w~@#$%^&*+_=`|{}:;!.?\\\"()\\[\\]-]{8,25}$");
         Matcher emailMatcher = emailPattern.matcher(txtUsername.getText());
         Matcher passMatcher = passPattern.matcher(txtPass.getText());
 
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             valid = false;
         } else if (!passMatcher.matches()) {
             Log.e("usersAPI", "La contraseña no es válida");
-            txtPass.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula, un caracter especial y un número");
+            txtPass.setError("La contraseña debe tener minimo 8 caracteres, una mayuscula, una minuscula y un número");
             valid = false;
         } else {
             txtPass.setError(null);

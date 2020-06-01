@@ -117,7 +117,7 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
                     mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
                 }
-                if (gottenLocations > 2) {
+                if (gottenLocations > 1) {
                     removeCallback = mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                     arbolMarker.setPosition(new LatLng(latitude, longitude));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(arbolMarker.getPosition()));
