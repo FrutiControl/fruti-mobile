@@ -67,6 +67,7 @@ public class VerIngresosActivity extends AppCompatActivity {
                                 String valor = moneyObject.getString("value").toString();
                                 String tipo = inicialTipoInversa(moneyObject.getString("fruit_type"));
                                 String cantidad=moneyObject.getString("quantity").toString();
+                                String unidad=moneyObject.getString("unit").toString();
                                 //CONVERSION DE FECHA
                                 String fecha = moneyObject.getString("date");
                                 String divide2 = fecha;
@@ -74,7 +75,7 @@ public class VerIngresosActivity extends AppCompatActivity {
                                 fecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
                                 conceptosIngresos.add(concepto+" - "+fecha);
                                 tiposFrutaIngresos.add(tipo);
-                                cantidadesIngresos.add(cantidad+" canastillas a $"+valor+" c/u");
+                                cantidadesIngresos.add(cantidad+" "+traductorUnidadesInverso(unidad)+ " a $"+valor+" c/u");
                                 int auxTotal=Integer.parseInt(cantidad)*Integer.parseInt(valor);
                                 valoresIngresos.add("$"+auxTotal);
                                 totalFinal=totalFinal+auxTotal;
@@ -123,6 +124,18 @@ public class VerIngresosActivity extends AppCompatActivity {
                 return "Aguacate";
             default:
                 return "Banano";
+        }
+    }
+
+    private String traductorUnidadesInverso(String tipo) {
+        if (tipo.equals("C")) {
+            return "Canastillas";
+        }
+        if (tipo.equals("K")) {
+            return "Kilos";
+        }
+        else {
+            return "Unidades";
         }
     }
 }

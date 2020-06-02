@@ -10,6 +10,12 @@
     <string name="registrarme">Registrarme</string>
     <string name="granjas">Granjas</string>
     <string name="nueva_granja">Nueva granja</string>
+    <string-array name="Unidades">
+        <item> Seleccione las unidades... </item>
+        <item> Unidades </item>
+        <item> Kilos</item>
+        <item> Canastillas </item>
+    </string-array>
     <string-array name="TipoArbolFrutal">
         <item> Seleccione el tipo de árbol... </item>
         <item> Mango tommy </item>

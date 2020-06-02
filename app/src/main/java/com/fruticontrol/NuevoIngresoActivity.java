@@ -36,6 +36,7 @@ import java.util.Map;
 public class NuevoIngresoActivity extends AppCompatActivity {
 
     private Spinner spinnerTipoArbol;
+    private Spinner spinnerUnidad;
     private EditText txtFechaIngreso;
     private Calendar calIngreso;
     private DatePickerDialog dateIngreso;
@@ -54,6 +55,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         token=(Token)getApplicationContext();
         formatea = new DecimalFormat("###,###.##");
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbolNuevoIngreso);
+        spinnerUnidad=findViewById(R.id.spinnerUnidad);
         etCantidadCanastilla = findViewById(R.id.editTextCantidadCanastillas);
         etValorCanastilla = findViewById(R.id.editTextValorCanastilla);
         etConceptoIngreso = findViewById(R.id.editTextConcepto);
@@ -63,6 +65,9 @@ public class NuevoIngresoActivity extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> spinnerAdapterTipo = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapterTipo);
+
+        ArrayAdapter<CharSequence> spinnerUnidades = ArrayAdapter.createFromResource(this, R.array.Unidades, R.layout.spinner_item);
+        spinnerUnidad.setAdapter(spinnerUnidades);
 
         guardarNuevoIngresoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +87,15 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                     String valorCanastilla=etValorCanastilla.getText().toString();
                     //CANTIDAD DE CANASTILLAS
                     String cantidadCanastillas=etCantidadCanastilla.getText().toString();
+                    //TIPO DE UNIDAD
+                    int selectedItemOfMySpinnerUnidad = spinnerUnidad.getSelectedItemPosition();
+                    String actualPositionOfMySpinnerUnidad = (String) spinnerUnidad.getItemAtPosition(selectedItemOfMySpinnerUnidad);
+                    String unidad = traductorUnidades(actualPositionOfMySpinnerUnidad);
                     //SE TOMA EL TIPO DE ARBOL Y SE AVERIGUA LA INICIAL
                     int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
                     String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
                     String inicial = inicialTipo(actualPositionOfMySpinner);
-                    String body = "{\"concept\":\"" + concepto + "\",\"date\":\"" + auxFecha + "\",\"value\":\"" + valorCanastilla + "\",\"quantity\":\"" + cantidadCanastillas + "\",\"fruit_type\":\"" + inicial + "\",\"recommended\":\"" + false + "\"}";
+                    String body = "{\"concept\":\"" + concepto + "\",\"date\":\"" + auxFecha + "\",\"value\":\"" + valorCanastilla + "\",\"quantity\":\"" + cantidadCanastillas + "\",\"fruit_type\":\"" + inicial + "\",\"recommended\":\"" + false + "\",\"unit\":\"" + unidad +"\"}";
                     Log.i("newIncomeAPI", "Nuevo ingreso: " + body);
                     JSONObject newTree = null;
                     try {
@@ -187,6 +196,18 @@ public class NuevoIngresoActivity extends AppCompatActivity {
         });
     }
 
+    private String traductorUnidades(String tipo) {
+        if (tipo.equals("Canastillas")) {
+            return "C";
+        }
+        if (tipo.equals("Kilos")) {
+            return "K";
+        }
+        else {
+            return "U";
+        }
+    }
+
     private boolean validateForm() {
         boolean valid = true;
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
@@ -209,6 +230,10 @@ public class NuevoIngresoActivity extends AppCompatActivity {
             valid = false;
         } else {
             etConceptoIngreso.setError(null);
+        }
+        if (actualPositionOfMySpinner.equals("Seleccione las unidades...")) {
+            setSpinnerError(spinnerUnidad);
+            valid = false;
         }
         if (actualPositionOfMySpinner.equals("Seleccione el tipo de árbol...")) {
             setSpinnerError(spinnerTipoArbol);
