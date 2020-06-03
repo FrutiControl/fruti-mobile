@@ -74,7 +74,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="@string/valor_por_canastilla"
+        android:hint="@string/valor"
         android:inputType="number"
         android:textColor="@color/headerColor"
         android:textColorHint="@color/headerColor"

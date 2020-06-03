@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -68,6 +69,30 @@ public class NuevoIngresoActivity extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> spinnerUnidades = ArrayAdapter.createFromResource(this, R.array.Unidades, R.layout.spinner_item);
         spinnerUnidad.setAdapter(spinnerUnidades);
+
+        spinnerUnidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String tipo = spinnerUnidad.getSelectedItem().toString();
+                if (tipo.equals("Seleccione las unidades...")) {
+                    etValorCanastilla.setHint("Valor");
+                }
+                if (tipo.equals("Unidades")) {
+                    etValorCanastilla.setHint("Valor unidades");
+                }
+                if (tipo.equals("Kilos")) {
+                    etValorCanastilla.setHint("Valor kilos");
+                }
+                if (tipo.equals("Canastillas")) {
+                    etValorCanastilla.setHint("Valor canastillas");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         guardarNuevoIngresoButton.setOnClickListener(new View.OnClickListener() {
             @Override
