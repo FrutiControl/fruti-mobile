@@ -447,7 +447,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private String traductorRiegosInverso(String tipo) {
         if (tipo.equals("S")) {
-            return "Sistema";
+            return "Sistema de riego ";
         }
         if (tipo.equals("M")) {
             return "Manual";

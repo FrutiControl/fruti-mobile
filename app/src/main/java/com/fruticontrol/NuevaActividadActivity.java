@@ -589,7 +589,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
 
     private String traductorRiegos(String tipo) {
-        if (tipo.equals("Sistema")) {
+        if (tipo.equals("Sistema de riego")) {
             return "S";
         }
         if (tipo.equals("Manual")) {
