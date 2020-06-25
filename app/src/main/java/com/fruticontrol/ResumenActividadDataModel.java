@@ -1,18 +1,17 @@
 package com.fruticontrol;
 
 public class ResumenActividadDataModel {
-
     private String tiposActividad;
     private String fechas;
     private String progreso;
 
-    public ResumenActividadDataModel(String tiposActividad, String fechas, String progreso) {
+    ResumenActividadDataModel(String tiposActividad, String fechas, String progreso) {
         this.tiposActividad = tiposActividad;
         this.fechas = fechas;
         this.progreso = progreso;
     }
 
-    public String getTiposActividad() {
+    String getTiposActividad() {
         return tiposActividad;
     }
 
@@ -20,7 +19,7 @@ public class ResumenActividadDataModel {
         this.tiposActividad = tiposActividad;
     }
 
-    public String getFechas() {
+    String getFechas() {
         return fechas;
     }
 
@@ -28,7 +27,7 @@ public class ResumenActividadDataModel {
         this.fechas = fechas;
     }
 
-    public String getProgreso() {
+    String getProgreso() {
         return progreso;
     }
 

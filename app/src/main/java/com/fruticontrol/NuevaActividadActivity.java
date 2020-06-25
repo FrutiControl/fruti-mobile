@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -17,15 +16,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -33,19 +29,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class NuevaActividadActivity extends AppCompatActivity {
-
     private Calendar calInicio;
     private Calendar calFin;
     private EditText txtFechaInicio;
@@ -56,8 +46,6 @@ public class NuevaActividadActivity extends AppCompatActivity {
     private DatePickerDialog datePFin;
     private Spinner spinnerTipo;
     private Spinner spinnerSubtipo;
-    private Button guardarNuevoProcesoButton;
-    private Button seleccionarArbolesButton;
     private Token token;
     private ArrayList<Integer> listaArbolesSeleccionados;
     private int valorJornal;
@@ -68,14 +56,14 @@ public class NuevaActividadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nueva_actividad);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         token = (Token) getApplicationContext();
-        txtCostoManoActividad=findViewById(R.id.editTextCostoManoActividad);
-        txtCostoMatActividad=findViewById(R.id.editTextCostoMaterialesActividad);
+        txtCostoManoActividad = findViewById(R.id.editTextCostoManoActividad);
+        txtCostoMatActividad = findViewById(R.id.editTextCostoMaterialesActividad);
         txtFechaInicio = findViewById(R.id.fechaInicio);
         txtFechaFin = findViewById(R.id.fechaFin);
         spinnerTipo = findViewById(R.id.spinnerTipoProceso);
         spinnerSubtipo = findViewById(R.id.spinnerSubtipo);
-        seleccionarArbolesButton = findViewById(R.id.buttonSeleccionarArboles);
-        guardarNuevoProcesoButton = findViewById(R.id.buttonGuardarNuevoProceso);
+        Button seleccionarArbolesButton = findViewById(R.id.buttonSeleccionarArboles);
+        Button guardarNuevoProcesoButton = findViewById(R.id.buttonGuardarNuevoProceso);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoActividad, R.layout.spinner_item);
         spinnerTipo.setAdapter(spinnerAdapter);
 
@@ -85,7 +73,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ListaArbolesSeleccionActivity.class);
-                startActivityForResult(intent,100);
+                startActivityForResult(intent, 100);
             }
         });
         guardarNuevoProcesoButton.setOnClickListener(new View.OnClickListener() {
@@ -93,29 +81,32 @@ public class NuevaActividadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
-                    String tipoActividad=spinnerTipo.getSelectedItem().toString();
+                    String tipoActividad = spinnerTipo.getSelectedItem().toString();
                     String url = "https://app.fruticontrol.me/app/";
-                    String sutTipo;
-                    int costoMateriales=0;
-                    if (tipoActividad.equals("Poda")) {
-                        url = url + "prunings/";
-                        sutTipo = traductorPodas(spinnerSubtipo.getSelectedItem().toString());
+                    String subTipo;
+                    switch (tipoActividad) {
+                        case "Poda":
+                            url = url + "prunings/";
+                            subTipo = traductorPodas(spinnerSubtipo.getSelectedItem().toString());
+                            break;
+                        case "Fumigación":
+                            url = url + "fumigations/";
+                            subTipo = traductorFumigaciones(spinnerSubtipo.getSelectedItem().toString());
+                            break;
+                        case "Fertilización":
+                            url = url + "fertilizations/";
+                            subTipo = traductorFertilizaciones(spinnerSubtipo.getSelectedItem().toString());
+                            break;
+                        case "Recolección":
+                            url = url + "recollections/";
+                            subTipo = inicialTipo2(spinnerSubtipo.getSelectedItem().toString());
+                            break;
+                        default:
+                            url = url + "waterings/";
+                            subTipo = traductorRiegos(spinnerSubtipo.getSelectedItem().toString());
+                            break;
                     }
-                    else if (tipoActividad.equals("Fumigación")) {
-                        url = url + "fumigations/";
-                        sutTipo = traductorFumigaciones(spinnerSubtipo.getSelectedItem().toString());
-                    }
-                    else if (tipoActividad.equals("Fertilización")) {
-                        url = url + "fertilizations/";
-                        sutTipo = traductorFertilizaciones(spinnerSubtipo.getSelectedItem().toString());
-                    }
-                    else if (tipoActividad.equals("Recolección")) {
-                        url = url + "recollections/";
-                        sutTipo = inicialTipo2(spinnerSubtipo.getSelectedItem().toString());
-                    }else {
-                        url = url + "waterings/";
-                        sutTipo = traductorRiegos(spinnerSubtipo.getSelectedItem().toString());
-                    }
+                    // TODO: set proper names for this variables
                     String divide = txtFechaInicio.getText().toString();
                     String separated[] = divide.split(" ");
                     String aux = separated[3];
@@ -127,19 +118,18 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     String aux2 = separated2[3];
                     String data2[] = aux2.split("/");
                     String auxFecha2 = data2[2] + "-" + data2[1] + "-" + data2[0];
-
-                    String arboles="\"[\""+17+"\",\""+18+"\"]\"";
-
                     ArrayList<Integer> lista = listaArbolesSeleccionados;
-                    JSONArray care_type = new JSONArray();
-                    for(int i=0; i < lista.size(); i++) {
-                        care_type.put(lista.get(i));   // create array and add items into that
+                    JSONArray trees_activity = new JSONArray();
+                    for (int i = 0; i < lista.size(); i++) {
+                        trees_activity.put(lista.get(i));   // create array and add items into that
                     }
-
-
-                    String body = "{\"start_date\":\"" + auxFecha + "\",\"end_date\":\"" + auxFecha2 + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":" +care_type.toString()+ ",\"type\":\"" + sutTipo + "\",\"work_cost\":\"" + txtCostoManoActividad.getText().toString() + "\",\"tools_cost\":\"" + "0" + "\"}";
-
-                    System.out.println("XXXXXXXXXXXXXXXXXX BODY ES "+body);
+                    String body = "{\"start_date\":\"" + auxFecha +
+                            "\",\"end_date\":\"" + auxFecha2 +
+                            "\",\"farm\":\"" + token.getGranjaActual() +
+                            "\",\"trees\":" + trees_activity.toString() +
+                            ",\"type\":\"" + subTipo +
+                            "\",\"work_cost\":\"" + txtCostoManoActividad.getText().toString() +
+                            "\",\"tools_cost\":\"" + "0" + "\"}";
                     JSONObject newLastActivity = null;
                     try {
                         newLastActivity = new JSONObject(body);
@@ -170,33 +160,39 @@ public class NuevaActividadActivity extends AppCompatActivity {
                             Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
                             Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
-                    }) {    //this is the part, that adds the header to the request
+                    }) {
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
                             params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };
                     queue.add(lastActivityRequest);
-
                     //SE HACE CONSUMO PARA AGREGAR NUEVOS GASTOS MANO DE OBRA
                     //SE TOMA LA FECHA DE INICIO Y SE CAMBIA EL FORMATO
+                    // TODO: set proper names for this variables
                     String divide4 = txtFechaInicio.getText().toString();
                     String separated4[] = divide4.split(" ");
                     String aux4 = separated4[3];
                     String data4[] = aux4.split("/");
                     String auxFecha4 = data4[2] + "-" + data4[1] + "-" + data4[0];
-                    String concepto2=spinnerTipo.getSelectedItem().toString()+": "+spinnerSubtipo.getSelectedItem().toString()+" "+separated4[3];
+                    String concepto2 = spinnerTipo.getSelectedItem().toString() + ": " + spinnerSubtipo.getSelectedItem().toString() + " " + separated4[3];
                     //VALOR
-                    String valor=txtCostoManoActividad.getText().toString();
+                    String valor = txtCostoManoActividad.getText().toString();
                     //INICIAL DE SUBTIPO DE ACTIVIDAD
+                    // TODO: set proper names for this variables
                     int selectedItemOfMySpinner2 = spinnerSubtipo.getSelectedItemPosition();
                     String actualPositionOfMySpinner2 = (String) spinnerSubtipo.getItemAtPosition(selectedItemOfMySpinner2);
                     String tipoActividad2 = inicialTipo(actualPositionOfMySpinner2);
-                    String body3 = "{\"concept\":\"" + concepto2 + "\",\"date\":\"" + auxFecha4 + "\",\"value\":\"" + valor + "\",\"recommended\":\"" + true + "\",\"type\":\"" + "O"+ "\",\"activity\":\"" + "H" + "\",\"act_type\":\"" + tipoActividad2 + "\"}";
+                    String body3 = "{\"concept\":\"" + concepto2 +
+                            "\",\"date\":\"" + auxFecha4 +
+                            "\",\"value\":\"" + valor +
+                            "\",\"recommended\":\"" + true +
+                            "\",\"type\":\"" + "O" +
+                            "\",\"activity\":\"" + "H" +
+                            "\",\"act_type\":\"" + tipoActividad2 + "\"}";
                     Log.i("handOutcomeAPI", "Nuevo gasto: " + body3);
                     JSONObject newOutcome = null;
                     try {
@@ -227,22 +223,24 @@ public class NuevaActividadActivity extends AppCompatActivity {
                             Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
                             Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
-                    }) {    //this is the part, that adds the header to the request
+                    }) {
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
-                            //params.put("Content-Type", "application/json");
                             params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };
                     queue.add(newOutcomeRequest);
-
-
                     //GASTO MATERIAL
-                    String valor5=txtCostoMatActividad.getText().toString();
-                    String body4 = "{\"concept\":\"" + concepto2 + "\",\"date\":\"" + auxFecha4 + "\",\"value\":\"" + valor5 + "\",\"recommended\":\"" + true + "\",\"type\":\"" + "M"+ "\",\"activity\":\"" + "H" + "\",\"act_type\":\"" + tipoActividad2 + "\"}";
+                    String valor5 = txtCostoMatActividad.getText().toString();
+                    String body4 = "{\"concept\":\"" + concepto2 +
+                            "\",\"date\":\"" + auxFecha4 +
+                            "\",\"value\":\"" + valor5 +
+                            "\",\"recommended\":\"" + true +
+                            "\",\"type\":\"" + "M" +
+                            "\",\"activity\":\"" + "H" +
+                            "\",\"act_type\":\"" + tipoActividad2 + "\"}";
                     Log.i("materialOutcomeAPI", "Nuevo gasto: " + body4);
                     JSONObject newOutcome2 = null;
                     try {
@@ -273,13 +271,12 @@ public class NuevaActividadActivity extends AppCompatActivity {
                             Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
                             Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
-                    }) {    //this is the part, that adds the header to the request
+                    }) {
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             //params.put("Content-Type", "application/json");
                             params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };
@@ -292,43 +289,42 @@ public class NuevaActividadActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String tipo = spinnerTipo.getSelectedItem().toString();
-
-                if (tipo.equals("Seleccione el tipo de proceso...")) {
-                    setSpinnerError(spinnerTipo);
-                }
-                if (tipo.equals("Poda")) {
-                    ArrayAdapter<CharSequence> spinnerAdapterPoda = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoPoda, R.layout.spinner_item);
-                    spinnerSubtipo.setAdapter(spinnerAdapterPoda);
-                    txtCostoMatActividad.setText(Integer.toString(15000));
-                }
-                if (tipo.equals("Fumigación")) {
-                    ArrayAdapter<CharSequence> spinnerAdapterFumigacion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoFumigacion, R.layout.spinner_item);
-                    spinnerSubtipo.setAdapter(spinnerAdapterFumigacion);
-                    txtCostoMatActividad.setText(Integer.toString(60000));
-                }
-                if (tipo.equals("Fertilización")) {
-                    ArrayAdapter<CharSequence> spinnerAdapterFertilizacion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoFertilizacion, R.layout.spinner_item);
-                    spinnerSubtipo.setAdapter(spinnerAdapterFertilizacion);
-                    txtCostoMatActividad.setText(Integer.toString(60000));
-                }
-                if (tipo.equals("Riego")) {
-                    ArrayAdapter<CharSequence> spinnerAdapterRiego = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoRiego, R.layout.spinner_item);
-                    spinnerSubtipo.setAdapter(spinnerAdapterRiego);
-                    txtCostoMatActividad.setText(Integer.toString(10000));
-                }
-                if (tipo.equals("Recolección")) {
-                    ArrayAdapter<CharSequence> spinnerAdapterRecoleccion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoArbolFrutal, R.layout.spinner_item);
-                    spinnerSubtipo.setAdapter(spinnerAdapterRecoleccion);
-                    txtCostoMatActividad.setText(Integer.toString(15000));
+                switch (tipo) {
+                    case "Seleccione el tipo de proceso...":
+                        setSpinnerError(spinnerTipo);
+                        break;
+                    case "Poda":
+                        ArrayAdapter<CharSequence> spinnerAdapterPoda = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoPoda, R.layout.spinner_item);
+                        spinnerSubtipo.setAdapter(spinnerAdapterPoda);
+                        txtCostoMatActividad.setText(Integer.toString(15000));
+                        break;
+                    case "Fumigación":
+                        ArrayAdapter<CharSequence> spinnerAdapterFumigacion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoFumigacion, R.layout.spinner_item);
+                        spinnerSubtipo.setAdapter(spinnerAdapterFumigacion);
+                        txtCostoMatActividad.setText(Integer.toString(60000));
+                        break;
+                    case "Fertilización":
+                        ArrayAdapter<CharSequence> spinnerAdapterFertilizacion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoFertilizacion, R.layout.spinner_item);
+                        spinnerSubtipo.setAdapter(spinnerAdapterFertilizacion);
+                        txtCostoMatActividad.setText(Integer.toString(60000));
+                        break;
+                    case "Riego":
+                        ArrayAdapter<CharSequence> spinnerAdapterRiego = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoRiego, R.layout.spinner_item);
+                        spinnerSubtipo.setAdapter(spinnerAdapterRiego);
+                        txtCostoMatActividad.setText(Integer.toString(10000));
+                        break;
+                    case "Recolección":
+                        ArrayAdapter<CharSequence> spinnerAdapterRecoleccion = ArrayAdapter.createFromResource(getApplicationContext(), R.array.TipoArbolFrutal, R.layout.spinner_item);
+                        spinnerSubtipo.setAdapter(spinnerAdapterRecoleccion);
+                        txtCostoMatActividad.setText(Integer.toString(15000));
+                        break;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
-
         txtFechaInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -346,8 +342,6 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 datePInicio.show();
             }
         });
-
-
 
         txtFechaFin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,48 +362,48 @@ public class NuevaActividadActivity extends AppCompatActivity {
         });
     }
 
-
     private String inicialTipo(String opcion) {
-        if (opcion.equals("Mango tommy")) {
-            return "S1";
-        } else if (opcion.equals("Mango farchil")) {
-            return "S2";
-        } else if (opcion.equals("Naranja")) {
-            return "S3";
-        } else if (opcion.equals("Aguacate")) {
-            return "S4";
-        } else if (opcion.equals("Mandarina")) {
-            return "S5";
-        } else if (opcion.equals("Limon")) {
-            return "S6";
-        } else {
-            return "S7";
+        switch (opcion) {
+            case "Mango tommy":
+                return "S1";
+            case "Mango farchil":
+                return "S2";
+            case "Naranja":
+                return "S3";
+            case "Aguacate":
+                return "S4";
+            case "Mandarina":
+                return "S5";
+            case "Limon":
+                return "S6";
+            default:
+                return "S7";
         }
     }
-
 
     private String inicialTipo2(String opcion) {
-        if (opcion.equals("Mango tommy")) {
-            return "M";
-        } else if (opcion.equals("Mango farchil")) {
-            return "F";
-        } else if (opcion.equals("Naranja")) {
-            return "N";
-        } else if (opcion.equals("Aguacate")) {
-            return "A";
-        } else if (opcion.equals("Mandarina")) {
-            return "D";
-        } else if (opcion.equals("Limon")) {
-            return "L";
-        } else {
-            return "B";
+        switch (opcion) {
+            case "Mango tommy":
+                return "M";
+            case "Mango farchil":
+                return "F";
+            case "Naranja":
+                return "N";
+            case "Aguacate":
+                return "A";
+            case "Mandarina":
+                return "D";
+            case "Limon":
+                return "L";
+            default:
+                return "B";
         }
     }
 
-
-    private void calcularManoObra(){
-        if(!TextUtils.isEmpty(txtFechaInicio.getText().toString())){
-            if(!TextUtils.isEmpty(txtFechaFin.getText().toString())){
+    private void calcularManoObra() {
+        if (!TextUtils.isEmpty(txtFechaInicio.getText().toString())) {
+            if (!TextUtils.isEmpty(txtFechaFin.getText().toString())) {
+                // TODO: set proper names for this variables
                 String divide = txtFechaInicio.getText().toString();
                 String[] separated = divide.split(" ");
                 String aux = separated[3];
@@ -425,14 +419,13 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 long msDiff = cal4.getTimeInMillis() - cal2.getTimeInMillis();
                 long daysDiff = TimeUnit.MILLISECONDS.toDays(msDiff);
                 daysDiff++;
-                int total=valorJornal*Math.round(daysDiff);
+                int total = valorJornal * Math.round(daysDiff);
                 txtCostoManoActividad.setText(String.valueOf(total));
             }
         }
     }
 
-
-    private void traerValorJornal(){
+    private void traerValorJornal() {
         RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
         JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://app.fruticontrol.me/users/owner/", null,
@@ -441,7 +434,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.i("dayCost", response.toString());
                         try {
-                            valorJornal=Integer.parseInt(response.getString("day_cost"));
+                            valorJornal = Integer.parseInt(response.getString("day_cost"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -452,19 +445,17 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 Log.e("dayCostAPI", "Error en la invocación a la API " + error.getCause());
                 Toast.makeText(NuevaActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
-        }){    //this is the part, that adds the header to the request
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
                 return params;
             }
         };
         queue.add(dayCostRequest);
     }
-
 
     private void setSpinnerError(Spinner spinner) {
         View selectedView = spinner.getSelectedView();
@@ -475,23 +466,22 @@ public class NuevaActividadActivity extends AppCompatActivity {
         }
     }
 
-
     private boolean validateForm() {
         boolean valid = true;
-        if(listaArbolesSeleccionados==null){
-            valid=false;
+        if (listaArbolesSeleccionados == null) {
+            valid = false;
             Toast.makeText(NuevaActividadActivity.this, "Debe seleccionar al menos un árbol al que se le va a aplicar la actividad", Toast.LENGTH_LONG).show();
         }
         if (TextUtils.isEmpty(txtCostoMatActividad.getText().toString())) {
             txtCostoMatActividad.setError("Requerido");
             valid = false;
-        }else{
+        } else {
             txtCostoMatActividad.setError(null);
         }
         if (TextUtils.isEmpty(txtCostoManoActividad.getText().toString())) {
             txtCostoManoActividad.setError("Requerido");
             valid = false;
-        }else{
+        } else {
             txtCostoManoActividad.setError(null);
         }
         int selectedItemOfMySpinner = spinnerTipo.getSelectedItemPosition();
@@ -523,6 +513,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
             txtFechaInicio.setError("Requerido");
             valid = false;
         } else {
+            // TODO: set proper names for this variables
             String divide = txtFechaInicio.getText().toString();
             String[] separated = divide.split(" ");
             String aux = separated[3];
@@ -542,6 +533,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
             txtFechaFin.setError("Requerido");
             valid = false;
         } else {
+            // TODO: set proper names for this variables
             String divide = txtFechaInicio.getText().toString();
             String separated[] = divide.split(" ");
             String aux = separated[3];
@@ -567,10 +559,8 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 txtFechaFin.setError(null);
             }
         }
-
         return valid;
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -579,14 +569,13 @@ public class NuevaActividadActivity extends AppCompatActivity {
         if (requestCode == 100 && resultCode == RESULT_OK) {
             listaArbolesSeleccionados = data.getIntegerArrayListExtra("arbolesActividad");
             System.out.println("LOS IDS DE LOS ARBOLES SELECCIONADOS FUERON ");
-            if(listaArbolesSeleccionados!=null){
-                for(int i=0;i<listaArbolesSeleccionados.size();i++){
-                    System.out.println("A "+listaArbolesSeleccionados.get(i).toString());
+            if (listaArbolesSeleccionados != null) {
+                for (int i = 0; i < listaArbolesSeleccionados.size(); i++) {
+                    System.out.println("A " + listaArbolesSeleccionados.get(i).toString());
                 }
             }
         }
     }
-
 
     private String traductorRiegos(String tipo) {
         if (tipo.equals("Sistema de riego")) {
@@ -594,12 +583,10 @@ public class NuevaActividadActivity extends AppCompatActivity {
         }
         if (tipo.equals("Manual")) {
             return "M";
-        }
-        else {
+        } else {
             return "N";
         }
     }
-
 
     private String traductorFertilizaciones(String tipo) {
         if (tipo.equals("Crecimiento")) {
@@ -611,7 +598,6 @@ public class NuevaActividadActivity extends AppCompatActivity {
             return "M";
         }
     }
-
 
     private String traductorFumigaciones(String tipo) {
         if (tipo.equals("Insectos")) {
@@ -630,9 +616,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
         }
     }
 
-
     private String traductorPodas(String tipo) {
-
         if (tipo.equals("Sanitaria")) {
             return "S";
         }
@@ -645,7 +629,5 @@ public class NuevaActividadActivity extends AppCompatActivity {
             return "L";
         }
     }
-
-
 }
 

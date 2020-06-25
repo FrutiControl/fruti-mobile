@@ -32,7 +32,6 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class ListaArbolesActivity extends AppCompatActivity {
-
     ArrayList<ResumenArbolDataModel> dataModels;
     ListView listView;
     private static ResumenArbolesAdapter adapter;
@@ -41,7 +40,6 @@ public class ListaArbolesActivity extends AppCompatActivity {
     private ArrayList<String> etapasArboles;
     private ArrayList<String> fechasSiembra;
     private ArrayList<String> localizacionesArboles;
-    private Button nuevoArbolButton;
     private Token token;
 
     @Override
@@ -49,8 +47,8 @@ public class ListaArbolesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_arboles);
         token = (Token) getApplicationContext();
-        listView = (ListView) findViewById(R.id.listaArbolesList);
-        nuevoArbolButton = findViewById(R.id.buttonNuevoArbol);
+        listView = findViewById(R.id.listaArbolesList);
+        Button nuevoArbolButton = findViewById(R.id.buttonNuevoArbol);
         dataModels = new ArrayList<>();
         idsArboles = new ArrayList<>();
         tiposArboles = new ArrayList<>();
@@ -74,7 +72,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CrearArbolActivity.class);
-                intent.putExtra("todosArboles",(ArrayList<String>) localizacionesArboles);
+                intent.putExtra("todosArboles", (ArrayList<String>) localizacionesArboles);
                 startActivity(intent);
             }
         });
@@ -86,8 +84,8 @@ public class ListaArbolesActivity extends AppCompatActivity {
                 intent.putExtra("tipo", tiposArboles.get(i));
                 intent.putExtra("fecha", fechasSiembra.get(i));
                 intent.putExtra("localizacion", localizacionesArboles.get(i));
-                intent.putExtra("todosArboles",(ArrayList<String>) localizacionesArboles);
-                System.out.println("LA LOCALIZACION DEL ARBOL SELECCIONADO FUE "+localizacionesArboles.get(i));
+                intent.putExtra("todosArboles", (ArrayList<String>) localizacionesArboles);
+                System.out.println("LA LOCALIZACION DEL ARBOL SELECCIONADO FUE " + localizacionesArboles.get(i));
                 startActivity(intent);
             }
         });
@@ -101,7 +99,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                if (farmObject.getString("farm") == token.getGranjaActual()) {
+                                if (farmObject.getString("farm").equals(token.getGranjaActual())) {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");
@@ -137,7 +135,6 @@ public class ListaArbolesActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                 return params;
             }
         };
@@ -145,8 +142,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRestart()
-    {
+    public void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
@@ -166,9 +162,10 @@ public class ListaArbolesActivity extends AppCompatActivity {
                 return "Limon";
             case "A":
                 return "Aguacate";
-            default:
+            case "B":
                 return "Banano";
         }
+        return "";
     }
 
     private String devolverNombreFase(String num) {
@@ -179,8 +176,9 @@ public class ListaArbolesActivity extends AppCompatActivity {
                 return "Floracion";
             case "3":
                 return "Produccion";
-            default:
+            case "4":
                 return "Post-Produccion";
         }
+        return "";
     }
 }

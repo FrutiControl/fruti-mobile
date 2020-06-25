@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ResumenActividadesAdapter extends ArrayAdapter<ResumenActividadDataModel> implements View.OnClickListener {
-
     private Context mContext;
 
     // View lookup cache
@@ -46,9 +45,9 @@ public class ResumenActividadesAdapter extends ArrayAdapter<ResumenActividadData
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.resumen_actividad, parent, false);
-            viewHolder.txtTiposAc= convertView.findViewById(R.id.textViewTiposActividades);
-            viewHolder.txtFechas= convertView.findViewById(R.id.textViewRangosFechas);
-            viewHolder.txtProgreso= convertView.findViewById(R.id.textViewProgreso);
+            viewHolder.txtTiposAc = convertView.findViewById(R.id.textViewTiposActividades);
+            viewHolder.txtFechas = convertView.findViewById(R.id.textViewRangosFechas);
+            viewHolder.txtProgreso = convertView.findViewById(R.id.textViewProgreso);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {

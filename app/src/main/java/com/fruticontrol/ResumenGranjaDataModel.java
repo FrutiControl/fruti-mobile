@@ -2,13 +2,13 @@ package com.fruticontrol;
 
 public class ResumenGranjaDataModel {
 
-    String tareasGranja;
+    private String tareasGranja;
 
-    public ResumenGranjaDataModel(String tareasGranja) {
+    ResumenGranjaDataModel(String tareasGranja) {
         this.tareasGranja = tareasGranja;
     }
 
-    public String getTareasGranja() {
+    String getTareasGranja() {
         return tareasGranja;
     }
 

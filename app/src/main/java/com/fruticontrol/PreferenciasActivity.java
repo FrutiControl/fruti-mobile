@@ -25,9 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PreferenciasActivity extends AppCompatActivity {
-
     private EditText valorJornalET;
-    private Button guardarPreferenciasButton;
     private Token token;
     private String auxCity;
     private String auxDepartment;
@@ -37,9 +35,9 @@ public class PreferenciasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferencias);
-        token=(Token)getApplicationContext();
+        token = (Token) getApplicationContext();
         valorJornalET = findViewById(R.id.editTextValorJornal);
-        guardarPreferenciasButton = findViewById(R.id.buttonGuardarPreferencias);
+        Button guardarPreferenciasButton = findViewById(R.id.buttonGuardarPreferencias);
         RequestQueue queue = Volley.newRequestQueue(PreferenciasActivity.this);
         JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,
                 "https://app.fruticontrol.me/users/owner/", null,
@@ -48,9 +46,9 @@ public class PreferenciasActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.i("dayCost", response.toString());
                         try {
-                            auxCity=response.getString("city");
-                            auxDepartment=response.getString("department");
-                            auxCountry=response.getString("country");
+                            auxCity = response.getString("city");
+                            auxDepartment = response.getString("department");
+                            auxCountry = response.getString("country");
                             valorJornalET.setText(response.getString("day_cost"));
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -62,24 +60,25 @@ public class PreferenciasActivity extends AppCompatActivity {
                 Log.e("dayCostAPI", "Error en la invocación a la API " + error.getCause());
                 Toast.makeText(PreferenciasActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
-        }){    //this is the part, that adds the header to the request
+        }) {    //this is the part, that adds the header to the request
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
                 return params;
             }
         };
         queue.add(dayCostRequest);
-
         guardarPreferenciasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(PreferenciasActivity.this);
-                    String body = "{\"day_cost\":\"" + valorJornalET.getText().toString()+ "\",\"city\":\"" + auxCity+ "\",\"department\":\"" + auxDepartment+ "\",\"country\":\"" + auxCountry + "\"}";
+                    String body = "{\"day_cost\":\"" + valorJornalET.getText().toString() +
+                            "\",\"city\":\"" + auxCity +
+                            "\",\"department\":\"" + auxDepartment +
+                            "\",\"country\":\"" + auxCountry + "\"}";
                     Log.i("modificateTreeAPI", "Jornal modificado: " + body);
                     JSONObject newDayCost = null;
                     try {

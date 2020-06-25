@@ -1,20 +1,19 @@
 package com.fruticontrol;
 
 public class ResumenGastoDataModel {
+    private String concepto;
+    private String actividad;
+    private String tipo;
+    private String valor;
 
-    String concepto;
-    String actividad;
-    String tipo;
-    String valor;
-
-    public ResumenGastoDataModel(String concepto, String actividad, String tipo, String valor) {
+    ResumenGastoDataModel(String concepto, String actividad, String tipo, String valor) {
         this.concepto = concepto;
         this.actividad = actividad;
         this.tipo = tipo;
         this.valor = valor;
     }
 
-    public String getConcepto() {
+    String getConcepto() {
         return concepto;
     }
 

@@ -1,8 +1,5 @@
 package com.fruticontrol;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.IntentCompat;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,11 +32,6 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class PerfilActivity extends AppCompatActivity {
-
-
-    private Button preferenciasButton;
-    private Button guardarCambiosButton;
-    private Button cerrarSesionButton;
     private EditText nombreET;
     private EditText correoET;
     private Token token;
@@ -46,16 +40,15 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-        token=(Token)getApplicationContext();
-        preferenciasButton = findViewById(R.id.buttonPreferencias);
-        cerrarSesionButton=findViewById(R.id.buttonCerrarSersion);
+        token = (Token) getApplicationContext();
+        Button preferenciasButton = findViewById(R.id.buttonPreferencias);
+        Button cerrarSesionButton = findViewById(R.id.buttonCerrarSersion);
         nombreET = findViewById(R.id.editTextNombrePerfil);
         correoET = findViewById(R.id.editTextCorreoPerfil);
-        guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosPerfil);
-        Intent intent=getIntent();
+        Button guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosPerfil);
+        Intent intent = getIntent();
         nombreET.setText(intent.getStringExtra("nombre"));
         correoET.setText(intent.getStringExtra("correo"));
-
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(false)
                 .enableIcon(false)
@@ -69,7 +62,6 @@ public class PerfilActivity extends AppCompatActivity {
                 .setTarget(preferenciasButton)
                 .setUsageId("preferencias_showcase")
                 .show();
-
         cerrarSesionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,9 +87,11 @@ public class PerfilActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(PerfilActivity.this);
-                    String nombre=nombreET.getText().toString();
-                    String correo=correoET.getText().toString();
-                    String body = "{\"username\":\"" + correo + "\",\"first_name\":\"" + nombre + "\",\"email\":\"" + correo + "\"}";
+                    String nombre = nombreET.getText().toString();
+                    String correo = correoET.getText().toString();
+                    String body = "{\"username\":\"" + correo +
+                            "\",\"first_name\":\"" + nombre +
+                            "\",\"email\":\"" + correo + "\"}";
                     Log.i("modificateUserAPI", "Usuario modificado: " + body);
                     JSONObject modifyUser = null;
                     try {
@@ -136,7 +130,6 @@ public class PerfilActivity extends AppCompatActivity {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
                             params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };

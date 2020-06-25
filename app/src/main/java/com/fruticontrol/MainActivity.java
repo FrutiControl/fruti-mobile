@@ -26,18 +26,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import co.mobiwise.materialintro.shape.Focus;
-import co.mobiwise.materialintro.shape.FocusGravity;
-import co.mobiwise.materialintro.shape.ShapeType;
-import co.mobiwise.materialintro.view.MaterialIntroView;
-
 public class MainActivity extends AppCompatActivity {
-
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
     private TextView txtUsername;
@@ -45,15 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private Token token;
     static MainActivity mainActivity;
 
-    public static MainActivity getInstance(){
-        return   mainActivity;
+    public static MainActivity getInstance() {
+        return mainActivity;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainActivity=this;
+        mainActivity = this;
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
@@ -148,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         Pattern passPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\w~@#$%^&*+_=`|{}:;!.?\\\"()\\[\\]-]{8,25}$");
         Matcher emailMatcher = emailPattern.matcher(txtUsername.getText());
         Matcher passMatcher = passPattern.matcher(txtPass.getText());
-
         if (TextUtils.isEmpty(txtUsername.getText().toString())) {
             txtUsername.setError("Requerido");
             valid = false;
@@ -159,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             txtUsername.setError(null);
         }
-
         if (TextUtils.isEmpty(txtPass.getText().toString())) {
             txtPass.setError("Requerido");
             valid = false;

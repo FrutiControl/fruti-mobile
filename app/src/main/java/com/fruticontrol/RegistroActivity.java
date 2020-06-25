@@ -26,10 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegistroActivity extends AppCompatActivity {
-
     public static final int MY_DEFAULT_TIMEOUT = 15000;
-
-    private Button registroButton;
     private TextView txtNombre;
     private TextView txtEmail;
     private TextView txtPass;
@@ -43,7 +40,7 @@ public class RegistroActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.editTextMail);
         txtPass = findViewById(R.id.editTextPass);
         txtPassVerf = findViewById(R.id.editTextPassVerf);
-        registroButton = findViewById(R.id.buttonRegistro);
+        Button registroButton = findViewById(R.id.buttonRegistro);
         registroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -95,7 +92,6 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private boolean validateForm() {
@@ -116,7 +112,7 @@ public class RegistroActivity extends AppCompatActivity {
         } else if (!emailMatcher.matches()) {
             Log.e("usersAPI", "El correo no es válido");
             txtEmail.setError("Correo inválido");
-            valid=false;
+            valid = false;
         } else {
             txtEmail.setError(null);
         }

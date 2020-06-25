@@ -11,10 +11,6 @@ import android.widget.ImageView;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,7 +21,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +31,12 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class MapaModificarArbolActivity extends FragmentActivity implements OnMapReadyCallback {
-
     private GoogleMap mMap;
     public Marker arbolMarker;
     double latitude = 0;
     double longitude = 0;
     double cameraLatitude;
     double cameraLongitude;
-    private Button seleccionarUbicacionButton;
-    private Button ghostButton;
-    private ImageView marcadorArbol;
     private Token token;
     private ArrayList<String> listaArboles;
 
@@ -67,8 +58,8 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         cameraLongitude = longitude;
         token = (Token) getApplicationContext();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
-        ghostButton=findViewById(R.id.buttonGhostModificar);
+        Button seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
+        Button ghostButton = findViewById(R.id.buttonGhostModificar);
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(true)
                 .enableIcon(false)
@@ -100,7 +91,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                 token.setArbolEscogido(true);
             }
         });
-        marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
+        ImageView marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
         marcadorArbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,7 +132,6 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                 new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
         polygon1.setPoints(auxPolygonArray);
         //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
-
         //SE DIBUJAN ARBOLES SOBRE EL MAPA
         for (int i = 0; i < listaArboles.size(); i = i + 1) {
             String divide = listaArboles.get(i);
@@ -154,14 +144,13 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
             System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LON" + lonAux[0]);
             Double a1 = Double.parseDouble(lat);
             Double a2 = Double.parseDouble(lon);
-            if(a1!=latitude){
-                BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.tree);
+            if (a1 != latitude) {
+                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.tree);
                 Bitmap b = bitmapdraw.getBitmap();
                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
                 mMap.addMarker(new MarkerOptions().position(new LatLng(a1, a2)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).draggable(false));
             }
         }
-
         arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)).draggable(true));
         System.out.println("XXXXXXXXXXXXXX POS_MARKER " + arbolMarker.getPosition().toString());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(arbolMarker.getPosition()));
@@ -177,7 +166,6 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                     mMap.addMarker(new MarkerOptions().position(center)).setVisible(false);
                     cameraLatitude = center.latitude;
                     cameraLongitude = center.longitude;
-
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA
                     ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
                     //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
@@ -194,7 +182,6 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                             new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
                     polygon1.setPoints(auxPolygonArray);
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
-
                     //SE DIBUJAN ARBOLES SOBRE EL MAPA
                     for (int i = 0; i < listaArboles.size(); i = i + 1) {
                         String divide = listaArboles.get(i);
@@ -207,8 +194,8 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                         System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LON" + lonAux[0]);
                         Double a1 = Double.parseDouble(lat);
                         Double a2 = Double.parseDouble(lon);
-                        if(a1!=latitude){
-                            BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.tree);
+                        if (a1 != latitude) {
+                            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.tree);
                             Bitmap b = bitmapdraw.getBitmap();
                             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
                             mMap.addMarker(new MarkerOptions().position(new LatLng(a1, a2)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).draggable(false));
@@ -219,5 +206,4 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         });
     }
 }
-
 //Icons made by Freepik Flaticon www.flaticon.com

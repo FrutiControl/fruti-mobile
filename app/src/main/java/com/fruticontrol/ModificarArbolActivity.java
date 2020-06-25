@@ -36,20 +36,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModificarArbolActivity extends AppCompatActivity {
-
     private String idArbol;
-    private String tipo;
-    private String fecha;
-    private String localizacion;
     private String lat;
     private String lon;
     private TextView txtFechaSiembra;
     private Spinner spinnerTipoArbol;
     private Calendar cal;
     private DatePickerDialog dpd;
-    private Button guardarCambiosButton;
-    private Button modificarUbicacionButton;
-    private Button eliminarArbolButton;
     private Token token;
     private String newLat;
     private String newLon;
@@ -62,19 +55,18 @@ public class ModificarArbolActivity extends AppCompatActivity {
         token = (Token) getApplicationContext();
         txtFechaSiembra = findViewById(R.id.textFechaSiembra2);
         spinnerTipoArbol = findViewById(R.id.spinnerModificarTipoArbol);
-        guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosArbol);
-        modificarUbicacionButton = findViewById(R.id.buttonModificarUbicacion);
-        eliminarArbolButton = findViewById(R.id.buttonEliminarArbol);
+        Button guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosArbol);
+        Button modificarUbicacionButton = findViewById(R.id.buttonModificarUbicacion);
+        Button eliminarArbolButton = findViewById(R.id.buttonEliminarArbol);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapter);
-
         Intent intent = getIntent();
         idArbol = intent.getStringExtra("idArbolActual");
-        tipo = intent.getStringExtra("tipo");
-        fecha = intent.getStringExtra("fecha");
-        localizacion = intent.getStringExtra("localizacion");
-        localizacionesArboles=intent.getStringArrayListExtra("todosArboles");
-
+        String tipo = intent.getStringExtra("tipo");
+        String fecha = intent.getStringExtra("fecha");
+        String localizacion = intent.getStringExtra("localizacion");
+        localizacionesArboles = intent.getStringArrayListExtra("todosArboles");
+        // TODO: set proper names for this variables
         String divide = localizacion;
         String[] separated = divide.split("\\(");
         String[] anotherAux = separated[1].split(" ");
@@ -87,18 +79,15 @@ public class ModificarArbolActivity extends AppCompatActivity {
         newLon = lon;
         System.out.println("XXXXXXXXXXXXxx new lat es " + newLat);
         System.out.println("XXXXXXXXXXXXxx new lon es " + newLon);
-
         int setAux = valorPosicion(tipo);
         spinnerTipoArbol.setSelection(setAux);
         String divide2 = fecha;
         String[] separated2 = divide2.split("-");
         txtFechaSiembra.setText("Fecha de siembra: " + separated2[2] + "/" + separated2[1] + "/" + separated2[0]);
-
         eliminarArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setCancelable(true);
                 builder.setTitle(Html.fromHtml("<font color='#964F2D'>Eliminar árbol</font>"));
                 builder.setMessage(Html.fromHtml("<font color='#910C00'>¿Está seguro de que desea eliminar el árbol?</font>"));
@@ -215,9 +204,8 @@ public class ModificarArbolActivity extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), MapaModificarArbolActivity.class);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
-                intent.putExtra("todosArboles",(ArrayList<String>) localizacionesArboles);
-                startActivityForResult(intent,100);
-                //startActivity(intent);
+                intent.putExtra("todosArboles", (ArrayList<String>) localizacionesArboles);
+                startActivityForResult(intent, 100);
             }
         });
         txtFechaSiembra.setOnClickListener(new View.OnClickListener() {
@@ -259,10 +247,8 @@ public class ModificarArbolActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
-
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
-
         if (actualPositionOfMySpinner.equals("Seleccione el tipo de árbol...")) {
             setSpinnerError(spinnerTipoArbol);
             valid = false;

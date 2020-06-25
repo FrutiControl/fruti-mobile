@@ -29,7 +29,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,14 +36,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class CrearArbolActivity extends AppCompatActivity {
-
     private EditText textFechaSiembra;
-
-    private Button buttonNuevoArbol;
-    private Button buttonUbicacion;
     Calendar cal, cal1, cal2, cal3, cal4;
     DatePickerDialog dpd, dpd2, dpd3, dpd4, dpd5;
     private Spinner spinnerTipoArbol;
@@ -52,7 +46,6 @@ public class CrearArbolActivity extends AppCompatActivity {
     private String lat;
     private String lon;
     private ArrayList<String> listaArboles;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,11 +56,11 @@ public class CrearArbolActivity extends AppCompatActivity {
         token.setArbolEscogido(false);
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
-        listaArboles=getIntent().getStringArrayListExtra("todosArboles");
+        listaArboles = getIntent().getStringArrayListExtra("todosArboles");
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapter);
-        buttonUbicacion = findViewById(R.id.buttonDefinirUbicacion);
-        buttonNuevoArbol = findViewById(R.id.buttonNuevoArbol);
+        Button buttonUbicacion = findViewById(R.id.buttonDefinirUbicacion);
+        Button buttonNuevoArbol = findViewById(R.id.buttonNuevoArbol);
         spinnerTipoArbol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -79,18 +72,14 @@ public class CrearArbolActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-
-
         buttonUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),MapaNuevoArbolActivity.class);
-                intent.putExtra("todosArboles",listaArboles);
-                intent.putExtra("lat",token.getPuntosPoligonoGranja().get(0));
-                intent.putExtra("lon",token.getPuntosPoligonoGranja().get(1));
+                Intent intent = new Intent(view.getContext(), MapaNuevoArbolActivity.class);
+                intent.putExtra("todosArboles", listaArboles);
+                intent.putExtra("lat", token.getPuntosPoligonoGranja().get(0));
+                intent.putExtra("lon", token.getPuntosPoligonoGranja().get(1));
                 startActivityForResult(intent, 100);
-
             }
         });
         buttonNuevoArbol.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +92,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                     String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
                     String inicial = inicialTipo(actualPositionOfMySpinner);
                     //SE TOMA LA FECHA DE SIEMBRA Y SE CAMBIA EL FORMATO
+                    // TODO: set proper names for this variables
                     String divide = textFechaSiembra.getText().toString();
                     String separated[] = divide.split(" ");
                     String aux = separated[3];
@@ -112,7 +102,10 @@ public class CrearArbolActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     String auxUbicacion = "POINT (" + lat + " " + lon + ")";
                     //SE CREA EL BODY CON LOS DATOS ANTERIORES
-                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" + auxFecha + "\",\"location\":\"" + auxUbicacion + "\",\"farm\":\"" + token.getGranjaActual() + "\"}";
+                    String body = "{\"specie\":\"" + inicial +
+                            "\",\"seed_date\":\"" + auxFecha +
+                            "\",\"location\":\"" + auxUbicacion +
+                            "\",\"farm\":\"" + token.getGranjaActual() + "\"}";
                     Log.i("newTreeAPI", "Nuevo arbol: " + body);
                     JSONObject newTree = null;
                     try {
@@ -120,7 +113,6 @@ public class CrearArbolActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,
                             "https://app.fruticontrol.me/app/trees/", newTree,
                             new Response.Listener<JSONObject>() {
@@ -135,7 +127,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                     } else {
-                                        Toast.makeText(CrearArbolActivity.this,"Árbol creado con éxito", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CrearArbolActivity.this, "Árbol creado con éxito", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }
@@ -145,13 +137,12 @@ public class CrearArbolActivity extends AppCompatActivity {
                             Log.e("TreeAPI", "Error en la invocación a la API " + error.getCause());
                             Toast.makeText(CrearArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
-                    }) {    //this is the part, that adds the header to the request
+                    }) {
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
                             params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };
@@ -216,11 +207,12 @@ public class CrearArbolActivity extends AppCompatActivity {
             setSpinnerError(spinnerTipoArbol);
             valid = false;
         }
-//VALIDACION FECHA DE SIEMBRA
+        //VALIDACION FECHA DE SIEMBRA
         if (TextUtils.isEmpty(textFechaSiembra.getText().toString())) {
             textFechaSiembra.setError("Requerido");
             valid = false;
         } else {
+            // TODO: set proper names for this variables
             String divide = textFechaSiembra.getText().toString();
             String separated[] = divide.split(" ");
             String aux = separated[3];
@@ -242,7 +234,7 @@ public class CrearArbolActivity extends AppCompatActivity {
 
     private void setSpinnerError(Spinner spinner) {
         View selectedView = spinner.getSelectedView();
-        if (selectedView != null && selectedView instanceof TextView) {
+        if (selectedView instanceof TextView) {
             spinner.requestFocus();
             TextView selectedTextView = (TextView) selectedView;
             selectedTextView.setError("Requerido"); // any name of the error will do
@@ -250,7 +242,6 @@ public class CrearArbolActivity extends AppCompatActivity {
 
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -261,81 +252,22 @@ public class CrearArbolActivity extends AppCompatActivity {
         }
     }
 
-
     private String inicialTipo(String opcion) {
-        if (opcion.equals("Mango tommy")) {
-            return "M";
-        } else if (opcion.equals("Mango farchil")) {
-            return "F";
-        } else if (opcion.equals("Naranja")) {
-            return "N";
-        } else if (opcion.equals("Mandarina")) {
-            return "D";
-        } else if (opcion.equals("Limon")) {
-            return "L";
-        } else if (opcion.equals("Aguacate")) {
-            return "A";
-        } else {
-            return "B";
-        }
-    }
-
-
-    private String traductorRiegos(String tipo) {
-        if (tipo.equals("Sistema")) {
-            return "S";
-        }
-        if (tipo.equals("Manual")) {
-            return "M";
-        }
-        else {
-            return "N";
-        }
-    }
-
-
-    private String traductorFertilizaciones(String tipo) {
-        if (tipo.equals("Crecimiento")) {
-            return "C";
-        }
-        if (tipo.equals("Produccion")) {
-            return "P";
-        } else {
-            return "M";
-        }
-    }
-
-
-    private String traductorFumigaciones(String tipo) {
-        if (tipo.equals("Insectos")) {
-            return "I";
-        }
-        if (tipo.equals("Hongos")) {
-            return "F";
-        }
-        if (tipo.equals("Hierba")) {
-            return "H";
-        }
-        if (tipo.equals("Ácaro")) {
-            return "A";
-        } else {
-            return "P";
-        }
-    }
-
-
-    private String traductorPodas(String tipo) {
-
-        if (tipo.equals("Sanitaria")) {
-            return "S";
-        }
-        if (tipo.equals("Formación")) {
-            return "F";
-        }
-        if (tipo.equals("Mantenimiento")) {
-            return "M";
-        } else {
-            return "L";
+        switch (opcion) {
+            case "Mango tommy":
+                return "M";
+            case "Mango farchil":
+                return "F";
+            case "Naranja":
+                return "N";
+            case "Mandarina":
+                return "D";
+            case "Limon":
+                return "L";
+            case "Aguacate":
+                return "A";
+            default:
+                return "B";
         }
     }
 }

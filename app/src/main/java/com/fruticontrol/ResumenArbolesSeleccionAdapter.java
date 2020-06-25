@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ResumenArbolesSeleccionAdapter extends ArrayAdapter<ResumenArbolSeleccionDataModel> implements View.OnClickListener{
+public class ResumenArbolesSeleccionAdapter extends ArrayAdapter<ResumenArbolSeleccionDataModel> implements View.OnClickListener {
 
     private ArrayList<ResumenArbolSeleccionDataModel> dataSet;
-    Context mContext;
+    private Context mContext;
 
     private static class ViewHolder {
         TextView txtIdArbol;
@@ -22,19 +22,17 @@ public class ResumenArbolesSeleccionAdapter extends ArrayAdapter<ResumenArbolSel
         TextView txtFaseArbol;
     }
 
-    public ResumenArbolesSeleccionAdapter(ArrayList<ResumenArbolSeleccionDataModel> data, Context context) {
+    ResumenArbolesSeleccionAdapter(ArrayList<ResumenArbolSeleccionDataModel> data, Context context) {
         super(context, R.layout.resumen_arbol_seleccion, data);
         this.dataSet = data;
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
     public void onClick(View v) {
-
-        int position=(Integer) v.getTag();
-        Object object= getItem(position);
-        ResumenArbolSeleccionDataModel dataModel=(ResumenArbolSeleccionDataModel) object;
-
+        int position = (Integer) v.getTag();
+        ResumenArbolSeleccionDataModel object = getItem(position);
+        ResumenArbolSeleccionDataModel dataModel = object;
     }
 
     private int lastPosition = -1;
@@ -45,34 +43,26 @@ public class ResumenArbolesSeleccionAdapter extends ArrayAdapter<ResumenArbolSel
         ResumenArbolSeleccionDataModel dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
-
         final View result;
-
         if (convertView == null) {
-
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.resumen_arbol_seleccion, parent, false);
-            viewHolder.txtIdArbol= (TextView) convertView.findViewById(R.id.textViewConceptoYFechaGasto);
-            viewHolder.txtTipoArbol= (TextView) convertView.findViewById(R.id.textViewActividadYSubGasto);
-            viewHolder.txtFaseArbol= (TextView) convertView.findViewById(R.id.textViewTipoGasto);
-
-            result=convertView;
-
+            viewHolder.txtIdArbol = (TextView) convertView.findViewById(R.id.textViewConceptoYFechaGasto);
+            viewHolder.txtTipoArbol = (TextView) convertView.findViewById(R.id.textViewActividadYSubGasto);
+            viewHolder.txtFaseArbol = (TextView) convertView.findViewById(R.id.textViewTipoGasto);
+            result = convertView;
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ResumenArbolesSeleccionAdapter.ViewHolder) convertView.getTag();
-            result=convertView;
+            result = convertView;
         }
-
         Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
-
         viewHolder.txtIdArbol.setText(dataModel.getIdArbol());
         viewHolder.txtTipoArbol.setText(dataModel.getTipoArbol());
         viewHolder.txtFaseArbol.setText(dataModel.getEtapaArbol());
-
         return convertView;
     }
 }

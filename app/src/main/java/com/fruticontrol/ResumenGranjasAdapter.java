@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> implements View.OnClickListener {
-
     private Context mContext;
 
     // View lookup cache
@@ -20,7 +19,7 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
         TextView txtTareasGranja;
     }
 
-    public ResumenGranjasAdapter(ArrayList<ResumenGranjaDataModel> data, Context context) {
+    ResumenGranjasAdapter(ArrayList<ResumenGranjaDataModel> data, Context context) {
         super(context, R.layout.resumen_granja, data);
         this.mContext = context;
     }

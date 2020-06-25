@@ -31,15 +31,9 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class DashboardFinanzasActivity extends AppCompatActivity {
-
-    private Button nuevoIngresoButton;
-    private Button nuevoGastoButton;
-    private Button verIngresosButton;
-    private Button verGastosButton;
     private TextView txTotalIngresos;
     private TextView txTotalGastos;
     private TextView txTotal;
-    private TextView txFinanzas;
     private int totalGastos;
     private int totalIngresos;
     int auxTotal;
@@ -50,18 +44,17 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_finanzas);
-        auxTotal=0;
+        auxTotal = 0;
         formatea = new DecimalFormat("###,###.##");
-        token=(Token)getApplicationContext();
-        txFinanzas=findViewById(R.id.textViewTituloFinanzas);
-        txTotalIngresos =findViewById(R.id.textViewIngresosDashboard);
-        txTotalGastos =findViewById(R.id.textViewGastosDashboard);
-        nuevoIngresoButton = findViewById(R.id.buttonNuevoIngresoDFinanzas);
-        nuevoGastoButton = findViewById(R.id.buttonNuevoGastoDFinanzas);
-        verIngresosButton = findViewById(R.id.buttonVerIngresos);
-        verGastosButton = findViewById(R.id.buttonVerGastos);
-        txTotal=findViewById(R.id.textViewTotalFinanzas);
-
+        token = (Token) getApplicationContext();
+        TextView txFinanzas = findViewById(R.id.textViewTituloFinanzas);
+        txTotalIngresos = findViewById(R.id.textViewIngresosDashboard);
+        txTotalGastos = findViewById(R.id.textViewGastosDashboard);
+        Button nuevoIngresoButton = findViewById(R.id.buttonNuevoIngresoDFinanzas);
+        Button nuevoGastoButton = findViewById(R.id.buttonNuevoGastoDFinanzas);
+        Button verIngresosButton = findViewById(R.id.buttonVerIngresos);
+        Button verGastosButton = findViewById(R.id.buttonVerGastos);
+        txTotal = findViewById(R.id.textViewTotalFinanzas);
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(false)
                 .enableIcon(false)
@@ -75,7 +68,6 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                 .setTarget(txFinanzas)
                 .setUsageId("dash_finanzas_showcase")
                 .show();
-
         RequestQueue queue = Volley.newRequestQueue(DashboardFinanzasActivity.this);
         JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,
                 "https://app.fruticontrol.me/money/outcomes/?recommended=False", null,
@@ -87,12 +79,12 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject moneyObject = response.getJSONObject(i);
                                 String valor = moneyObject.getString("value");
-                                totalGastos = totalGastos+Integer.parseInt(valor);
+                                totalGastos = totalGastos + Integer.parseInt(valor);
                             }
-                            txTotalGastos.setText("$"+formatea.format(totalGastos));
-                            auxTotal=auxTotal-totalGastos;
+                            txTotalGastos.setText("$" + formatea.format(totalGastos));
+                            auxTotal = auxTotal - totalGastos;
                             DecimalFormat formatea = new DecimalFormat("###,###.##");
-                            txTotal.setText("Total: $"+formatea.format(auxTotal));
+                            txTotal.setText("Total: $" + formatea.format(auxTotal));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -108,12 +100,10 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                 return params;
             }
         };
         queue.add(newOutcomeRequest);
-
         JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,
                 "https://app.fruticontrol.me/money/incomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
@@ -124,14 +114,14 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject moneyObject = response.getJSONObject(i);
                                 String valor = moneyObject.getString("value");
-                                String cantidad=moneyObject.getString("quantity");
-                                int totalIngreso=Integer.parseInt(cantidad)*Integer.parseInt(valor);
-                                totalIngresos = totalIngresos+totalIngreso;
+                                String cantidad = moneyObject.getString("quantity");
+                                int totalIngreso = Integer.parseInt(cantidad) * Integer.parseInt(valor);
+                                totalIngresos = totalIngresos + totalIngreso;
                             }
-                            txTotalIngresos.setText("$"+formatea.format(totalIngresos));
-                            auxTotal=auxTotal+totalIngresos;
+                            txTotalIngresos.setText("$" + formatea.format(totalIngresos));
+                            auxTotal = auxTotal + totalIngresos;
 
-                            txTotal.setText("Total: $"+formatea.format(auxTotal));
+                            txTotal.setText("Total: $" + formatea.format(auxTotal));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -147,12 +137,10 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                 return params;
             }
         };
         queue.add(newIncomeRequest);
-
         verGastosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,10 +172,8 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
-    public void onRestart()
-    {
+    public void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());

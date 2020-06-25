@@ -1,18 +1,17 @@
 package com.fruticontrol;
 
 public class ResumenArbolDataModel {
+    private String idArbol;
+    private String tipoArbol;
+    private String etapaArbol;
 
-    String idArbol;
-    String tipoArbol;
-    String etapaArbol;
-
-    public ResumenArbolDataModel(String idArbol, String tipoArbol, String etapaArbol) {
+    ResumenArbolDataModel(String idArbol, String tipoArbol, String etapaArbol) {
         this.idArbol = idArbol;
         this.tipoArbol = tipoArbol;
         this.etapaArbol = etapaArbol;
     }
 
-    public String getIdArbol() {
+    String getIdArbol() {
         return idArbol;
     }
 
@@ -20,7 +19,7 @@ public class ResumenArbolDataModel {
         this.idArbol = idArbol;
     }
 
-    public String getTipoArbol() {
+    String getTipoArbol() {
         return tipoArbol;
     }
 
@@ -28,7 +27,7 @@ public class ResumenArbolDataModel {
         this.tipoArbol = tipoArbol;
     }
 
-    public String getEtapaArbol() {
+    String getEtapaArbol() {
         return etapaArbol;
     }
 

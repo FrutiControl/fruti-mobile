@@ -6,10 +6,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -20,12 +18,6 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -41,25 +33,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.Task;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.shape.ShapeType;
-import co.mobiwise.materialintro.target.ViewTarget;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMapReadyCallback {
-
     private GoogleMap mMap;
     private Marker arbolMarker;
     private LocationRequest mLocationRequest;
@@ -71,12 +55,6 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
     double cameraLongitude;
     int gottenLocations = 0;
     Task removeCallback;
-    private Button marcarPuntoButton;
-    private Button finalizarMarcadoButton;
-    private Button eliminarPuntoButton;
-    private Button ghostButton;
-    private ImageView marcadorArbol;
-    private Token token;
     private ArrayList<String> puntosEscogidos;
 
     @Override
@@ -84,12 +62,12 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_poligono_granja);
         puntosEscogidos = new ArrayList<String>();
-        token = (Token) getApplicationContext();
-        ghostButton=findViewById(R.id.buttonGhostGranja);
-        eliminarPuntoButton = findViewById(R.id.buttonEliminarUltimoPunto);
-        marcarPuntoButton = findViewById(R.id.buttonEscogerUbicacion);
-        finalizarMarcadoButton = findViewById(R.id.buttonFinalizarMarcado);
-        marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
+        Token token = (Token) getApplicationContext();
+        Button ghostButton = findViewById(R.id.buttonGhostGranja);
+        Button eliminarPuntoButton = findViewById(R.id.buttonEliminarUltimoPunto);
+        Button marcarPuntoButton = findViewById(R.id.buttonEscogerUbicacion);
+        Button finalizarMarcadoButton = findViewById(R.id.buttonFinalizarMarcado);
+        ImageView marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(true)
                 .enableIcon(false)
@@ -240,12 +218,6 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
                 }
             }
         });
-        /*marcadorArbol.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialog(cameraLatitude, cameraLongitude);
-            }
-        });*/
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }
@@ -261,7 +233,6 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        //mMap.setPadding(0,0,0,100+finalizarMarcadoButton.getHeight()*2);
         Log.e("MAP", "Entro a onMapReady");
         arbolMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(4.6272415, -74.0640134)).icon(BitmapDescriptorFactory.fromResource(R.drawable.seo32)).draggable(true));
         arbolMarker.setVisible(false);
@@ -270,7 +241,6 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
             public void onCameraIdle() {
                 LatLng center = mMap.getCameraPosition().target;
                 if (arbolMarker != null) {
-                    //mMap.clear();
                     arbolMarker.remove();
                     mMap.addMarker(new MarkerOptions().position(center)).setVisible(false);
                     cameraLatitude = center.latitude;

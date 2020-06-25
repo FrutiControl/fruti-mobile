@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class Dialogo extends AppCompatDialogFragment {
-
     private String text;
 
     @Override
@@ -19,7 +18,6 @@ public class Dialogo extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialogInterface, int i) {
             }
         });
-
         return builder.create();
     }
 

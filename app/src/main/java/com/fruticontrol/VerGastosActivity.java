@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 public class VerGastosActivity extends AppCompatActivity {
-
     private Token token;
     private List<String> conceptosGastos;
     private List<String> actividadesGastos;
@@ -43,16 +42,16 @@ public class VerGastosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_gastos);
-        token=(Token)getApplicationContext();
+        token = (Token) getApplicationContext();
         formatea = new DecimalFormat("###,###.##");
-        totalFinal=0;
-        total=findViewById(R.id.textViewTotalHistorialGastos);
-        listView = (ListView) findViewById(R.id.listaGastos);
+        totalFinal = 0;
+        total = findViewById(R.id.textViewTotalHistorialGastos);
+        listView = findViewById(R.id.listaGastos);
         dataModels = new ArrayList<>();
-        conceptosGastos=new ArrayList<>();
-        actividadesGastos=new ArrayList<>();
-        tiposGastos=new ArrayList<>();
-        valoresGastos=new ArrayList<>();
+        conceptosGastos = new ArrayList<>();
+        actividadesGastos = new ArrayList<>();
+        tiposGastos = new ArrayList<>();
+        valoresGastos = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(VerGastosActivity.this);
         JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,
                 "https://app.fruticontrol.me/money/outcomes/?recommended=False", null,
@@ -63,6 +62,7 @@ public class VerGastosActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject moneyObject = response.getJSONObject(i);
+                                // TODO: set proper names for this variables
                                 String concepto = moneyObject.getString("concept");
                                 String valor = moneyObject.getString("value");
                                 String actividad = traductorTipoActividadInverso(moneyObject.getString("activity"));
@@ -71,19 +71,19 @@ public class VerGastosActivity extends AppCompatActivity {
                                 String fecha = moneyObject.getString("date");
                                 String divide2 = fecha;
                                 String[] separated2 = divide2.split("-");
-                                fecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                fecha = separated2[2] + "/" + separated2[1] + "/" + separated2[0];
                                 //CONVERSION SUB TIPO
                                 String subtipo = traductorSubTipoActividadInverso(moneyObject.getString("act_type"));
-                                conceptosGastos.add(concepto+" - "+fecha);
-                                actividadesGastos.add(actividad+": "+subtipo);
+                                conceptosGastos.add(concepto + " - " + fecha);
+                                actividadesGastos.add(actividad + ": " + subtipo);
                                 tiposGastos.add(tipo);
-                                valoresGastos.add("$"+valor);
-                                totalFinal=totalFinal+Integer.parseInt(valor);
+                                valoresGastos.add("$" + valor);
+                                totalFinal = totalFinal + Integer.parseInt(valor);
                                 //System.out.println(concepto+" "+valor+" "+actividad+" "+tipo+" "+fecha+" "+subtipo);
                             }
-                            total.setText("Total: $"+formatea.format(totalFinal));
+                            total.setText("Total: $" + formatea.format(totalFinal));
                             for (int i = 0; i < conceptosGastos.size(); i++) {
-                                dataModels.add(new ResumenGastoDataModel(conceptosGastos.get(i),actividadesGastos.get(i),tiposGastos.get(i),valoresGastos.get(i)));
+                                dataModels.add(new ResumenGastoDataModel(conceptosGastos.get(i), actividadesGastos.get(i), tiposGastos.get(i), valoresGastos.get(i)));
                             }
                             adapter = new ResumenGastosAdapter(dataModels, getApplicationContext());
                             listView.setAdapter(adapter);
@@ -102,79 +102,64 @@ public class VerGastosActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                 return params;
             }
         };
         queue.add(newOutcomeRequest);
     }
 
-    private String traductorTipoInverso(String tipo){
-        if(tipo.equals("M")){
+    private String traductorTipoInverso(String tipo) {
+        if (tipo.equals("M")) {
             return "Materiales";
-        }else{
+        } else {
             return "Mano de obra";
         }
     }
 
-    private String traductorTipoActividadInverso(String tipo){
-        if (tipo.equals("P")) {
-            return "Poda";
-        }
-        else if (tipo.equals("U")) {
-            return "Fumigación";
-        }
-        else if (tipo.equals("F")) {
-            return "Fertilización";
-        }else{
-            return "Riego";
+    private String traductorTipoActividadInverso(String tipo) {
+        switch (tipo) {
+            case "P":
+                return "Poda";
+            case "U":
+                return "Fumigación";
+            case "F":
+                return "Fertilización";
+            default:
+                return "Riego";
         }
     }
 
     private String traductorSubTipoActividadInverso(String tipo) {
-        if (tipo.equals("R3")) {
-            return "Sistema";
-        }
-        else if (tipo.equals("R2")) {
-            return "Manual";
-        }
-        else if (tipo.equals("R1")) {
-            return "Natural";
-        }
-        else if (tipo.equals("F1")) {
-            return "Crecimiento";
-        }
-        else if (tipo.equals("F2")) {
-            return "Produccion";
-        }
-        else if (tipo.equals("F3")){
-            return "Mantenimiento";
-        }
-        else if (tipo.equals("U1")) {
-            return "Insectos";
-        }
-        else if (tipo.equals("U2")) {
-            return "Hongos";
-        }
-        else if (tipo.equals("U3")) {
-            return "Hierba";
-        }
-        else if (tipo.equals("U4")) {
-            return "Ácaro";
-        }
-        else if (tipo.equals("U5")) {
-            return "Peste";
-        }
-        else if (tipo.equals("P1")) {
-            return "Sanitaria";
-        }
-        else if (tipo.equals("P2")) {
-            return "Formación";
-        }
-        else if (tipo.equals("P3")){
-            return "Mantenimiento";
-        }else {
-            return "Limpieza";
+        switch (tipo) {
+            case "R3":
+                return "Sistema";
+            case "R2":
+                return "Manual";
+            case "R1":
+                return "Natural";
+            case "F1":
+                return "Crecimiento";
+            case "F2":
+                return "Produccion";
+            case "F3":
+            case "P3":
+                return "Mantenimiento";
+            case "U1":
+                return "Insectos";
+            case "U2":
+                return "Hongos";
+            case "U3":
+                return "Hierba";
+            case "U4":
+                return "Ácaro";
+            case "U5":
+                return "Peste";
+            case "P1":
+                return "Sanitaria";
+            case "P2":
+                return "Formación";
+            default:
+                return "Limpieza";
         }
     }
 }

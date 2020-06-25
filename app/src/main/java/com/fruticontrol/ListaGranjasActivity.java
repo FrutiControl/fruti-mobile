@@ -38,11 +38,10 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class ListaGranjasActivity extends AppCompatActivity {
-
     Button nuevaGranjaButton;
     ArrayList<ResumenGranjaDataModel> dataModels;
     ListView listView;
-    TextView txTituloGrnja;
+    TextView txtTituloGranja;
     private static ResumenGranjasAdapter adapter;
     private Token token;
     private ArrayList<String> nombresGranjas;
@@ -57,8 +56,8 @@ public class ListaGranjasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_granjas);
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         token = (Token) getApplicationContext();
-        listView = (ListView) findViewById(R.id.listaGranjasList);
-        txTituloGrnja=findViewById(R.id.textViewTituloGrnjas);
+        listView = findViewById(R.id.listaGranjasList);
+        txtTituloGranja = findViewById(R.id.textViewTituloGrnjas);
         nuevaGranjaButton = findViewById(R.id.buttonNuevaGranja);
         dataModels = new ArrayList<>();
         puntosGranjas = new ArrayList<>();
@@ -119,7 +118,6 @@ public class ListaGranjasActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                 return params;
             }
         };
@@ -128,19 +126,19 @@ public class ListaGranjasActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 token.setGranjaActual(idGranjas.get(i));
-
+                // TODO: set proper names for this variables
                 String separated[] = puntosGranjas.get(i).split("\\(");
                 String aux[] = separated[2].split("\\)");
-                System.out.println("SEPARATED 2 ES "+separated[2]);
-                String soloXY[]=aux[0].split(",");
-                ArrayList<String>auxPuntosLimpios=new ArrayList<>();
-                for(int a=0;a<soloXY.length;a++){
-                    if(a==0){
-                        String otroAux[]=soloXY[0].split(" ");
+                System.out.println("SEPARATED 2 ES " + separated[2]);
+                String soloXY[] = aux[0].split(",");
+                ArrayList<String> auxPuntosLimpios = new ArrayList<>();
+                for (int a = 0; a < soloXY.length; a++) {
+                    if (a == 0) {
+                        String otroAux[] = soloXY[0].split(" ");
                         auxPuntosLimpios.add(otroAux[0]);
                         auxPuntosLimpios.add(otroAux[1]);
-                    }else{
-                        String otroAux[]=soloXY[a].split(" ");
+                    } else {
+                        String otroAux[] = soloXY[a].split(" ");
                         auxPuntosLimpios.add(otroAux[1]);
                         auxPuntosLimpios.add(otroAux[2]);
                     }

@@ -1,7 +1,6 @@
 package com.fruticontrol;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NuevoIngresoActivity extends AppCompatActivity {
-
     private Spinner spinnerTipoArbol;
     private Spinner spinnerUnidad;
     private EditText txtFechaIngreso;
@@ -45,7 +43,6 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     private EditText etValorCanastilla;
     private EditText etConceptoIngreso;
     private TextView txtTotal;
-    private Button guardarNuevoIngresoButton;
     private Token token;
     private DecimalFormat formatea;
 
@@ -53,44 +50,42 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_ingreso);
-        token=(Token)getApplicationContext();
+        token = (Token) getApplicationContext();
         formatea = new DecimalFormat("###,###.##");
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbolNuevoIngreso);
-        spinnerUnidad=findViewById(R.id.spinnerUnidad);
+        spinnerUnidad = findViewById(R.id.spinnerUnidad);
         etCantidadCanastilla = findViewById(R.id.editTextCantidadCanastillas);
         etValorCanastilla = findViewById(R.id.editTextValorCanastilla);
         etConceptoIngreso = findViewById(R.id.editTextConcepto);
         txtTotal = findViewById(R.id.textViewTotalIngreso);
         txtFechaIngreso = findViewById(R.id.editTextFechaIngreso);
-        guardarNuevoIngresoButton = findViewById(R.id.buttonGuardarNuevoIngreso);
-
+        Button guardarNuevoIngresoButton = findViewById(R.id.buttonGuardarNuevoIngreso);
         ArrayAdapter<CharSequence> spinnerAdapterTipo = ArrayAdapter.createFromResource(this, R.array.TipoArbolFrutal, R.layout.spinner_item);
         spinnerTipoArbol.setAdapter(spinnerAdapterTipo);
-
         ArrayAdapter<CharSequence> spinnerUnidades = ArrayAdapter.createFromResource(this, R.array.Unidades, R.layout.spinner_item);
         spinnerUnidad.setAdapter(spinnerUnidades);
-
         spinnerUnidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String tipo = spinnerUnidad.getSelectedItem().toString();
-                if (tipo.equals("Seleccione las unidades...")) {
-                    etValorCanastilla.setHint("Valor");
-                }
-                if (tipo.equals("Unidades")) {
-                    etValorCanastilla.setHint("Valor unidades");
-                }
-                if (tipo.equals("Kilos")) {
-                    etValorCanastilla.setHint("Valor kilos");
-                }
-                if (tipo.equals("Canastillas")) {
-                    etValorCanastilla.setHint("Valor canastillas");
+                switch (tipo) {
+                    case "Seleccione las unidades...":
+                        etValorCanastilla.setHint("Valor");
+                        break;
+                    case "Unidades":
+                        etValorCanastilla.setHint("Valor unidades");
+                        break;
+                    case "Kilos":
+                        etValorCanastilla.setHint("Valor kilos");
+                        break;
+                    case "Canastillas":
+                        etValorCanastilla.setHint("Valor canastillas");
+                        break;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -98,20 +93,20 @@ public class NuevoIngresoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validateForm()) {
-
                     RequestQueue queue = Volley.newRequestQueue(NuevoIngresoActivity.this);
                     //CONCEPTO DEL INGRESO
-                    String concepto=etConceptoIngreso.getText().toString();
+                    String concepto = etConceptoIngreso.getText().toString();
                     //SE TOMA LA FECHA DE SIEMBRA Y SE CAMBIA EL FORMATO
+                    // TODO: set proper names for this variables
                     String divide = txtFechaIngreso.getText().toString();
                     String separated[] = divide.split(" ");
                     String aux = separated[3];
                     String data[] = aux.split("/");
                     String auxFecha = data[2] + "-" + data[1] + "-" + data[0];
                     //VALOR DE CANASTILLA
-                    String valorCanastilla=etValorCanastilla.getText().toString();
+                    String valorCanastilla = etValorCanastilla.getText().toString();
                     //CANTIDAD DE CANASTILLAS
-                    String cantidadCanastillas=etCantidadCanastilla.getText().toString();
+                    String cantidadCanastillas = etCantidadCanastilla.getText().toString();
                     //TIPO DE UNIDAD
                     int selectedItemOfMySpinnerUnidad = spinnerUnidad.getSelectedItemPosition();
                     String actualPositionOfMySpinnerUnidad = (String) spinnerUnidad.getItemAtPosition(selectedItemOfMySpinnerUnidad);
@@ -120,7 +115,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                     int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
                     String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
                     String inicial = inicialTipo(actualPositionOfMySpinner);
-                    String body = "{\"concept\":\"" + concepto + "\",\"date\":\"" + auxFecha + "\",\"value\":\"" + valorCanastilla + "\",\"quantity\":\"" + cantidadCanastillas + "\",\"fruit_type\":\"" + inicial + "\",\"recommended\":\"" + false + "\",\"unit\":\"" + unidad +"\"}";
+                    String body = "{\"concept\":\"" + concepto + "\",\"date\":\"" + auxFecha + "\",\"value\":\"" + valorCanastilla + "\",\"quantity\":\"" + cantidadCanastillas + "\",\"fruit_type\":\"" + inicial + "\",\"recommended\":\"" + false + "\",\"unit\":\"" + unidad + "\"}";
                     Log.i("newIncomeAPI", "Nuevo ingreso: " + body);
                     JSONObject newTree = null;
                     try {
@@ -128,7 +123,6 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,
                             "https://app.fruticontrol.me/money/incomes/", newTree,
                             new Response.Listener<JSONObject>() {
@@ -157,19 +151,15 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
-                            //params.put("Content-Type", "application/json");
                             params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                             return params;
                         }
                     };
                     queue.add(newTreeRequest);
-
                     Toast.makeText(NuevoIngresoActivity.this, "Es valido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
         txtFechaIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,8 +176,6 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                 dateIngreso.show();
             }
         });
-
-
         etValorCanastilla.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -222,22 +210,21 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     }
 
     private String traductorUnidades(String tipo) {
-        if (tipo.equals("Canastillas")) {
-            return "C";
+        switch (tipo) {
+            case "Canastillas":
+                return "C";
+            case "Kilos":
+                return "K";
+            case "Unidades":
+                return "U";
         }
-        if (tipo.equals("Kilos")) {
-            return "K";
-        }
-        else {
-            return "U";
-        }
+        return "";
     }
 
     private boolean validateForm() {
         boolean valid = true;
         int selectedItemOfMySpinner = spinnerTipoArbol.getSelectedItemPosition();
         String actualPositionOfMySpinner = (String) spinnerTipoArbol.getItemAtPosition(selectedItemOfMySpinner);
-
         if (TextUtils.isEmpty(etCantidadCanastilla.getText().toString())) {
             etCantidadCanastilla.setError("Requerido");
             valid = false;
@@ -288,38 +275,37 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     }
 
     private String inicialTipo(String opcion) {
-        if (opcion.equals("Mango tommy")) {
-            return "M";
-        } else if (opcion.equals("Mango farchil")) {
-            return "F";
-        } else if (opcion.equals("Naranja")) {
-            return "N";
-        } else if (opcion.equals("Mandarina")) {
-            return "D";
-        } else if (opcion.equals("Limon")) {
-            return "L";
-        } else if (opcion.equals("Aguacate")) {
-            return "A";
-        } else {
-            return "B";
+        switch (opcion) {
+            case "Mango Tommy":
+                return "M";
+            case "Mango Fairchild":
+                return "F";
+            case "Naranja":
+                return "N";
+            case "Mandarina":
+                return "D";
+            case "Limon":
+                return "L";
+            case "Aguacate":
+                return "A";
+            default:
+                return "B";
         }
     }
 
     private void setSpinnerError(Spinner spinner) {
         View selectedView = spinner.getSelectedView();
-        if (selectedView != null && selectedView instanceof TextView) {
+        if (selectedView instanceof TextView) {
             spinner.requestFocus();
             TextView selectedTextView = (TextView) selectedView;
             selectedTextView.setError("Requerido"); // any name of the error will do
-
-
         }
     }
 
     protected void calcularTotal() {
         if (!TextUtils.isEmpty(etValorCanastilla.getText().toString()) && !TextUtils.isEmpty(etCantidadCanastilla.getText().toString())) {
-            int total = (Integer.valueOf(etValorCanastilla.getText().toString())) * Integer.valueOf(etCantidadCanastilla.getText().toString());
-            txtTotal.setText("Total: $"+formatea.format(total));
+            int total = (Integer.parseInt(etValorCanastilla.getText().toString())) * Integer.parseInt(etCantidadCanastilla.getText().toString());
+            txtTotal.setText("Total: $" + formatea.format(total));
         }
     }
 }

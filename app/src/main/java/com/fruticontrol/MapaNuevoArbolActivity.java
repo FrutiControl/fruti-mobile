@@ -1,32 +1,16 @@
 package com.fruticontrol;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,16 +21,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.tasks.Task;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.FocusGravity;
@@ -54,16 +31,12 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapReadyCallback {
-
     private GoogleMap mMap;
     public Marker arbolMarker;
     double latitude = 0;
     double longitude = 0;
     double cameraLatitude;
     double cameraLongitude;
-    private Button seleccionarUbicacionButton;
-    private Button ghostButton;
-    private ImageView marcadorArbol;
     private Token token;
     private ArrayList<String> listaArboles;
 
@@ -80,10 +53,10 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         listaArboles = intent.getStringArrayListExtra("todosArboles");
         latitude = Double.parseDouble(latAux);
         longitude = Double.parseDouble(lonAux);
-        System.out.println("DESPUES DE CONVERTIDOS LOS PUNTOS INICIALES SON "+latitude+" "+longitude);
+        System.out.println("DESPUES DE CONVERTIDOS LOS PUNTOS INICIALES SON " + latitude + " " + longitude);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
-        ghostButton=findViewById(R.id.buttonGhostNuevo);
+        Button seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
+        Button ghostButton = findViewById(R.id.buttonGhostNuevo);
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(true)
                 .enableIcon(false)
@@ -115,7 +88,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                 token.setArbolEscogido(true);
             }
         });
-        marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
+        ImageView marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
         marcadorArbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,7 +160,6 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                     mMap.addMarker(new MarkerOptions().position(center)).setVisible(false);
                     cameraLatitude = center.latitude;
                     cameraLongitude = center.longitude;
-
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA
                     ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
                     //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
@@ -217,7 +189,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                         System.out.println("XXXXXXX ESTO ES MODIFICAR ARBOL LON" + lonAux[0]);
                         Double a1 = Double.parseDouble(lat);
                         Double a2 = Double.parseDouble(lon);
-                        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.tree);
+                        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.tree);
                         Bitmap b = bitmapdraw.getBitmap();
                         Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
                         mMap.addMarker(new MarkerOptions().position(new LatLng(a1, a2)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)).draggable(false));
@@ -227,5 +199,4 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         });
     }
 }
-
 //Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>

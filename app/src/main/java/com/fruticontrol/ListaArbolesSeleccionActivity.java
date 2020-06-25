@@ -1,14 +1,9 @@
 package com.fruticontrol;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -28,16 +23,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class ListaArbolesSeleccionActivity extends AppCompatActivity implements android.widget.CompoundButton.OnCheckedChangeListener{
+public class ListaArbolesSeleccionActivity extends AppCompatActivity implements android.widget.CompoundButton.OnCheckedChangeListener {
 
     ArrayList<ResumenArbolSeleccionDataModel> dataModels;
     ArrayList<Arbol> arbolList;
     ArbolAdapter arAdapter;
-
     ListView listView;
     private static ResumenArbolesSeleccionAdapter adapter;
     private ArrayList<String> idsArboles;
@@ -45,7 +39,6 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
     private ArrayList<String> etapasArboles;
     private ArrayList<String> fechasSiembra;
     private ArrayList<String> localizacionesArboles;
-    private Button nuevoArbolButton;
     private Token token;
     private Boolean[] places;
 
@@ -53,59 +46,43 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_arboles_seleccion);
-        token=(Token)getApplicationContext();
-        listView=(ListView)findViewById(R.id.listaArbolesList);
-        nuevoArbolButton=findViewById(R.id.buttonNuevoArbol);
-        dataModels= new ArrayList<>();
-        idsArboles=new ArrayList<>();
-        tiposArboles=new ArrayList<>();
-        etapasArboles=new ArrayList<>();
-        fechasSiembra=new ArrayList<>();
-        localizacionesArboles=new ArrayList<>();
-
+        token = (Token) getApplicationContext();
+        listView = findViewById(R.id.listaArbolesList);
+        Button nuevoArbolButton = findViewById(R.id.buttonNuevoArbol);
+        dataModels = new ArrayList<>();
+        idsArboles = new ArrayList<>();
+        tiposArboles = new ArrayList<>();
+        etapasArboles = new ArrayList<>();
+        fechasSiembra = new ArrayList<>();
+        localizacionesArboles = new ArrayList<>();
         nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),CrearArbolActivity.class);
+                Intent intent = new Intent(view.getContext(), CrearArbolActivity.class);
                 startActivity(intent);
             }
         });
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int color = Color.TRANSPARENT;
-                Drawable background = view.getBackground();
-                color = ((ColorDrawable) background).getColor();
-                if(color==Color.GREEN){
-                    view.setBackgroundColor(Color.TRANSPARENT);
-                    places[i]=false;
-                }else{
-                    view.setBackgroundColor(Color.GREEN);
-                    places[i]=true;
-                }
-            }
-        });*/
         nuevoArbolButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("PLACES ES ");
-                for(int i=0;i<places.length;i++){
-                    System.out.println(places[i]);
+                for (Boolean place : places) {
+                    System.out.println(place);
                 }
-                List<Integer> idsSeleccionados=new ArrayList<>();
-                for(int i=0;i<places.length;i++){
-                    if(places[i]){
-                        System.out.println("EL ID DEL SELECCIONADO FUE "+idsArboles.get(i));
-                        System.out.println("EL ID DEL SELECCIONADO FUE EN INTEGER "+Integer.parseInt(idsArboles.get(i)));
+                ArrayList<Integer> idsSeleccionados = new ArrayList<>();
+                for (int i = 0; i < places.length; i++) {
+                    if (places[i]) {
+                        System.out.println("EL ID DEL SELECCIONADO FUE " + idsArboles.get(i));
+                        System.out.println("EL ID DEL SELECCIONADO FUE EN INTEGER " + Integer.parseInt(idsArboles.get(i)));
                         idsSeleccionados.add(Integer.parseInt(idsArboles.get(i)));
                     }
                 }
                 System.out.println("LOS IDS AGREGADOS FUERON");
-                for(int i=0;i<idsSeleccionados.size();i++){
-                    System.out.println("A "+idsSeleccionados.get(i).toString());
+                for (int i = 0; i < idsSeleccionados.size(); i++) {
+                    System.out.println("A " + idsSeleccionados.get(i).toString());
                 }
                 Intent intent = new Intent();
-                intent.putExtra("arbolesActividad", (ArrayList<Integer>) idsSeleccionados);
+                intent.putExtra("arbolesActividad", idsSeleccionados);
                 setResult(RESULT_OK, intent);
                 finish();
                 token.setArbolEscogido(true);
@@ -121,7 +98,7 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                if(farmObject.getString("farm")==token.getGranjaActual()){
+                                if (farmObject.getString("farm").equals(token.getGranjaActual())) {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");
@@ -134,26 +111,8 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
                                     localizacionesArboles.add(localizacion);
                                 }
                             }
-                            places=new Boolean[idsArboles.size()];
-                            for(int i=0;i<places.length;i++){
-                                places[i]=false;
-                            }
-                            /*
-                            if(!idsArboles.isEmpty()){
-                                //SE LLENA LA LISTA
-                                for(int i=0;i<idsArboles.size();i++){
-                                    dataModels.add(new ResumenArbolSeleccionDataModel("Número de árbol: "+idsArboles.get(i).toString(),tiposArboles.get(i).toString(),etapasArboles.get(i)));
-                                }
-                                adapter= new ResumenArbolesSeleccionAdapter(dataModels,getApplicationContext());
-                                listView.setAdapter(adapter);
-                                places=new Boolean[idsArboles.size()];
-                                System.out.println("XXXXXXXXXXX child count es "+idsArboles.size());
-                                System.out.println("XXXXXXXXXXX SIZE DE PLACES ES "+places.length);
-                                for(int i=0;i<places.length;i++){
-                                    places[i]=false;
-                                }
-                            }
-                            */
+                            places = new Boolean[idsArboles.size()];
+                            Arrays.fill(places, false);
                             showTrees();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -165,78 +124,69 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
                 Toast.makeText(ListaArbolesSeleccionActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
-        }){    //this is the part, that adds the header to the request
+        }) {    //this is the part, that adds the header to the request
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token "+token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES "+token.getToken());
+                params.put("Authorization", "Token " + token.getToken());
                 return params;
             }
         };
         queue.add(allTreesRequest);
     }
 
-
-    private void showTrees(){
-        arbolList= new ArrayList<Arbol>();
-        for(int i=0;i<idsArboles.size();i++){
-            String auxId="Número de árbol: "+idsArboles.get(i);
-            String auxTipo=tiposArboles.get(i);
-            arbolList.add(new Arbol(auxId,auxTipo));
+    private void showTrees() {
+        arbolList = new ArrayList<Arbol>();
+        for (int i = 0; i < idsArboles.size(); i++) {
+            String auxId = "Número de árbol: " + idsArboles.get(i);
+            String auxTipo = tiposArboles.get(i);
+            arbolList.add(new Arbol(auxId, auxTipo));
         }
-        arAdapter=new ArbolAdapter(arbolList,this);
+        arAdapter = new ArbolAdapter(arbolList, this);
         listView.setAdapter(arAdapter);
     }
 
-
-    private String inicialTipoInversa(String opcion){
-        if(opcion.equals("M")){
-            return "Mango tommy";
+    private String inicialTipoInversa(String opcion) {
+        switch (opcion) {
+            case "M":
+                return "Mango tommy";
+            case "F":
+                return "Mango farchil";
+            case "N":
+                return "Naranja";
+            case "D":
+                return "Mandarina";
+            case "L":
+                return "Limon";
+            case "A":
+                return "Aguacate";
+            case "B":
+                return "Banano";
         }
-        else if(opcion.equals("F")){
-            return "Mango farchil";
-        }
-        else if(opcion.equals("N")){
-            return "Naranja";
-        }
-        else if(opcion.equals("D")){
-            return "Mandarina";
-        }
-        else if(opcion.equals("L")){
-            return "Limon";
-        }
-        else if(opcion.equals("A")){
-            return "Aguacate";
-        }else{
-            return "Banano";
-        }
+        return "";
     }
 
-    private String devolverNombreFase(String num){
-        if(num.equals("1"))
-            return "Crecimiento";
-        if(num.equals("2"))
-            return "Floracion";
-        if(num.equals("2"))
-            return "Produccion";
-        else
-            return "Post-Produccion";
+    private String devolverNombreFase(String num) {
+        switch (num) {
+            case "1":
+                return "Crecimiento";
+            case "2":
+                return "Floracion";
+            case "3":
+                return "Produccion";
+            case "4":
+                return "Post-Produccion";
+        }
+        return "";
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        int pos=listView.getPositionForView(buttonView);
-        if(pos!=ListView.INVALID_POSITION){
-            Arbol a=arbolList.get(pos);
-            if(isChecked){
-                places[pos]=true;
-            }else{
-                places[pos]=false;
-            }
+        int pos = listView.getPositionForView(buttonView);
+        if (pos != ListView.INVALID_POSITION) {
+            Arbol a = arbolList.get(pos);
+            places[pos] = isChecked;
             a.setSelected(isChecked);
-
-            //Toast.makeText(this,"Chosen one: "+a.getId()+" and type is "+isChecked,Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -44,15 +44,15 @@ public class VerIngresosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_ingresos);
         formatea = new DecimalFormat("###,###.##");
-        totalFinal=0;
+        totalFinal = 0;
         dataModels = new ArrayList<>();
-        listView=findViewById(R.id.listaIngresos);
-        txTotalFinal=findViewById(R.id.textViewTotalIngresos);
-        conceptosIngresos=new ArrayList<>();
-        valoresIngresos=new ArrayList<>();
-        cantidadesIngresos=new ArrayList<>();
-        tiposFrutaIngresos=new ArrayList<>();
-        token=(Token)getApplicationContext();
+        listView = findViewById(R.id.listaIngresos);
+        txTotalFinal = findViewById(R.id.textViewTotalIngresos);
+        conceptosIngresos = new ArrayList<>();
+        valoresIngresos = new ArrayList<>();
+        cantidadesIngresos = new ArrayList<>();
+        tiposFrutaIngresos = new ArrayList<>();
+        token = (Token) getApplicationContext();
         RequestQueue queue = Volley.newRequestQueue(VerIngresosActivity.this);
         JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,
                 "https://app.fruticontrol.me/money/incomes/?recommended=False", null,
@@ -66,23 +66,23 @@ public class VerIngresosActivity extends AppCompatActivity {
                                 String concepto = moneyObject.getString("concept");
                                 String valor = moneyObject.getString("value").toString();
                                 String tipo = inicialTipoInversa(moneyObject.getString("fruit_type"));
-                                String cantidad=moneyObject.getString("quantity").toString();
-                                String unidad=moneyObject.getString("unit").toString();
+                                String cantidad = moneyObject.getString("quantity").toString();
+                                String unidad = moneyObject.getString("unit").toString();
                                 //CONVERSION DE FECHA
                                 String fecha = moneyObject.getString("date");
                                 String divide2 = fecha;
                                 String[] separated2 = divide2.split("-");
-                                fecha=separated2[2] + "/" + separated2[1] + "/" + separated2[0];
-                                conceptosIngresos.add(concepto+" - "+fecha);
+                                fecha = separated2[2] + "/" + separated2[1] + "/" + separated2[0];
+                                conceptosIngresos.add(concepto + " - " + fecha);
                                 tiposFrutaIngresos.add(tipo);
-                                cantidadesIngresos.add(cantidad+" "+traductorUnidadesInverso(unidad)+ " a $"+valor+" c/u");
-                                int auxTotal=Integer.parseInt(cantidad)*Integer.parseInt(valor);
-                                valoresIngresos.add("$"+auxTotal);
-                                totalFinal=totalFinal+auxTotal;
+                                cantidadesIngresos.add(cantidad + " " + traductorUnidadesInverso(unidad) + " a $" + valor + " c/u");
+                                int auxTotal = Integer.parseInt(cantidad) * Integer.parseInt(valor);
+                                valoresIngresos.add("$" + auxTotal);
+                                totalFinal = totalFinal + auxTotal;
                             }
-                            txTotalFinal.setText("Total: $"+formatea.format(totalFinal));
+                            txTotalFinal.setText("Total: $" + formatea.format(totalFinal));
                             for (int i = 0; i < conceptosIngresos.size(); i++) {
-                                dataModels.add(new ResumenGastoDataModel(conceptosIngresos.get(i),tiposFrutaIngresos.get(i),cantidadesIngresos.get(i),valoresIngresos.get(i)));
+                                dataModels.add(new ResumenGastoDataModel(conceptosIngresos.get(i), tiposFrutaIngresos.get(i), cantidadesIngresos.get(i), valoresIngresos.get(i)));
                             }
                             adapter = new ResumenGastosAdapter(dataModels, getApplicationContext());
                             listView.setAdapter(adapter);
@@ -101,7 +101,6 @@ public class VerIngresosActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Token " + token.getToken());
-                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
                 return params;
             }
         };
@@ -122,20 +121,21 @@ public class VerIngresosActivity extends AppCompatActivity {
                 return "Limon";
             case "A":
                 return "Aguacate";
-            default:
+            case "B":
                 return "Banano";
         }
+        return "";
     }
 
     private String traductorUnidadesInverso(String tipo) {
-        if (tipo.equals("C")) {
-            return "Canastillas";
+        switch (tipo) {
+            case "C":
+                return "Canastillas";
+            case "K":
+                return "Kilos";
+            case "U":
+                return "Unidades";
         }
-        if (tipo.equals("K")) {
-            return "Kilos";
-        }
-        else {
-            return "Unidades";
-        }
+        return "";
     }
 }
