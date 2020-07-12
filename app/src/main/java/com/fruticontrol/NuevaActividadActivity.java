@@ -46,6 +46,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
     private DatePickerDialog datePFin;
     private Spinner spinnerTipo;
     private Spinner spinnerSubtipo;
+    private String inicialTipoActividad;
     private Token token;
     private ArrayList<Integer> listaArbolesSeleccionados;
     private int valorJornal;
@@ -86,22 +87,27 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     String subTipo;
                     switch (tipoActividad) {
                         case "Poda":
+                            inicialTipoActividad="P";
                             url = url + "prunings/";
                             subTipo = traductorPodas(spinnerSubtipo.getSelectedItem().toString());
                             break;
                         case "Fumigación":
+                            inicialTipoActividad="U";
                             url = url + "fumigations/";
                             subTipo = traductorFumigaciones(spinnerSubtipo.getSelectedItem().toString());
                             break;
                         case "Fertilización":
+                            inicialTipoActividad="F";
                             url = url + "fertilizations/";
                             subTipo = traductorFertilizaciones(spinnerSubtipo.getSelectedItem().toString());
                             break;
                         case "Recolección":
+                            inicialTipoActividad="H";
                             url = url + "recollections/";
                             subTipo = inicialTipo2(spinnerSubtipo.getSelectedItem().toString());
                             break;
                         default:
+                            inicialTipoActividad="R";
                             url = url + "waterings/";
                             subTipo = traductorRiegos(spinnerSubtipo.getSelectedItem().toString());
                             break;
@@ -137,7 +143,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     JsonObjectRequest lastActivityRequest = new JsonObjectRequest(Request.Method.POST,
-                            url/*TODO: cambiar a URL real para producción!!!!*/, newLastActivity,
+                            url, newLastActivity,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -191,9 +197,9 @@ public class NuevaActividadActivity extends AppCompatActivity {
                             "\",\"value\":\"" + valor +
                             "\",\"recommended\":\"" + true +
                             "\",\"type\":\"" + "O" +
-                            "\",\"activity\":\"" + "H" +
+                            "\",\"activity\":\"" + inicialTipoActividad +
                             "\",\"act_type\":\"" + tipoActividad2 + "\"}";
-                    Log.i("handOutcomeAPI", "Nuevo gasto: " + body3);
+                    Log.i("handOutcomeAPI", "Nuevo gasto mano de obra: " + body3);
                     JSONObject newOutcome = null;
                     try {
                         newOutcome = new JSONObject(body3);
@@ -239,12 +245,12 @@ public class NuevaActividadActivity extends AppCompatActivity {
                             "\",\"value\":\"" + valor5 +
                             "\",\"recommended\":\"" + true +
                             "\",\"type\":\"" + "M" +
-                            "\",\"activity\":\"" + "H" +
+                            "\",\"activity\":\"" + inicialTipoActividad +
                             "\",\"act_type\":\"" + tipoActividad2 + "\"}";
-                    Log.i("materialOutcomeAPI", "Nuevo gasto: " + body4);
+                    Log.i("materialOutcomeAPI", "Nuevo gasto materiales: " + body4);
                     JSONObject newOutcome2 = null;
                     try {
-                        newOutcome2 = new JSONObject(body3);
+                        newOutcome2 = new JSONObject(body4);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
