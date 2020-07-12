@@ -67,7 +67,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
         subTipo = getIntent().getStringExtra("subTipoFormato");
         idActividad = getIntent().getStringExtra("idActividad");
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-        String url = "https://app.fruticontrol.me/app/";
+        String url = token.getDomain()+"/app/";
         url = url + tipo + "_trees/?" + tipo + "=" + idActividad;
         System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
@@ -160,7 +160,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = "https://app.fruticontrol.me/app/";
+                    String auxUrl = token.getDomain()+"/app/";
                     auxUrl = auxUrl + tipo + "s/" + idActividad + "/";
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, newTree,
@@ -203,7 +203,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-                String url = "https://app.fruticontrol.me/app/";
+                String url = token.getDomain()+"/app/";
                 url = url + tipo + "_trees/?" + tipo + "=" + idActividad + "&tree=" + listaIds.get(i);
                 System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
                 JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
@@ -252,7 +252,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
         listaEstados.clear();
         listaIds.clear();
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-        String url = "https://app.fruticontrol.me/app/";
+        String url = token.getDomain()+"/app/";
         url = url + tipo + "_trees/?" + tipo + "=" + idActividad;
         System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,

@@ -123,8 +123,8 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/money/incomes/", newTree,
+                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/money/incomes/", newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

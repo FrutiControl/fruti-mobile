@@ -39,8 +39,8 @@ public class PreferenciasActivity extends AppCompatActivity {
         valorJornalET = findViewById(R.id.editTextValorJornal);
         Button guardarPreferenciasButton = findViewById(R.id.buttonGuardarPreferencias);
         RequestQueue queue = Volley.newRequestQueue(PreferenciasActivity.this);
-        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/users/owner/", null,
+        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+                "/users/owner/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -86,7 +86,7 @@ public class PreferenciasActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = "https://app.fruticontrol.me/users/owner/";
+                    String auxUrl = token.getDomain()+"/users/owner/";
                     JsonObjectRequest newDayCostRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, newDayCost,
                             new Response.Listener<JSONObject>() {

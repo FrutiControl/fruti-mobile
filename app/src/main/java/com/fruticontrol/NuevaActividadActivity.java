@@ -82,7 +82,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
                     String tipoActividad = spinnerTipo.getSelectedItem().toString();
-                    String url = "https://app.fruticontrol.me/app/";
+                    String url = token.getDomain()+"/app/";
                     String subTipo;
                     switch (tipoActividad) {
                         case "Poda":
@@ -200,8 +200,8 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/money/outcomes/", newOutcome,
+                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/money/outcomes/", newOutcome,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -248,8 +248,8 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newOutcomeRequest2 = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/money/outcomes/", newOutcome2,
+                    JsonObjectRequest newOutcomeRequest2 = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/money/outcomes/", newOutcome2,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -427,8 +427,8 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
     private void traerValorJornal() {
         RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
-        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/users/owner/", null,
+        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+                "/users/owner/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

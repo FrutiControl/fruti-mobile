@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 public class RegistroActivity extends AppCompatActivity {
     public static final int MY_DEFAULT_TIMEOUT = 15000;
+    private Token token;
     private TextView txtNombre;
     private TextView txtEmail;
     private TextView txtPass;
@@ -36,6 +37,7 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+        token=(Token)getApplicationContext();
         txtNombre = findViewById(R.id.editTextNombreCompleto);
         txtEmail = findViewById(R.id.editTextMail);
         txtPass = findViewById(R.id.editTextPass);
@@ -57,8 +59,8 @@ public class RegistroActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/users/register/", informacion,
+                    JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/users/register/", informacion,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

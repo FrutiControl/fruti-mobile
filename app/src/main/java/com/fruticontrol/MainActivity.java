@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainActivity = this;
+        token=(Token)getApplicationContext();
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
@@ -67,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/users/login/", credentials,
+                    JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/users/login/", credentials,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

@@ -89,8 +89,8 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
             }
         });
         RequestQueue queue = Volley.newRequestQueue(ListaArbolesSeleccionActivity.this);
-        JsonArrayRequest allTreesRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/app/trees/", null,
+        JsonArrayRequest allTreesRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/app/trees/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

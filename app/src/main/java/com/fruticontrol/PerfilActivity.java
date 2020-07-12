@@ -99,7 +99,7 @@ public class PerfilActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = "https://app.fruticontrol.me/users/user/";
+                    String auxUrl = token.getDomain()+"/users/user/";
                     JsonObjectRequest modificateUserRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, modifyUser,
                             new Response.Listener<JSONObject>() {

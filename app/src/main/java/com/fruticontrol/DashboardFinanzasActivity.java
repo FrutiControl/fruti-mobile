@@ -69,8 +69,8 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                 .setUsageId("dash_finanzas_showcase")
                 .show();
         RequestQueue queue = Volley.newRequestQueue(DashboardFinanzasActivity.this);
-        JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/money/outcomes/?recommended=False", null,
+        JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/money/outcomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -104,8 +104,8 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
             }
         };
         queue.add(newOutcomeRequest);
-        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/money/incomes/?recommended=False", null,
+        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/money/incomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

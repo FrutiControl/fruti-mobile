@@ -54,8 +54,8 @@ public class VerIngresosActivity extends AppCompatActivity {
         tiposFrutaIngresos = new ArrayList<>();
         token = (Token) getApplicationContext();
         RequestQueue queue = Volley.newRequestQueue(VerIngresosActivity.this);
-        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/money/incomes/?recommended=False", null,
+        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/money/incomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

@@ -113,8 +113,8 @@ public class CrearArbolActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/app/trees/", newTree,
+                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/app/trees/", newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

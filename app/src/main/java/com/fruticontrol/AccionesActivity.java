@@ -91,8 +91,8 @@ public class AccionesActivity extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
                 RequestQueue queue = Volley.newRequestQueue(AccionesActivity.this);
-                JsonObjectRequest allTreesRequest = new JsonObjectRequest(Request.Method.GET,
-                        "https://app.fruticontrol.me/users/user/", null,
+                JsonObjectRequest allTreesRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+                        "/users/user/", null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {

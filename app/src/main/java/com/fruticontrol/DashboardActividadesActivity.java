@@ -109,8 +109,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarFertilizaciones() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/app/fertilizations/", null,
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/app/fertilizations/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -173,8 +173,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarRiegos() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/app/waterings/", null,
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/app/waterings/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -235,8 +235,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarPodas() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/app/prunings/", null,
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/app/prunings/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -297,8 +297,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarFumigaciones() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/app/fumigations/", null,
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/app/fumigations/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -360,8 +360,8 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarRecolecciones() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                "https://app.fruticontrol.me/app/recollections/", null,
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+                "/app/recollections/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

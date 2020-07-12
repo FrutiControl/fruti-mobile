@@ -99,8 +99,8 @@ public class NuevoGastoActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/money/outcomes/", newOutcome,
+                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/money/outcomes/", newOutcome,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -143,8 +143,8 @@ public class NuevoGastoActivity extends AppCompatActivity {
                     tvManoDeObra.setTypeface(null, Typeface.BOLD);
                     tvMateriales.setTypeface(null, Typeface.NORMAL);
                     RequestQueue queue = Volley.newRequestQueue(NuevoGastoActivity.this);
-                    JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,
-                            "https://app.fruticontrol.me/users/owner/", null,
+                    JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+                            "/users/owner/", null,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

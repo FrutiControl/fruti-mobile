@@ -101,7 +101,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         RequestQueue queue = Volley.newRequestQueue(ModificarArbolActivity.this);
-                        String auxUrl = "https://app.fruticontrol.me/app/trees/" + idArbol + "/";
+                        String auxUrl = token.getDomain()+"/app/trees/" + idArbol + "/";
                         StringRequest deleteTreeRequest = new StringRequest(Request.Method.DELETE,
                                 auxUrl,
                                 new Response.Listener<String>() {
@@ -159,7 +159,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = "https://app.fruticontrol.me/app/trees/" + idArbol + "/";
+                    String auxUrl = token.getDomain()+"/app/trees/" + idArbol + "/";
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, newTree,
                             new Response.Listener<JSONObject>() {

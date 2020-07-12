@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Token extends Application {
 
+    private String domain="http://10.0.2.2:8000";
     private String token;
     private String granjaActual;
     private Boolean arbolEscogido;
@@ -19,6 +20,14 @@ public class Token extends Application {
         this.granjaActual = granjaActual;
         this.arbolEscogido = arbolEscogido;
         this.puntosPoligonoGranja = puntosPoligonoGranja;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public String getToken() {

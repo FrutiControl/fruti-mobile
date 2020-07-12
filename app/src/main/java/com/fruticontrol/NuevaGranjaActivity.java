@@ -92,8 +92,8 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     String aux;
-                    JsonObjectRequest newFarmRequest = new JsonObjectRequest(Request.Method.POST,
-                            "https://app.fruticontrol.me/app/farms/", newFarm,
+                    JsonObjectRequest newFarmRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                            "/app/farms/", newFarm,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
