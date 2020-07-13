@@ -33,9 +33,11 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
+    static final int GPS_REQUEST = 300;
     private TextView txtUsername;
     private TextView txtPass;
     private Token token;
+    private boolean isGPS = false;
     static MainActivity mainActivity;
 
     public static MainActivity getInstance() {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         txtPass = findViewById(R.id.txtPass);
         TextView txtRegistro = findViewById(R.id.textViewRegistrarse);
         Button iniciarSesion = findViewById(R.id.buttonIniciarSesion);
+        activarUbicacion();
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -133,7 +136,23 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "sin acceso a localizacion, hardware deshabilitado!", Toast.LENGTH_SHORT).show();
                 }
             }
+            case GPS_REQUEST: {
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(this, "Debe encender la localización para usar la aplicación", Toast.LENGTH_LONG).show();
+                    activarUbicacion();
+                }
+            }
         }
+    }
+
+    public void activarUbicacion(){
+        new GpsUtils(this).turnGPSOn(new GpsUtils.onGpsListener() {
+            @Override
+            public void gpsStatus(boolean isGPSEnable) {
+                // turn on GPS
+                isGPS = isGPSEnable;
+            }
+        });
     }
 
     private boolean validateForm() {

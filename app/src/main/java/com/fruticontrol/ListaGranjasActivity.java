@@ -49,6 +49,8 @@ public class ListaGranjasActivity extends AppCompatActivity {
     private ArrayList<String> puntosGranjas;
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
+    static final int GPS_REQUEST = 300;
+    private boolean isGPS = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
         puntosGranjas = new ArrayList<>();
         nombresGranjas = new ArrayList<>();
         idGranjas = new ArrayList<>();
+        activarUbicacion();
 
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(false)
@@ -159,6 +162,16 @@ public class ListaGranjasActivity extends AppCompatActivity {
         });
     }
 
+    public void activarUbicacion(){
+        new GpsUtils(this).turnGPSOn(new GpsUtils.onGpsListener() {
+            @Override
+            public void gpsStatus(boolean isGPSEnable) {
+                // turn on GPS
+                isGPS = isGPSEnable;
+            }
+        });
+    }
+
     private void requestPermission(Activity context, String permiso, String justificacion, int idCode) {
         if (ContextCompat.checkSelfPermission(context, permiso) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -175,6 +188,12 @@ public class ListaGranjasActivity extends AppCompatActivity {
             case REQUEST_CHECK_SETTINGS: {
                 if (resultCode != RESULT_OK) {
                     Toast.makeText(this, "sin acceso a localizacion, hardware deshabilitado!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            case GPS_REQUEST: {
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(this, "Debe encender la localización para usar la aplicación", Toast.LENGTH_LONG).show();
+                    activarUbicacion();
                 }
             }
         }
