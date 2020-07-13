@@ -56,9 +56,9 @@ public class PerfilActivity extends AppCompatActivity {
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
-                .performClick(true)
+                .performClick(false)
                 .setInfoText("En esta pantalla puede modificar los datos con los que se registró y modificarlos si lo desea. Con el botón preferencias puede modificar el valor de jornal")
-                .setShape(ShapeType.CIRCLE)
+                .setShape(ShapeType.RECTANGLE)
                 .setTarget(preferenciasButton)
                 .setUsageId("preferencias_showcase")
                 .show();

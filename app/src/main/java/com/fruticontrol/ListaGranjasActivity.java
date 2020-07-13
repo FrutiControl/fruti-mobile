@@ -71,9 +71,9 @@ public class ListaGranjasActivity extends AppCompatActivity {
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
-                .performClick(true)
+                .performClick(false)
                 .setInfoText("En esta pantalla puede visualizar su lista de granjas, para crear una nueva granja haga clic en el boton nueva granja")
-                .setShape(ShapeType.CIRCLE)
+                .setShape(ShapeType.RECTANGLE)
                 .setTarget(nuevaGranjaButton)
                 .setUsageId("lista_granja_showcase")
                 .show();

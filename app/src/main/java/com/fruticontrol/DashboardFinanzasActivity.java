@@ -62,9 +62,9 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
-                .performClick(true)
+                .performClick(false)
                 .setInfoText("En esta pantalla puede ver su total de ingresos y gastos. Con los botones de ver gastos e ingresos puede ver el detalle y con los botones de nuevo gasto e ingreso puede agregarlos")
-                .setShape(ShapeType.CIRCLE)
+                .setShape(ShapeType.RECTANGLE)
                 .setTarget(txFinanzas)
                 .setUsageId("dash_finanzas_showcase")
                 .show();

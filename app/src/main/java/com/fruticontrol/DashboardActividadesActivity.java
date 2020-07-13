@@ -78,9 +78,9 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
-                .performClick(true)
+                .performClick(false)
                 .setInfoText("En esta pantalla puede visualizar el estado general y la lista de actividades, para crear una nueva actividad haga clic en nueva actividad")
-                .setShape(ShapeType.CIRCLE)
+                .setShape(ShapeType.RECTANGLE)
                 .setTarget(nuevaActividadButton)
                 .setUsageId("dash_actividades_showcase")
                 .show();

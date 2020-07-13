@@ -62,9 +62,9 @@ public class ListaArbolesActivity extends AppCompatActivity {
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
-                .performClick(true)
+                .performClick(false)
                 .setInfoText("En esta pantalla puede visualizar la lista de árboles de su granja cuando los haya creado, para crear un nuevo árbol haga clic en crear árbol")
-                .setShape(ShapeType.CIRCLE)
+                .setShape(ShapeType.RECTANGLE)
                 .setTarget(nuevoArbolButton)
                 .setUsageId("lista_arboles_showcase")
                 .show();

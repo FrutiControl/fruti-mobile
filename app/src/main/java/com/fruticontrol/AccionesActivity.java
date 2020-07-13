@@ -49,9 +49,9 @@ public class AccionesActivity extends AppCompatActivity {
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
-                .performClick(true)
+                .performClick(false)
                 .setInfoText("Para comenzar debe agregar árboles a la granja, esto lo puede realizar desde la opción Árboles. Luego, puede crear actividades a partir de los árboles ya agregados desde el botón actividades. Además de esto puede manejar sus finanzas en el botón finanzas y cambiar de granja en el botón granja. Por último en perfil puede modificar los datos de la cuenta y la preferencia del valor del jornal")
-                .setShape(ShapeType.CIRCLE)
+                .setShape(ShapeType.RECTANGLE)
                 .setTarget(arbolButton)
                 .setUsageId("first_showcase")
                 .show();
