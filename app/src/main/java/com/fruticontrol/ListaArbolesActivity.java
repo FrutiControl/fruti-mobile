@@ -40,13 +40,13 @@ public class ListaArbolesActivity extends AppCompatActivity {
     private ArrayList<String> etapasArboles;
     private ArrayList<String> fechasSiembra;
     private ArrayList<String> localizacionesArboles;
-    private Token token;
+    private Config config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_arboles);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         listView = findViewById(R.id.listaArbolesList);
         Button nuevoArbolButton = findViewById(R.id.buttonNuevoArbol);
         dataModels = new ArrayList<>();
@@ -90,7 +90,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
             }
         });
         RequestQueue queue = Volley.newRequestQueue(ListaArbolesActivity.this);
-        JsonArrayRequest allTreesRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest allTreesRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/trees/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -99,7 +99,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                if (farmObject.getString("farm").equals(token.getGranjaActual())) {
+                                if (farmObject.getString("farm").equals(config.getGranjaActual())) {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");
@@ -134,7 +134,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };

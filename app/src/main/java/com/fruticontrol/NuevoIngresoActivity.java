@@ -43,14 +43,14 @@ public class NuevoIngresoActivity extends AppCompatActivity {
     private EditText etValorCanastilla;
     private EditText etConceptoIngreso;
     private TextView txtTotal;
-    private Token token;
+    private Config config;
     private DecimalFormat formatea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_ingreso);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         formatea = new DecimalFormat("###,###.##");
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbolNuevoIngreso);
         spinnerUnidad = findViewById(R.id.spinnerUnidad);
@@ -123,7 +123,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/money/incomes/", newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -151,7 +151,7 @@ public class NuevoIngresoActivity extends AppCompatActivity {
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };

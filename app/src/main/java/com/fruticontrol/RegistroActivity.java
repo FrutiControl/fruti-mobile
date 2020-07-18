@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class RegistroActivity extends AppCompatActivity {
     public static final int MY_DEFAULT_TIMEOUT = 15000;
-    private Token token;
+    private Config config;
     private TextView txtNombre;
     private TextView txtEmail;
     private TextView txtPass;
@@ -37,7 +37,7 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        token=(Token)getApplicationContext();
+        config =(Config)getApplicationContext();
         txtNombre = findViewById(R.id.editTextNombreCompleto);
         txtEmail = findViewById(R.id.editTextMail);
         txtPass = findViewById(R.id.editTextPass);
@@ -59,14 +59,14 @@ public class RegistroActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/users/register/", informacion,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Token token = (Token) getApplicationContext();
+                                    Config config = (Config) getApplicationContext();
                                     try {
-                                        token.setToken(response.getString("token"));
+                                        config.setToken(response.getString("token"));
                                         Log.i("usersAPI", "respuesta: " + response.toString());
                                         //TODO: extraer el token del response y verificarlo antes de la siguiente actividad
                                         Toast.makeText(RegistroActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();

@@ -43,7 +43,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
     private Spinner spinnerTipoArbol;
     private Calendar cal;
     private DatePickerDialog dpd;
-    private Token token;
+    private Config config;
     private String newLat;
     private String newLon;
     private ArrayList<String> localizacionesArboles;
@@ -52,7 +52,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_arbol);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         txtFechaSiembra = findViewById(R.id.textFechaSiembra2);
         spinnerTipoArbol = findViewById(R.id.spinnerModificarTipoArbol);
         Button guardarCambiosButton = findViewById(R.id.buttonGuardarCambiosArbol);
@@ -101,7 +101,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         RequestQueue queue = Volley.newRequestQueue(ModificarArbolActivity.this);
-                        String auxUrl = token.getDomain()+"/app/trees/" + idArbol + "/";
+                        String auxUrl = config.getDomain()+"/app/trees/" + idArbol + "/";
                         StringRequest deleteTreeRequest = new StringRequest(Request.Method.DELETE,
                                 auxUrl,
                                 new Response.Listener<String>() {
@@ -121,8 +121,8 @@ public class ModificarArbolActivity extends AppCompatActivity {
                             public Map<String, String> getHeaders() {
                                 Map<String, String> params = new HashMap<String, String>();
                                 params.put("Content-Type", "application/json");
-                                params.put("Authorization", "Token " + token.getToken());
-                                System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                                params.put("Authorization", "Token " + config.getToken());
+                                System.out.println("XXXXXXXXX EL TOKEN ES " + config.getToken());
                                 return params;
                             }
                         };
@@ -151,7 +151,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     String auxUbicacion = "POINT (" + newLat + " " + newLon + ")";
                     //SE CREA EL BODY CON LOS DATOS ANTERIORES
-                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" + auxFecha + "\",\"location\":\"" + auxUbicacion + "\",\"farm\":\"" + token.getGranjaActual() + "\"}";
+                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" + auxFecha + "\",\"location\":\"" + auxUbicacion + "\",\"farm\":\"" + config.getGranjaActual() + "\"}";
                     Log.i("modificateTreeAPI", "Arbol modificado: " + body);
                     JSONObject newTree = null;
                     try {
@@ -159,7 +159,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = token.getDomain()+"/app/trees/" + idArbol + "/";
+                    String auxUrl = config.getDomain()+"/app/trees/" + idArbol + "/";
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, newTree,
                             new Response.Listener<JSONObject>() {
@@ -189,8 +189,8 @@ public class ModificarArbolActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + config.getToken());
                             return params;
                         }
                     };

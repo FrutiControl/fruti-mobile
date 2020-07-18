@@ -37,7 +37,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
     private int totalGastos;
     private int totalIngresos;
     int auxTotal;
-    private Token token;
+    private Config config;
     private DecimalFormat formatea;
 
     @Override
@@ -46,7 +46,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard_finanzas);
         auxTotal = 0;
         formatea = new DecimalFormat("###,###.##");
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         TextView txFinanzas = findViewById(R.id.textViewTituloFinanzas);
         txTotalIngresos = findViewById(R.id.textViewIngresosDashboard);
         txTotalGastos = findViewById(R.id.textViewGastosDashboard);
@@ -69,7 +69,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
                 .setUsageId("dash_finanzas_showcase")
                 .show();
         RequestQueue queue = Volley.newRequestQueue(DashboardFinanzasActivity.this);
-        JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/money/outcomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -99,12 +99,12 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
         queue.add(newOutcomeRequest);
-        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/money/incomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -136,7 +136,7 @@ public class DashboardFinanzasActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };

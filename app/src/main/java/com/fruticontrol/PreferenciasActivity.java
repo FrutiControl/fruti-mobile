@@ -2,7 +2,6 @@ package com.fruticontrol;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +25,7 @@ import java.util.Map;
 
 public class PreferenciasActivity extends AppCompatActivity {
     private EditText valorJornalET;
-    private Token token;
+    private Config config;
     private String auxCity;
     private String auxDepartment;
     private String auxCountry;
@@ -35,11 +34,11 @@ public class PreferenciasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferencias);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         valorJornalET = findViewById(R.id.editTextValorJornal);
         Button guardarPreferenciasButton = findViewById(R.id.buttonGuardarPreferencias);
         RequestQueue queue = Volley.newRequestQueue(PreferenciasActivity.this);
-        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET, config.getDomain()+
                 "/users/owner/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -65,7 +64,7 @@ public class PreferenciasActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -86,7 +85,7 @@ public class PreferenciasActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = token.getDomain()+"/users/owner/";
+                    String auxUrl = config.getDomain()+"/users/owner/";
                     JsonObjectRequest newDayCostRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, newDayCost,
                             new Response.Listener<JSONObject>() {
@@ -116,8 +115,8 @@ public class PreferenciasActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
-                            System.out.println("XXXXXXXXX EL TOKEN ES " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
+                            System.out.println("XXXXXXXXX EL TOKEN ES " + config.getToken());
                             return params;
                         }
                     };

@@ -35,7 +35,7 @@ public class VerIngresosActivity extends AppCompatActivity {
     private ArrayList<ResumenGastoDataModel> dataModels;
     private ListView listView;
     private static ResumenGastosAdapter adapter;
-    private Token token;
+    private Config config;
     private int totalFinal;
     private DecimalFormat formatea;
 
@@ -52,9 +52,9 @@ public class VerIngresosActivity extends AppCompatActivity {
         valoresIngresos = new ArrayList<>();
         cantidadesIngresos = new ArrayList<>();
         tiposFrutaIngresos = new ArrayList<>();
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         RequestQueue queue = Volley.newRequestQueue(VerIngresosActivity.this);
-        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newIncomeRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/money/incomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -100,7 +100,7 @@ public class VerIngresosActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };

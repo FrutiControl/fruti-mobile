@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     static final int GPS_REQUEST = 300;
     private TextView txtUsername;
     private TextView txtPass;
-    private Token token;
+    private Config config;
     private boolean isGPS = false;
     static MainActivity mainActivity;
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainActivity = this;
-        token=(Token)getApplicationContext();
+        config =(Config)getApplicationContext();
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         txtUsername = findViewById(R.id.txtUsername);
         txtPass = findViewById(R.id.txtPass);
@@ -71,15 +71,15 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/users/login/", credentials,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     Log.i("usersAPI", response.toString());
-                                    token = (Token) getApplicationContext();
+                                    config = (Config) getApplicationContext();
                                     try {
-                                        token.setToken(response.getString("token"));
+                                        config.setToken(response.getString("token"));
                                         Toast.makeText(MainActivity.this, "Sesión iniciada", Toast.LENGTH_SHORT).show();
                                     } catch (JSONException e) {
                                         e.printStackTrace();

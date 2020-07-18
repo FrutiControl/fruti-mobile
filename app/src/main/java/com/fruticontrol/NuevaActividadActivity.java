@@ -47,7 +47,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
     private Spinner spinnerTipo;
     private Spinner spinnerSubtipo;
     private String inicialTipoActividad;
-    private Token token;
+    private Config config;
     private ArrayList<Integer> listaArbolesSeleccionados;
     private int valorJornal;
 
@@ -56,7 +56,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_actividad);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         txtCostoManoActividad = findViewById(R.id.editTextCostoManoActividad);
         txtCostoMatActividad = findViewById(R.id.editTextCostoMaterialesActividad);
         txtFechaInicio = findViewById(R.id.fechaInicio);
@@ -83,7 +83,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                 if (validateForm()) {
                     RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
                     String tipoActividad = spinnerTipo.getSelectedItem().toString();
-                    String url = token.getDomain()+"/app/";
+                    String url = config.getDomain()+"/app/";
                     String subTipo;
                     switch (tipoActividad) {
                         case "Poda":
@@ -131,7 +131,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     }
                     String body = "{\"start_date\":\"" + auxFecha +
                             "\",\"end_date\":\"" + auxFecha2 +
-                            "\",\"farm\":\"" + token.getGranjaActual() +
+                            "\",\"farm\":\"" + config.getGranjaActual() +
                             "\",\"trees\":" + trees_activity.toString() +
                             ",\"type\":\"" + subTipo +
                             "\",\"work_cost\":\"" + txtCostoManoActividad.getText().toString() +
@@ -171,7 +171,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };
@@ -206,7 +206,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/money/outcomes/", newOutcome,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -233,7 +233,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };
@@ -254,7 +254,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newOutcomeRequest2 = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest newOutcomeRequest2 = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/money/outcomes/", newOutcome2,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -282,7 +282,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             //params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };
@@ -433,7 +433,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
 
     private void traerValorJornal() {
         RequestQueue queue = Volley.newRequestQueue(NuevaActividadActivity.this);
-        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+        JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET, config.getDomain()+
                 "/users/owner/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -456,7 +456,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };

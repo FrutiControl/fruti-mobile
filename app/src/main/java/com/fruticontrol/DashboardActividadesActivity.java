@@ -32,7 +32,7 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class DashboardActividadesActivity extends AppCompatActivity {
-    private Token token;
+    private Config config;
     private ArrayList<String> listaIds;
     private ArrayList<String> listaTiposActividades;
     private ArrayList<String> listaFechas;
@@ -55,7 +55,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
         listView = findViewById(R.id.listaActividades);
         txtProceso = findViewById(R.id.textViewActProceso);
         txtPendiente = findViewById(R.id.textViewActPendientes);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         dataModels = new ArrayList<>();
         auxSubtipos = new ArrayList<>();
         auxTipos = new ArrayList<>();
@@ -109,7 +109,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarFertilizaciones() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/fertilizations/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -119,7 +119,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 // TODO: set proper names for this variables
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (token.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("fertilization");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -164,7 +164,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -173,7 +173,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarRiegos() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/waterings/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -183,7 +183,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 // TODO: set proper names for this variables
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (token.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("watering");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -226,7 +226,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -235,7 +235,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarPodas() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/prunings/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -245,7 +245,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 // TODO: set proper names for this variables
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (token.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("pruning");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -288,7 +288,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -297,7 +297,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarFumigaciones() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/fumigations/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -308,7 +308,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 // TODO: set proper names for this variables
                                 System.out.println("RESPONSE ES " + response.toString());
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (token.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("fumigation");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -351,7 +351,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -360,7 +360,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
 
     private void cargarRecolecciones() {
         RequestQueue queue = Volley.newRequestQueue(DashboardActividadesActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/recollections/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -371,7 +371,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 // TODO: set proper names for this variables
                                 System.out.println("RESPONSE ES " + response.toString());
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (token.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("recollection");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -414,7 +414,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -434,8 +434,6 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                 return "Sistema de riego ";
             case "M":
                 return "Manual";
-            case "N":
-                return "Natural";
         }
         return "";
     }

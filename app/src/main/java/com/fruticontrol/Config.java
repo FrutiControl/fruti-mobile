@@ -4,7 +4,7 @@ import android.app.Application;
 
 import java.util.ArrayList;
 
-public class Token extends Application {
+public class Config extends Application {
 
     private String domain="http://10.0.2.2:8000";
     private String token;
@@ -12,10 +12,10 @@ public class Token extends Application {
     private Boolean arbolEscogido;
     private ArrayList<String> puntosPoligonoGranja;
 
-    public Token() {
+    public Config() {
     }
 
-    public Token(String token, String granjaActual, Boolean arbolEscogido, ArrayList<String> puntosPoligonoGranja) {
+    public Config(String token, String granjaActual, Boolean arbolEscogido, ArrayList<String> puntosPoligonoGranja) {
         this.token = token;
         this.granjaActual = granjaActual;
         this.arbolEscogido = arbolEscogido;

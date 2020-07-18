@@ -37,7 +37,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
     double longitude = 0;
     double cameraLatitude;
     double cameraLongitude;
-    private Token token;
+    private Config config;
     private ArrayList<String> listaArboles;
 
     @Override
@@ -56,7 +56,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         System.out.println("XXXXXXXXXXXXXX DESPUES DE CONVERTIDAS LAS COORDENADAS SON: " + latitude + " " + longitude);
         cameraLatitude = latitude;
         cameraLongitude = longitude;
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Button seleccionarUbicacionButton = findViewById(R.id.buttonEscogerUbicacion);
         Button ghostButton = findViewById(R.id.buttonGhostModificar);
@@ -88,7 +88,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                 intent.putExtra("longFinal", String.valueOf(cameraLongitude));
                 setResult(RESULT_OK, intent);
                 finish();
-                token.setArbolEscogido(true);
+                config.setArbolEscogido(true);
             }
         });
         ImageView marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
@@ -117,7 +117,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
         mMap.getUiSettings().setZoomControlsEnabled(true);
         Log.e("MAP", "Entro a onMapReady");
         //SE DIBUJA LIMITES DE POLIGONO GRANJA
-        ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
+        ArrayList<String> puntosEscogidos = config.getPuntosPoligonoGranja();
         //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
         List<LatLng> auxPolygonArray = new ArrayList<>();
         for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
@@ -167,7 +167,7 @@ public class MapaModificarArbolActivity extends FragmentActivity implements OnMa
                     cameraLatitude = center.latitude;
                     cameraLongitude = center.longitude;
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA
-                    ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
+                    ArrayList<String> puntosEscogidos = config.getPuntosPoligonoGranja();
                     //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
                     List<LatLng> auxPolygonArray = new ArrayList<>();
                     for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {

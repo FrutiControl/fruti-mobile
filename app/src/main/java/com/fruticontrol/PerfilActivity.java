@@ -34,13 +34,13 @@ import co.mobiwise.materialintro.view.MaterialIntroView;
 public class PerfilActivity extends AppCompatActivity {
     private EditText nombreET;
     private EditText correoET;
-    private Token token;
+    private Config config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         Button preferenciasButton = findViewById(R.id.buttonPreferencias);
         Button cerrarSesionButton = findViewById(R.id.buttonCerrarSersion);
         nombreET = findViewById(R.id.editTextNombrePerfil);
@@ -66,7 +66,7 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(PerfilActivity.this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
-                token.setToken("0");
+                config.setToken("0");
                 Intent intents = new Intent(PerfilActivity.this, MainActivity.class);
                 intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -99,7 +99,7 @@ public class PerfilActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = token.getDomain()+"/users/user/";
+                    String auxUrl = config.getDomain()+"/users/user/";
                     JsonObjectRequest modificateUserRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, modifyUser,
                             new Response.Listener<JSONObject>() {
@@ -129,7 +129,7 @@ public class PerfilActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };

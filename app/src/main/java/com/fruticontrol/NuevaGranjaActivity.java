@@ -35,7 +35,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     static final int REQUEST_CHECK_SETTINGS = 200;
     private Button crearGranjaButton;
     private EditText nombraGranjaET;
-    private Token token;
+    private Config config;
     private Button crearPoligono;
     private ArrayList<String> puntosPoligono;
 
@@ -43,14 +43,14 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_granja);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
-        System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES " + token.getToken());
+        System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES " + config.getToken());
         crearGranjaButton = findViewById(R.id.buttonCrearGranja);
         puntosPoligono = new ArrayList<>();
         crearPoligono = findViewById(R.id.buttonCrearPoligono);
         nombraGranjaET = findViewById(R.id.editTextNombreGranja);
-        System.out.println("El token que se recibe es " + token.getToken());
+        System.out.println("El token que se recibe es " + config.getToken());
         crearPoligono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +63,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                 if (validateForm()) {
                     Toast.makeText(NuevaGranjaActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
                     RequestQueue queue = Volley.newRequestQueue(NuevaGranjaActivity.this);
-                    token.setPuntosPoligonoGranja(puntosPoligono);
+                    config.setPuntosPoligonoGranja(puntosPoligono);
                     String auxPuntosPoligono = "POLYGON((";
                     for (int i = 0; i < puntosPoligono.size(); i = i + 2) {
                         if (i == 0) {
@@ -92,7 +92,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     String aux;
-                    JsonObjectRequest newFarmRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest newFarmRequest = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/app/farms/", newFarm,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -107,7 +107,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                                         }
                                     } else {
                                         try {
-                                            token.setGranjaActual(response.getString("id"));
+                                            config.setGranjaActual(response.getString("id"));
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -128,7 +128,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };

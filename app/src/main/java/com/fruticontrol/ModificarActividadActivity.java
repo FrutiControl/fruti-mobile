@@ -36,7 +36,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
     private Calendar cal;
     private EditText txtFechaFin;
     private DatePickerDialog dpd;
-    private Token token;
+    private Config config;
     private ArrayList<String> listaEstados;
     private ArrayList<String> listaIds;
     private String tipo;
@@ -52,7 +52,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_actividad);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         listView = findViewById(R.id.listModificarProgreso);
         txtFechaFin = findViewById(R.id.editTextModificarFin);
         Button guardarButton = findViewById(R.id.buttonGuardarCambiosActividad);
@@ -67,7 +67,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
         subTipo = getIntent().getStringExtra("subTipoFormato");
         idActividad = getIntent().getStringExtra("idActividad");
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-        String url = token.getDomain()+"/app/";
+        String url = config.getDomain()+"/app/";
         url = url + tipo + "_trees/?" + tipo + "=" + idActividad;
         System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
@@ -108,7 +108,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -152,7 +152,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
                         care_type.put(lista.get(i));   // create array and add items into that
                     }
                     //SE CREA EL BODY CON LOS DATOS ANTERIORES
-                    String body = "{\"start_date\":\"" + auxFechaInicio + "\",\"end_date\":\"" + auxFechaFin + "\",\"farm\":\"" + token.getGranjaActual() + "\",\"trees\":\"" + care_type.toString() + "\",\"type\":\"" + subTipo + "\"}";
+                    String body = "{\"start_date\":\"" + auxFechaInicio + "\",\"end_date\":\"" + auxFechaFin + "\",\"farm\":\"" + config.getGranjaActual() + "\",\"trees\":\"" + care_type.toString() + "\",\"type\":\"" + subTipo + "\"}";
                     Log.i("modificateActivityAPI", "Actividad modificado: " + body);
                     JSONObject newTree = null;
                     try {
@@ -160,7 +160,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String auxUrl = token.getDomain()+"/app/";
+                    String auxUrl = config.getDomain()+"/app/";
                     auxUrl = auxUrl + tipo + "s/" + idActividad + "/";
                     JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.PUT,
                             auxUrl, newTree,
@@ -191,7 +191,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };
@@ -203,7 +203,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-                String url = token.getDomain()+"/app/";
+                String url = config.getDomain()+"/app/";
                 url = url + tipo + "_trees/?" + tipo + "=" + idActividad + "&tree=" + listaIds.get(i);
                 System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
                 JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
@@ -231,7 +231,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
                     @Override
                     public Map<String, String> getHeaders() {
                         Map<String, String> params = new HashMap<String, String>();
-                        params.put("Authorization", "Token " + token.getToken());
+                        params.put("Authorization", "Token " + config.getToken());
                         return params;
                     }
                 };
@@ -252,7 +252,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
         listaEstados.clear();
         listaIds.clear();
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-        String url = token.getDomain()+"/app/";
+        String url = config.getDomain()+"/app/";
         url = url + tipo + "_trees/?" + tipo + "=" + idActividad;
         System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
@@ -294,7 +294,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };

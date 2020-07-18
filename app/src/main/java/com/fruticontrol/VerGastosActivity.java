@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 public class VerGastosActivity extends AppCompatActivity {
-    private Token token;
+    private Config config;
     private List<String> conceptosGastos;
     private List<String> actividadesGastos;
     private List<String> tiposGastos;
@@ -42,7 +42,7 @@ public class VerGastosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_gastos);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         formatea = new DecimalFormat("###,###.##");
         totalFinal = 0;
         total = findViewById(R.id.textViewTotalHistorialGastos);
@@ -53,7 +53,7 @@ public class VerGastosActivity extends AppCompatActivity {
         tiposGastos = new ArrayList<>();
         valoresGastos = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(VerGastosActivity.this);
-        JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newOutcomeRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/money/outcomes/?recommended=False", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -101,7 +101,7 @@ public class VerGastosActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -135,8 +135,6 @@ public class VerGastosActivity extends AppCompatActivity {
                 return "Sistema";
             case "R2":
                 return "Manual";
-            case "R1":
-                return "Natural";
             case "F1":
                 return "Crecimiento";
             case "F2":

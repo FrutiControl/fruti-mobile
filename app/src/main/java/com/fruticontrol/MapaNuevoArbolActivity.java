@@ -37,14 +37,14 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
     double longitude = 0;
     double cameraLatitude;
     double cameraLongitude;
-    private Token token;
+    private Config config;
     private ArrayList<String> listaArboles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_nuevo_arbol);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         Intent intent = getIntent();
         String latAux = intent.getStringExtra("lat");
         System.out.println("lat recibida es  " + latAux);
@@ -85,7 +85,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                 intent.putExtra("longFinal", String.valueOf(cameraLongitude));
                 setResult(RESULT_OK, intent);
                 finish();
-                token.setArbolEscogido(true);
+                config.setArbolEscogido(true);
             }
         });
         ImageView marcadorArbol = findViewById(R.id.imageViewMarcadorArbol);
@@ -114,7 +114,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         mMap.getUiSettings().setZoomControlsEnabled(true);
         Log.e("MAP", "Entro a onMapReady");
         //SE DIBUJA LIMITES DE POLIGONO GRANJA
-        ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
+        ArrayList<String> puntosEscogidos = config.getPuntosPoligonoGranja();
         //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
         List<LatLng> auxPolygonArray = new ArrayList<>();
         for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
@@ -161,7 +161,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                     cameraLatitude = center.latitude;
                     cameraLongitude = center.longitude;
                     //SE DIBUJA LIMITES DE POLIGONO GRANJA
-                    ArrayList<String> puntosEscogidos = token.getPuntosPoligonoGranja();
+                    ArrayList<String> puntosEscogidos = config.getPuntosPoligonoGranja();
                     //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
                     List<LatLng> auxPolygonArray = new ArrayList<>();
                     for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {

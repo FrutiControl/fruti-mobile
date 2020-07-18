@@ -62,7 +62,7 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_poligono_granja);
         puntosEscogidos = new ArrayList<String>();
-        Token token = (Token) getApplicationContext();
+        Config config = (Config) getApplicationContext();
         Button ghostButton = findViewById(R.id.buttonGhostGranja);
         Button eliminarPuntoButton = findViewById(R.id.buttonEliminarUltimoPunto);
         Button marcarPuntoButton = findViewById(R.id.buttonEscogerUbicacion);

@@ -28,19 +28,19 @@ import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
 public class AccionesActivity extends AppCompatActivity {
-    private Token token;
+    private Config config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acciones);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         Button arbolButton = findViewById(R.id.buttonArbol);
         Button dashboardActividadesButton = findViewById(R.id.buttonDashboardActividades);
         Button dashboardFinanzasButton = findViewById(R.id.buttonDashboardFinanzas);
         Button perfilButton = findViewById(R.id.buttonPerfil);
         Button verGranjasButton = findViewById(R.id.buttonVerGranjas);
-        System.out.println("XXXXXX LA GRANJA TOUCHADA FUE LA " + token.getGranjaActual());
+        System.out.println("XXXXXX LA GRANJA TOUCHADA FUE LA " + config.getGranjaActual());
 
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(false)
@@ -91,7 +91,7 @@ public class AccionesActivity extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
                 RequestQueue queue = Volley.newRequestQueue(AccionesActivity.this);
-                JsonObjectRequest allTreesRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+                JsonObjectRequest allTreesRequest = new JsonObjectRequest(Request.Method.GET, config.getDomain()+
                         "/users/user/", null,
                         new Response.Listener<JSONObject>() {
                             @Override
@@ -116,7 +116,7 @@ public class AccionesActivity extends AppCompatActivity {
                     @Override
                     public Map<String, String> getHeaders() {
                         Map<String, String> params = new HashMap<String, String>();
-                        params.put("Authorization", "Token " + token.getToken());
+                        params.put("Authorization", "Token " + config.getToken());
                         return params;
                     }
                 };

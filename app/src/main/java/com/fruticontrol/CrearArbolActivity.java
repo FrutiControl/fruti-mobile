@@ -28,10 +28,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +42,7 @@ public class CrearArbolActivity extends AppCompatActivity {
     Calendar cal, cal1, cal2, cal3, cal4;
     DatePickerDialog dpd, dpd2, dpd3, dpd4, dpd5;
     private Spinner spinnerTipoArbol;
-    private Token token;
+    private Config config;
     private String lat;
     private String lon;
     private ArrayList<String> listaArboles;
@@ -56,8 +52,8 @@ public class CrearArbolActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_arbol);
         statusCheck();
-        token = (Token) getApplicationContext();
-        token.setArbolEscogido(false);
+        config = (Config) getApplicationContext();
+        config.setArbolEscogido(false);
         textFechaSiembra = findViewById(R.id.textFechaSiembra);
         spinnerTipoArbol = findViewById(R.id.spinnerTipoArbol);
         listaArboles = getIntent().getStringArrayListExtra("todosArboles");
@@ -81,8 +77,8 @@ public class CrearArbolActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MapaNuevoArbolActivity.class);
                 intent.putExtra("todosArboles", listaArboles);
-                intent.putExtra("lat", token.getPuntosPoligonoGranja().get(0));
-                intent.putExtra("lon", token.getPuntosPoligonoGranja().get(1));
+                intent.putExtra("lat", config.getPuntosPoligonoGranja().get(0));
+                intent.putExtra("lon", config.getPuntosPoligonoGranja().get(1));
                 startActivityForResult(intent, 100);
             }
         });
@@ -109,7 +105,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                     String body = "{\"specie\":\"" + inicial +
                             "\",\"seed_date\":\"" + auxFecha +
                             "\",\"location\":\"" + auxUbicacion +
-                            "\",\"farm\":\"" + token.getGranjaActual() + "\"}";
+                            "\",\"farm\":\"" + config.getGranjaActual() + "\"}";
                     Log.i("newTreeAPI", "Nuevo arbol: " + body);
                     JSONObject newTree = null;
                     try {
@@ -117,7 +113,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest newTreeRequest = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/app/trees/", newTree,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -146,7 +142,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };
@@ -201,7 +197,7 @@ public class CrearArbolActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
-        if (!token.getArbolEscogido()) {
+        if (!config.getArbolEscogido()) {
             valid = false;
             Toast.makeText(CrearArbolActivity.this, "Debe seleccionar la ubicación del árbol para poder continuar", Toast.LENGTH_LONG).show();
         }

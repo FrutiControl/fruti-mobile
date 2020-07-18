@@ -43,7 +43,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
     ListView listView;
     TextView txtTituloGranja;
     private static ResumenGranjasAdapter adapter;
-    private Token token;
+    private Config config;
     private ArrayList<String> nombresGranjas;
     private ArrayList<String> idGranjas;
     private ArrayList<String> puntosGranjas;
@@ -57,7 +57,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_granjas);
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         listView = findViewById(R.id.listaGranjasList);
         txtTituloGranja = findViewById(R.id.textViewTituloGrnjas);
         nuevaGranjaButton = findViewById(R.id.buttonNuevaGranja);
@@ -82,7 +82,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
                 .show();
 
         RequestQueue queue = Volley.newRequestQueue(ListaGranjasActivity.this);
-        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/farms/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -120,7 +120,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
@@ -128,7 +128,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                token.setGranjaActual(idGranjas.get(i));
+                config.setGranjaActual(idGranjas.get(i));
                 // TODO: set proper names for this variables
                 String separated[] = puntosGranjas.get(i).split("\\(");
                 String aux[] = separated[2].split("\\)");
@@ -146,7 +146,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
                         auxPuntosLimpios.add(otroAux[2]);
                     }
                 }
-                token.setPuntosPoligonoGranja(auxPuntosLimpios);
+                config.setPuntosPoligonoGranja(auxPuntosLimpios);
 
                 Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                 startActivity(intent);

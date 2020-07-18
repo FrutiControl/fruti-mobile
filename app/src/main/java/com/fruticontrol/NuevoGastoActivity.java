@@ -44,13 +44,13 @@ public class NuevoGastoActivity extends AppCompatActivity {
     private DatePickerDialog datePGasto;
     private EditText txtNombreProducto;
     private EditText txtValor;
-    private Token token;
+    private Config config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_gasto);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
 
         Button guardarButton = findViewById(R.id.buttonGuardarGasto);
         txtNombreProducto = findViewById(R.id.editTextNombreProducto);
@@ -99,7 +99,7 @@ public class NuevoGastoActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST,token.getDomain()+
+                    JsonObjectRequest newOutcomeRequest = new JsonObjectRequest(Request.Method.POST, config.getDomain()+
                             "/money/outcomes/", newOutcome,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -128,7 +128,7 @@ public class NuevoGastoActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             //params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };
@@ -143,7 +143,7 @@ public class NuevoGastoActivity extends AppCompatActivity {
                     tvManoDeObra.setTypeface(null, Typeface.BOLD);
                     tvMateriales.setTypeface(null, Typeface.NORMAL);
                     RequestQueue queue = Volley.newRequestQueue(NuevoGastoActivity.this);
-                    JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET,token.getDomain()+
+                    JsonObjectRequest dayCostRequest = new JsonObjectRequest(Request.Method.GET, config.getDomain()+
                             "/users/owner/", null,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -166,7 +166,7 @@ public class NuevoGastoActivity extends AppCompatActivity {
                         public Map<String, String> getHeaders() {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("Content-Type", "application/json");
-                            params.put("Authorization", "Token " + token.getToken());
+                            params.put("Authorization", "Token " + config.getToken());
                             return params;
                         }
                     };
@@ -268,8 +268,6 @@ public class NuevoGastoActivity extends AppCompatActivity {
                 return "R3";
             case "Manual":
                 return "R2";
-            case "Natural":
-                return "R1";
             case "Crecimiento":
                 return "F1";
             case "Produccion":

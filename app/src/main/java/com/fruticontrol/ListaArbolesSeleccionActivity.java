@@ -39,14 +39,14 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
     private ArrayList<String> etapasArboles;
     private ArrayList<String> fechasSiembra;
     private ArrayList<String> localizacionesArboles;
-    private Token token;
+    private Config config;
     private Boolean[] places;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_arboles_seleccion);
-        token = (Token) getApplicationContext();
+        config = (Config) getApplicationContext();
         listView = findViewById(R.id.listaArbolesList);
         Button nuevoArbolButton = findViewById(R.id.buttonNuevoArbol);
         dataModels = new ArrayList<>();
@@ -85,11 +85,11 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
                 intent.putExtra("arbolesActividad", idsSeleccionados);
                 setResult(RESULT_OK, intent);
                 finish();
-                token.setArbolEscogido(true);
+                config.setArbolEscogido(true);
             }
         });
         RequestQueue queue = Volley.newRequestQueue(ListaArbolesSeleccionActivity.this);
-        JsonArrayRequest allTreesRequest = new JsonArrayRequest(Request.Method.GET,token.getDomain()+
+        JsonArrayRequest allTreesRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/trees/", null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -98,7 +98,7 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                if (farmObject.getString("farm").equals(token.getGranjaActual())) {
+                                if (farmObject.getString("farm").equals(config.getGranjaActual())) {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");
@@ -128,7 +128,7 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Token " + token.getToken());
+                params.put("Authorization", "Token " + config.getToken());
                 return params;
             }
         };
