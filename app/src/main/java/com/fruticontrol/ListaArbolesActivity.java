@@ -63,7 +63,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
                 .performClick(false)
-                .setInfoText("En esta pantalla puede visualizar la lista de árboles de su granja cuando los haya creado, para crear un nuevo árbol haga clic en crear árbol")
+                .setInfoText("En esta pantalla puede visualizar la lista de árboles de su finca cuando los haya creado, para crear un nuevo árbol haga clic en crear árbol")
                 .setShape(ShapeType.RECTANGLE)
                 .setTarget(nuevoArbolButton)
                 .setUsageId("lista_arboles_showcase")
@@ -99,7 +99,7 @@ public class ListaArbolesActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                if (farmObject.getString("farm").equals(config.getGranjaActual())) {
+                                if (farmObject.getString("farm").equals(config.getFincaActual())) {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");

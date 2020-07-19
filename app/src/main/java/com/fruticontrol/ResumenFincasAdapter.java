@@ -11,23 +11,23 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> implements View.OnClickListener {
+public class ResumenFincasAdapter extends ArrayAdapter<ResumenFincaDataModel> implements View.OnClickListener {
     private Context mContext;
 
     // View lookup cache
     private static class ViewHolder {
-        TextView txtTareasGranja;
+        TextView txtTareasFinca;
     }
 
-    ResumenGranjasAdapter(ArrayList<ResumenGranjaDataModel> data, Context context) {
-        super(context, R.layout.resumen_granja, data);
+    ResumenFincasAdapter(ArrayList<ResumenFincaDataModel> data, Context context) {
+        super(context, R.layout.resumen_finca, data);
         this.mContext = context;
     }
 
     @Override
     public void onClick(View v) {
         int position = (int) v.getTag();
-        ResumenGranjaDataModel dataModel = getItem(position);
+        ResumenFincaDataModel dataModel = getItem(position);
     }
 
     private int lastPosition = -1;
@@ -35,15 +35,15 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        ResumenGranjaDataModel dataModel = getItem(position);
+        ResumenFincaDataModel dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
         final View result;
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.resumen_granja, parent, false);
-            viewHolder.txtTareasGranja = convertView.findViewById(R.id.textViewTareasGranja);
+            convertView = inflater.inflate(R.layout.resumen_finca, parent, false);
+            viewHolder.txtTareasFinca = convertView.findViewById(R.id.textViewTareasFinca);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
@@ -54,7 +54,7 @@ public class ResumenGranjasAdapter extends ArrayAdapter<ResumenGranjaDataModel> 
         result.startAnimation(animation);
         lastPosition = position;
         assert dataModel != null;
-        viewHolder.txtTareasGranja.setText(dataModel.getTareasGranja());
+        viewHolder.txtTareasFinca.setText(dataModel.getTareasFinca());
         // Return the completed view to render on screen
         return convertView;
     }

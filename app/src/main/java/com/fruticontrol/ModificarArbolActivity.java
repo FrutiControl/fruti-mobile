@@ -151,7 +151,7 @@ public class ModificarArbolActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     String auxUbicacion = "POINT (" + newLat + " " + newLon + ")";
                     //SE CREA EL BODY CON LOS DATOS ANTERIORES
-                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" + auxFecha + "\",\"location\":\"" + auxUbicacion + "\",\"farm\":\"" + config.getGranjaActual() + "\"}";
+                    String body = "{\"specie\":\"" + inicial + "\",\"seed_date\":\"" + auxFecha + "\",\"location\":\"" + auxUbicacion + "\",\"farm\":\"" + config.getFincaActual() + "\"}";
                     Log.i("modificateTreeAPI", "Arbol modificado: " + body);
                     JSONObject newTree = null;
                     try {

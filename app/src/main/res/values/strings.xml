@@ -8,8 +8,8 @@
     <string name="nombre_completo">Nombre completo</string>
     <string name="repita_la_contrase_a">Repita la contraseña</string>
     <string name="registrarme">Registrarme</string>
-    <string name="granjas">Granjas</string>
-    <string name="nueva_granja">Nueva granja</string>
+    <string name="fincas">Fincas</string>
+    <string name="nueva_finca">Nueva finca</string>
     <string-array name="Unidades">
         <item> Seleccione las unidades... </item>
         <item> Unidades </item>
@@ -98,8 +98,8 @@
     <string name="nuevo_rbol">Nuevo árbol</string>
     <string name="guardar_cambios">Guardar cambios</string>
     <string name="crear_cuenta">Crear Cuenta</string>
-    <string name="nombre_de_la_granja">Nombre de la granja</string>
-    <string name="crear_granja">Crear granja</string>
+    <string name="nombre_de_la_finca">Nombre de la finca</string>
+    <string name="crear_finca">Crear finca</string>
     <string name="cerrar_sesi_n">Cerrar sesión</string>
     <string name="escoja_en_que_tipo_y_subtipo_de_actividad_en_que_gast_dinero">Escoja en que tipo y subtipo de actividad gastó dinero. Si selecciona mano de obra se va a llenar con el valor por defecto de jornal. Para modificarlo puede ir a Perfil, Preferencias y modificarlo</string>
     <string name="materiales">Materiales</string>
@@ -107,7 +107,7 @@
     <string name="valor">Valor</string>
     <string name="fecha_del_gasto">Fecha del gasto</string>
     <string name="nombre_del_producto">Nombre del producto</string>
-    <string name="ver_granjas">Ver granjas</string>
+    <string name="ver_fincas">Ver fincas</string>
     <string name="ver_ingresos">Ver ingresos</string>
     <string name="ver_gastos">Ver gastos</string>
     <string name="historial_de_ingresos">Historial de ingresos</string>

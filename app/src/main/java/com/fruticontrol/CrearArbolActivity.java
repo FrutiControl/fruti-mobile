@@ -77,8 +77,8 @@ public class CrearArbolActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MapaNuevoArbolActivity.class);
                 intent.putExtra("todosArboles", listaArboles);
-                intent.putExtra("lat", config.getPuntosPoligonoGranja().get(0));
-                intent.putExtra("lon", config.getPuntosPoligonoGranja().get(1));
+                intent.putExtra("lat", config.getPuntosPoligonoFinca().get(0));
+                intent.putExtra("lon", config.getPuntosPoligonoFinca().get(1));
                 startActivityForResult(intent, 100);
             }
         });
@@ -105,7 +105,7 @@ public class CrearArbolActivity extends AppCompatActivity {
                     String body = "{\"specie\":\"" + inicial +
                             "\",\"seed_date\":\"" + auxFecha +
                             "\",\"location\":\"" + auxUbicacion +
-                            "\",\"farm\":\"" + config.getGranjaActual() + "\"}";
+                            "\",\"farm\":\"" + config.getFincaActual() + "\"}";
                     Log.i("newTreeAPI", "Nuevo arbol: " + body);
                     JSONObject newTree = null;
                     try {

@@ -113,8 +113,8 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
         mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
         mMap.getUiSettings().setZoomControlsEnabled(true);
         Log.e("MAP", "Entro a onMapReady");
-        //SE DIBUJA LIMITES DE POLIGONO GRANJA
-        ArrayList<String> puntosEscogidos = config.getPuntosPoligonoGranja();
+        //SE DIBUJA LIMITES DE POLIGONO FINCA
+        ArrayList<String> puntosEscogidos = config.getPuntosPoligonoFinca();
         //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
         List<LatLng> auxPolygonArray = new ArrayList<>();
         for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
@@ -128,7 +128,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                 new LatLng(-37.813, 144.962),
                 new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
         polygon1.setPoints(auxPolygonArray);
-        //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
+        //SE DIBUJA LIMITES DE POLIGONO FINCA ACABA
 
         //SE DIBUJAN ARBOLES SOBRE EL MAPA
         for (int i = 0; i < listaArboles.size(); i = i + 1) {
@@ -160,8 +160,8 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                     mMap.addMarker(new MarkerOptions().position(center)).setVisible(false);
                     cameraLatitude = center.latitude;
                     cameraLongitude = center.longitude;
-                    //SE DIBUJA LIMITES DE POLIGONO GRANJA
-                    ArrayList<String> puntosEscogidos = config.getPuntosPoligonoGranja();
+                    //SE DIBUJA LIMITES DE POLIGONO FINCA
+                    ArrayList<String> puntosEscogidos = config.getPuntosPoligonoFinca();
                     //SE CREA LISTA LATLNG PARA DARSELOS AL POLIGONO
                     List<LatLng> auxPolygonArray = new ArrayList<>();
                     for (int i = 0; i < puntosEscogidos.size(); i = i + 2) {
@@ -175,7 +175,7 @@ public class MapaNuevoArbolActivity extends FragmentActivity implements OnMapRea
                             new LatLng(-37.813, 144.962),
                             new LatLng(-34.928, 138.599)).strokeColor(0xFF00AA00).fillColor(0x2200FFFF).strokeWidth(2));
                     polygon1.setPoints(auxPolygonArray);
-                    //SE DIBUJA LIMITES DE POLIGONO GRANJA ACABA
+                    //SE DIBUJA LIMITES DE POLIGONO FINCA ACABA
 
                     //SE DIBUJAN ARBOLES SOBRE EL MAPA
                     for (int i = 0; i < listaArboles.size(); i = i + 1) {

@@ -8,18 +8,18 @@ public class Config extends Application {
 
     private String domain="http://10.0.2.2:8000";
     private String token;
-    private String granjaActual;
+    private String fincaActual;
     private Boolean arbolEscogido;
-    private ArrayList<String> puntosPoligonoGranja;
+    private ArrayList<String> puntosPoligonoFinca;
 
     public Config() {
     }
 
-    public Config(String token, String granjaActual, Boolean arbolEscogido, ArrayList<String> puntosPoligonoGranja) {
+    public Config(String token, String fincaActual, Boolean arbolEscogido, ArrayList<String> puntosPoligonoFinca) {
         this.token = token;
-        this.granjaActual = granjaActual;
+        this.fincaActual = fincaActual;
         this.arbolEscogido = arbolEscogido;
-        this.puntosPoligonoGranja = puntosPoligonoGranja;
+        this.puntosPoligonoFinca = puntosPoligonoFinca;
     }
 
     public String getDomain() {
@@ -38,12 +38,12 @@ public class Config extends Application {
         this.token = token;
     }
 
-    public String getGranjaActual() {
-        return granjaActual;
+    public String getFincaActual() {
+        return fincaActual;
     }
 
-    public void setGranjaActual(String granjaActual) {
-        this.granjaActual = granjaActual;
+    public void setFincaActual(String fincaActual) {
+        this.fincaActual = fincaActual;
     }
 
     public Boolean getArbolEscogido() {
@@ -54,11 +54,11 @@ public class Config extends Application {
         this.arbolEscogido = arbolEscogido;
     }
 
-    public ArrayList<String> getPuntosPoligonoGranja() {
-        return puntosPoligonoGranja;
+    public ArrayList<String> getPuntosPoligonoFinca() {
+        return puntosPoligonoFinca;
     }
 
-    public void setPuntosPoligonoGranja(ArrayList<String> puntosPoligonoGranja) {
-        this.puntosPoligonoGranja = puntosPoligonoGranja;
+    public void setPuntosPoligonoFinca(ArrayList<String> puntosPoligonoFinca) {
+        this.puntosPoligonoFinca = puntosPoligonoFinca;
     }
 }

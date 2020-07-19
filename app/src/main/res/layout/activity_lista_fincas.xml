@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".ListaGranjasActivity">
+    tools:context=".ListaFincasActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -15,13 +15,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/buttonNuevaGranja"
+        app:layout_constraintBottom_toTopOf="@id/buttonNuevaFinca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTituloGrnjas">
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloFincas">
 
         <ListView
-            android:id="@+id/listaGranjasList"
+            android:id="@+id/listaFincasList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/dividerColor"
@@ -31,12 +31,12 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textViewTituloGrnjas"
+        android:id="@+id/textViewTituloFincas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto"
-        android:text="@string/granjas"
+        android:text="@string/fincas"
         android:textColor="@color/headerColor"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonNuevaGranja"
+        android:id="@+id/buttonNuevaFinca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -53,7 +53,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/roboto"
-        android:text="@string/nueva_granja"
+        android:text="@string/nueva_finca"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

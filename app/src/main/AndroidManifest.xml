@@ -52,13 +52,13 @@
             android:name=".MapaModificarArbolActivity"
             android:label="Map" />
         <activity
-            android:name=".MapaPoligonoGranjaActivity"
+            android:name=".MapaPoligonoFincaActivity"
             android:label="Map" />
         <activity
-            android:name=".NuevaGranjaActivity"
+            android:name=".NuevaFincaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ListaGranjasActivity"
+            android:name=".ListaFincasActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".PerfilActivity"

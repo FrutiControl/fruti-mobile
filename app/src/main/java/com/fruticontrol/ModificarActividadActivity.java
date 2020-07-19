@@ -152,7 +152,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
                         care_type.put(lista.get(i));   // create array and add items into that
                     }
                     //SE CREA EL BODY CON LOS DATOS ANTERIORES
-                    String body = "{\"start_date\":\"" + auxFechaInicio + "\",\"end_date\":\"" + auxFechaFin + "\",\"farm\":\"" + config.getGranjaActual() + "\",\"trees\":\"" + care_type.toString() + "\",\"type\":\"" + subTipo + "\"}";
+                    String body = "{\"start_date\":\"" + auxFechaInicio + "\",\"end_date\":\"" + auxFechaFin + "\",\"farm\":\"" + config.getFincaActual() + "\",\"trees\":\"" + care_type.toString() + "\",\"type\":\"" + subTipo + "\"}";
                     Log.i("modificateActivityAPI", "Actividad modificado: " + body);
                     JSONObject newTree = null;
                     try {

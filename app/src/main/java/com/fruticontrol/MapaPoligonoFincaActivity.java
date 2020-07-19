@@ -43,7 +43,7 @@ import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
-public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapaPoligonoFincaActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private Marker arbolMarker;
     private LocationRequest mLocationRequest;
@@ -60,10 +60,10 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mapa_poligono_granja);
+        setContentView(R.layout.activity_mapa_poligono_finca);
         puntosEscogidos = new ArrayList<String>();
         Config config = (Config) getApplicationContext();
-        Button ghostButton = findViewById(R.id.buttonGhostGranja);
+        Button ghostButton = findViewById(R.id.buttonGhostFinca);
         Button eliminarPuntoButton = findViewById(R.id.buttonEliminarUltimoPunto);
         Button marcarPuntoButton = findViewById(R.id.buttonEscogerUbicacion);
         Button finalizarMarcadoButton = findViewById(R.id.buttonFinalizarMarcado);
@@ -76,10 +76,10 @@ public class MapaPoligonoGranjaActivity extends FragmentActivity implements OnMa
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
                 .performClick(true)
-                .setInfoText("Arrastre el mapa y oprima marcar punto para ubicar un punto en el mapa. Repita este paso tantas veces hasta que se forme un poligono delimitando la granja, debe marcar al menos 3 puntos. Para eliminar un punto haga clic en eliminar último punto, y para finalizar la delimitación de la granja oprimar finalizar marcado")
+                .setInfoText("Arrastre el mapa y oprima marcar punto para ubicar un punto en el mapa. Repita este paso tantas veces hasta que se forme un poligono delimitando la finca, debe marcar al menos 3 puntos. Para eliminar un punto haga clic en eliminar último punto, y para finalizar la delimitación de la finca oprimar finalizar marcado")
                 .setShape(ShapeType.CIRCLE)
                 .setTarget(ghostButton)
-                .setUsageId("granja_showcase")
+                .setUsageId("finca_showcase")
                 .show();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationRequest = createLocationRequest();

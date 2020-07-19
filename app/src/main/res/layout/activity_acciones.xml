@@ -107,12 +107,12 @@
                     app:srcCompat="@drawable/farms128" />
 
                 <Button
-                    android:id="@+id/buttonVerGranjas"
+                    android:id="@+id/buttonVerFincas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:background="@drawable/rounded_button"
-                    android:text="@string/granjas"
+                    android:text="@string/fincas"
                     android:textAllCaps="false" />
 
             </LinearLayout>

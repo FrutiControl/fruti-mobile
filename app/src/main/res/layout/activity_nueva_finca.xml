@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".NuevaGranjaActivity">
+    tools:context=".NuevaFincaActivity">
 
     <TextView
         android:id="@+id/textView28"
@@ -16,7 +16,7 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/roboto"
         android:gravity="center"
-        android:text="@string/nueva_granja"
+        android:text="@string/nueva_finca"
         android:textColor="@color/headerColor"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -25,14 +25,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNombreGranja"
+        android:id="@+id/editTextNombreFinca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="@string/nombre_de_la_granja"
+        android:hint="@string/nombre_de_la_finca"
         android:inputType="textPersonName"
         android:textColor="@color/headerColor"
         android:textColorHint="@color/headerColor"
@@ -42,14 +42,14 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <Button
-        android:id="@+id/buttonCrearGranja"
+        android:id="@+id/buttonCrearFinca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
-        android:text="@string/crear_granja"
+        android:text="@string/crear_finca"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,9 +73,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
-        android:text="Ubicar granja en mapa"
+        android:text="Ubicar finca en mapa"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCrearGranja"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCrearFinca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

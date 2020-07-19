@@ -70,7 +70,7 @@ public class RegistroActivity extends AppCompatActivity {
                                         Log.i("usersAPI", "respuesta: " + response.toString());
                                         //TODO: extraer el token del response y verificarlo antes de la siguiente actividad
                                         Toast.makeText(RegistroActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(view.getContext(), NuevaGranjaActivity.class);
+                                        Intent intent = new Intent(view.getContext(), NuevaFincaActivity.class);
                                         startActivity(intent);
                                         MainActivity.getInstance().finish();
                                         finish();

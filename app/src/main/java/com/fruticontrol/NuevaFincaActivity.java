@@ -30,11 +30,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NuevaGranjaActivity extends AppCompatActivity {
+public class NuevaFincaActivity extends AppCompatActivity {
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
-    private Button crearGranjaButton;
-    private EditText nombraGranjaET;
+    private Button crearFincaButton;
+    private EditText nombreFincaET;
     private Config config;
     private Button crearPoligono;
     private ArrayList<String> puntosPoligono;
@@ -42,28 +42,28 @@ public class NuevaGranjaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nueva_granja);
+        setContentView(R.layout.activity_nueva_finca);
         config = (Config) getApplicationContext();
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         System.out.println("XXXXXXX EL TOKEN QUE SE RECIBE ES " + config.getToken());
-        crearGranjaButton = findViewById(R.id.buttonCrearGranja);
+        crearFincaButton = findViewById(R.id.buttonCrearFinca);
         puntosPoligono = new ArrayList<>();
         crearPoligono = findViewById(R.id.buttonCrearPoligono);
-        nombraGranjaET = findViewById(R.id.editTextNombreGranja);
+        nombreFincaET = findViewById(R.id.editTextNombreFinca);
         System.out.println("El token que se recibe es " + config.getToken());
         crearPoligono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(getApplicationContext(), MapaPoligonoGranjaActivity.class), 100);
+                startActivityForResult(new Intent(getApplicationContext(), MapaPoligonoFincaActivity.class), 100);
             }
         });
-        crearGranjaButton.setOnClickListener(new View.OnClickListener() {
+        crearFincaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 if (validateForm()) {
-                    Toast.makeText(NuevaGranjaActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
-                    RequestQueue queue = Volley.newRequestQueue(NuevaGranjaActivity.this);
-                    config.setPuntosPoligonoGranja(puntosPoligono);
+                    Toast.makeText(NuevaFincaActivity.this, "Espere un momento por favor", Toast.LENGTH_SHORT).show();
+                    RequestQueue queue = Volley.newRequestQueue(NuevaFincaActivity.this);
+                    config.setPuntosPoligonoFinca(puntosPoligono);
                     String auxPuntosPoligono = "POLYGON((";
                     for (int i = 0; i < puntosPoligono.size(); i = i + 2) {
                         if (i == 0) {
@@ -83,8 +83,8 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                         }
                     }
                     auxPuntosPoligono = auxPuntosPoligono + "))";
-                    String body = "{\"name\":\"" + nombraGranjaET.getText().toString() + "\",\"polygon\":\"" + auxPuntosPoligono + "\"}";
-                    Log.i("newFarmAPI", "Nueva Granja: " + body);
+                    String body = "{\"name\":\"" + nombreFincaET.getText().toString() + "\",\"polygon\":\"" + auxPuntosPoligono + "\"}";
+                    Log.i("newFarmAPI", "Nueva Finca: " + body);
                     JSONObject newFarm = null;
                     try {
                         newFarm = new JSONObject(body);
@@ -101,18 +101,18 @@ public class NuevaGranjaActivity extends AppCompatActivity {
 
                                     if (response.has("error")) {
                                         try {
-                                            Toast.makeText(NuevaGranjaActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(NuevaFincaActivity.this, response.getString("error"), Toast.LENGTH_SHORT).show();
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
                                     } else {
                                         try {
-                                            config.setGranjaActual(response.getString("id"));
+                                            config.setFincaActual(response.getString("id"));
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-                                        Toast.makeText(NuevaGranjaActivity.this, "Granja creada", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(NuevaFincaActivity.this, "Finca creada", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                                         startActivity(intent);
                                     }
@@ -121,7 +121,7 @@ public class NuevaGranjaActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                            Toast.makeText(NuevaGranjaActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NuevaFincaActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                         }
                     }) {    //this is the part, that adds the header to the request
                         @Override
@@ -151,13 +151,13 @@ public class NuevaGranjaActivity extends AppCompatActivity {
         boolean valid = true;
         if (puntosPoligono.isEmpty()) {
             valid = false;
-            Toast.makeText(NuevaGranjaActivity.this, "Debe ubicar la granja en el mapa para poder continuar", Toast.LENGTH_LONG).show();
+            Toast.makeText(NuevaFincaActivity.this, "Debe ubicar la finca en el mapa para poder continuar", Toast.LENGTH_LONG).show();
         }
-        if (TextUtils.isEmpty(nombraGranjaET.getText().toString())) {
-            nombraGranjaET.setError("Requerido");
+        if (TextUtils.isEmpty(nombreFincaET.getText().toString())) {
+            nombreFincaET.setError("Requerido");
             valid = false;
         } else {
-            nombraGranjaET.setError(null);
+            nombreFincaET.setError(null);
         }
         return valid;
     }

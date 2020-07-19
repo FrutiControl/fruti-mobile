@@ -39,8 +39,7 @@ public class AccionesActivity extends AppCompatActivity {
         Button dashboardActividadesButton = findViewById(R.id.buttonDashboardActividades);
         Button dashboardFinanzasButton = findViewById(R.id.buttonDashboardFinanzas);
         Button perfilButton = findViewById(R.id.buttonPerfil);
-        Button verGranjasButton = findViewById(R.id.buttonVerGranjas);
-        System.out.println("XXXXXX LA GRANJA TOUCHADA FUE LA " + config.getGranjaActual());
+        Button verFincasButton = findViewById(R.id.buttonVerFincas);
 
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(false)
@@ -50,16 +49,16 @@ public class AccionesActivity extends AppCompatActivity {
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
                 .performClick(false)
-                .setInfoText("Para comenzar debe agregar árboles a la granja, esto lo puede realizar desde la opción Árboles. Luego, puede crear actividades a partir de los árboles ya agregados desde el botón actividades. Además de esto puede manejar sus finanzas en el botón finanzas y cambiar de granja en el botón granja. Por último en perfil puede modificar los datos de la cuenta y la preferencia del valor del jornal")
+                .setInfoText("Para comenzar debe agregar árboles a la finca, esto lo puede realizar desde la opción Árboles. Luego, puede crear actividades a partir de los árboles ya agregados desde el botón actividades. Además de esto puede manejar sus finanzas en el botón finanzas y cambiar de finca en el botón finca. Por último en perfil puede modificar los datos de la cuenta y la preferencia del valor del jornal")
                 .setShape(ShapeType.RECTANGLE)
                 .setTarget(arbolButton)
                 .setUsageId("first_showcase")
                 .show();
 
-        verGranjasButton.setOnClickListener(new View.OnClickListener() {
+        verFincasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
+                Intent intent = new Intent(view.getContext(), ListaFincasActivity.class);
                 startActivity(intent);
             }
         });

@@ -131,7 +131,7 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     }
                     String body = "{\"start_date\":\"" + auxFecha +
                             "\",\"end_date\":\"" + auxFecha2 +
-                            "\",\"farm\":\"" + config.getGranjaActual() +
+                            "\",\"farm\":\"" + config.getFincaActual() +
                             "\",\"trees\":" + trees_activity.toString() +
                             ",\"type\":\"" + subTipo +
                             "\",\"work_cost\":\"" + txtCostoManoActividad.getText().toString() +

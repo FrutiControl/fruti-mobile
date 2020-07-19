@@ -98,7 +98,7 @@ public class ListaArbolesSeleccionActivity extends AppCompatActivity implements 
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject farmObject = response.getJSONObject(i);
-                                if (farmObject.getString("farm").equals(config.getGranjaActual())) {
+                                if (farmObject.getString("farm").equals(config.getFincaActual())) {
                                     String id = farmObject.getString("id");
                                     String tipo = farmObject.getString("specie");
                                     String fecha = farmObject.getString("seed_date");

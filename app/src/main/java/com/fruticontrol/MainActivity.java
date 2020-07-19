@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                    Intent intent = new Intent(view.getContext(), ListaGranjasActivity.class);
+                                    Intent intent = new Intent(view.getContext(), ListaFincasActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                 String id = farmObject.getString("id");
                                 System.out.println("Token valid");
                                 config.setToken(tokenAux);
-                                Intent intent = new Intent(getApplicationContext(),ListaGranjasActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), ListaFincasActivity.class);
                                 startActivity(intent);
                                 finish();
                             }

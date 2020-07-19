@@ -9,7 +9,7 @@
     android:padding="12dp">
 
     <TextView
-        android:id="@+id/textViewTareasGranja"
+        android:id="@+id/textViewTareasFinca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableRight="@drawable/logopequeno"

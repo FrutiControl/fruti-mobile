@@ -119,7 +119,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 // TODO: set proper names for this variables
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getFincaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("fertilization");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -183,7 +183,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 // TODO: set proper names for this variables
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getFincaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("watering");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -245,7 +245,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 // TODO: set proper names for this variables
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getFincaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("pruning");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -308,7 +308,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 // TODO: set proper names for this variables
                                 System.out.println("RESPONSE ES " + response.toString());
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getFincaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("fumigation");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA
@@ -371,7 +371,7 @@ public class DashboardActividadesActivity extends AppCompatActivity {
                                 // TODO: set proper names for this variables
                                 System.out.println("RESPONSE ES " + response.toString());
                                 JSONObject activityObject = response.getJSONObject(i);
-                                if (config.getGranjaActual().equals(activityObject.getString("farm"))) {
+                                if (config.getFincaActual().equals(activityObject.getString("farm"))) {
                                     auxTipos.add("recollection");
                                     listaIds.add(activityObject.getString("id"));
                                     //SE TRADUCE Y AGREGA TIPO EN LISTA

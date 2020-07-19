@@ -38,16 +38,16 @@ import co.mobiwise.materialintro.shape.FocusGravity;
 import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
 
-public class ListaGranjasActivity extends AppCompatActivity {
-    Button nuevaGranjaButton;
-    ArrayList<ResumenGranjaDataModel> dataModels;
+public class ListaFincasActivity extends AppCompatActivity {
+    Button nuevaFincaButton;
+    ArrayList<ResumenFincaDataModel> dataModels;
     ListView listView;
-    TextView txtTituloGranja;
-    private static ResumenGranjasAdapter adapter;
+    TextView txtTituloFinca;
+    private static ResumenFincasAdapter adapter;
     private Config config;
-    private ArrayList<String> nombresGranjas;
-    private ArrayList<String> idGranjas;
-    private ArrayList<String> puntosGranjas;
+    private ArrayList<String> nombresFincas;
+    private ArrayList<String> idFincas;
+    private ArrayList<String> puntosFincas;
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     static final int REQUEST_CHECK_SETTINGS = 200;
     static final int GPS_REQUEST = 300;
@@ -56,16 +56,16 @@ public class ListaGranjasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_granjas);
+        setContentView(R.layout.activity_lista_fincas);
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, "Para ver ubicación", MY_PERMISSIONS_REQUEST_LOCATION);
         config = (Config) getApplicationContext();
-        listView = findViewById(R.id.listaGranjasList);
-        txtTituloGranja = findViewById(R.id.textViewTituloGrnjas);
-        nuevaGranjaButton = findViewById(R.id.buttonNuevaGranja);
+        listView = findViewById(R.id.listaFincasList);
+        txtTituloFinca = findViewById(R.id.textViewTituloFincas);
+        nuevaFincaButton = findViewById(R.id.buttonNuevaFinca);
         dataModels = new ArrayList<>();
-        puntosGranjas = new ArrayList<>();
-        nombresGranjas = new ArrayList<>();
-        idGranjas = new ArrayList<>();
+        puntosFincas = new ArrayList<>();
+        nombresFincas = new ArrayList<>();
+        idFincas = new ArrayList<>();
         activarUbicacion();
         sessionAlive();
 
@@ -77,13 +77,13 @@ public class ListaGranjasActivity extends AppCompatActivity {
                 .setDelayMillis(1000)
                 .enableFadeAnimation(true)
                 .performClick(false)
-                .setInfoText("En esta pantalla puede visualizar su lista de granjas, para crear una nueva granja haga clic en el boton nueva granja")
+                .setInfoText("En esta pantalla puede visualizar su lista de fincas, para crear una nueva finca haga clic en el boton nueva finca")
                 .setShape(ShapeType.RECTANGLE)
-                .setTarget(nuevaGranjaButton)
-                .setUsageId("lista_granja_showcase")
+                .setTarget(nuevaFincaButton)
+                .setUsageId("lista_finca_showcase")
                 .show();
 
-        RequestQueue queue = Volley.newRequestQueue(ListaGranjasActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(ListaFincasActivity.this);
         JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
                 "/app/farms/", null,
                 new Response.Listener<JSONArray>() {
@@ -96,16 +96,16 @@ public class ListaGranjasActivity extends AppCompatActivity {
                                 String id = farmObject.getString("id");
                                 String name = farmObject.getString("name");
                                 String puntos = farmObject.getString("polygon");
-                                nombresGranjas.add(name);
-                                idGranjas.add(id);
-                                puntosGranjas.add(puntos);
+                                nombresFincas.add(name);
+                                idFincas.add(id);
+                                puntosFincas.add(puntos);
                             }
-                            if (!nombresGranjas.isEmpty()) {
+                            if (!nombresFincas.isEmpty()) {
                                 //SE LLENA LA LISTA
-                                for (int i = 0; i < nombresGranjas.size(); i++) {
-                                    dataModels.add(new ResumenGranjaDataModel(nombresGranjas.get(i).toString()));
+                                for (int i = 0; i < nombresFincas.size(); i++) {
+                                    dataModels.add(new ResumenFincaDataModel(nombresFincas.get(i).toString()));
                                 }
-                                adapter = new ResumenGranjasAdapter(dataModels, getApplicationContext());
+                                adapter = new ResumenFincasAdapter(dataModels, getApplicationContext());
                                 listView.setAdapter(adapter);
                             }
                         } catch (JSONException e) {
@@ -116,7 +116,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                Toast.makeText(ListaGranjasActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListaFincasActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
             }
         }) {    //this is the part, that adds the header to the request
             @Override
@@ -130,9 +130,9 @@ public class ListaGranjasActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                config.setGranjaActual(idGranjas.get(i));
+                config.setFincaActual(idFincas.get(i));
                 // TODO: set proper names for this variables
-                String separated[] = puntosGranjas.get(i).split("\\(");
+                String separated[] = puntosFincas.get(i).split("\\(");
                 String aux[] = separated[2].split("\\)");
                 System.out.println("SEPARATED 2 ES " + separated[2]);
                 String soloXY[] = aux[0].split(",");
@@ -148,16 +148,16 @@ public class ListaGranjasActivity extends AppCompatActivity {
                         auxPuntosLimpios.add(otroAux[2]);
                     }
                 }
-                config.setPuntosPoligonoGranja(auxPuntosLimpios);
+                config.setPuntosPoligonoFinca(auxPuntosLimpios);
 
                 Intent intent = new Intent(view.getContext(), AccionesActivity.class);
                 startActivity(intent);
             }
         });
-        nuevaGranjaButton.setOnClickListener(new View.OnClickListener() {
+        nuevaFincaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), NuevaGranjaActivity.class);
+                Intent intent = new Intent(v.getContext(), NuevaFincaActivity.class);
                 startActivity(intent);
 
             }
