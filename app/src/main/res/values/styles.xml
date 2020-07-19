@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/headerColor</item>
         <item name="android:textColorPrimary">@color/fontColor1</item>
+        <item name="colorPrimaryDark">@color/headerColor</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
