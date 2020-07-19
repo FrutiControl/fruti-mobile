@@ -3,6 +3,7 @@ package com.fruticontrol;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,6 +67,7 @@ public class ListaGranjasActivity extends AppCompatActivity {
         nombresGranjas = new ArrayList<>();
         idGranjas = new ArrayList<>();
         activarUbicacion();
+        sessionAlive();
 
         new MaterialIntroView.Builder(this)
                 .enableDotAnimation(false)
@@ -197,5 +199,14 @@ public class ListaGranjasActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+
+    private void sessionAlive(){
+        SharedPreferences sharedPreferences=getSharedPreferences("sharedPrefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("Token",config.getToken());
+        editor.putBoolean("Valid",true);
+        editor.apply();
     }
 }

@@ -3,6 +3,7 @@ package com.fruticontrol;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,13 +21,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         TextView txtRegistro = findViewById(R.id.textViewRegistrarse);
         Button iniciarSesion = findViewById(R.id.buttonIniciarSesion);
         activarUbicacion();
+        loadData();
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -153,6 +159,54 @@ public class MainActivity extends AppCompatActivity {
                 isGPS = isGPSEnable;
             }
         });
+    }
+
+    private void loadData(){
+        SharedPreferences sharedPreferences=getSharedPreferences("sharedPrefs",MODE_PRIVATE);
+        String tokenAux=sharedPreferences.getString("Token","");
+        Boolean validAux=sharedPreferences.getBoolean("Valid",false);
+        if(validAux){
+            validToken(tokenAux);
+        }
+    }
+
+    private void validToken(final String tokenAux){
+        final Boolean[] state = {false};
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET, config.getDomain()+
+                "/app/farms/", null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("farmsList", response.toString());
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject farmObject = response.getJSONObject(i);
+                                String id = farmObject.getString("id");
+                                System.out.println("Token valid");
+                                config.setToken(tokenAux);
+                                Intent intent = new Intent(getApplicationContext(),ListaGranjasActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Token expired");
+            }
+        }) {    //this is the part, that adds the header to the request
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Token " + tokenAux);
+                return params;
+            }
+        };
+        queue.add(newFarmRequest);
     }
 
     private boolean validateForm() {

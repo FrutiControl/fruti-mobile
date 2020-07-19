@@ -1,6 +1,7 @@
 package com.fruticontrol;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -67,6 +68,7 @@ public class PerfilActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(PerfilActivity.this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
                 config.setToken("0");
+                sessionKill();
                 Intent intents = new Intent(PerfilActivity.this, MainActivity.class);
                 intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -159,5 +161,14 @@ public class PerfilActivity extends AppCompatActivity {
             correoET.setError(null);
         }
         return valid;
+    }
+
+
+    private void sessionKill(){
+        SharedPreferences sharedPreferences=getSharedPreferences("sharedPrefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("Token","000000000000");
+        editor.putBoolean("Valid",false);
+        editor.apply();
     }
 }
