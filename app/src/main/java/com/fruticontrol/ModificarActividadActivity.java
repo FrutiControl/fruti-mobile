@@ -1,7 +1,10 @@
 package com.fruticontrol;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -28,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +70,7 @@ public class ModificarActividadActivity extends AppCompatActivity {
         txtFechaFin.setText("Fecha de fin: " + separated[1]);
         fechaInicio = separated[0];
         tipo = getIntent().getStringExtra("tipoFoormato");
+        System.out.println("XXXXXXXXXXXXX EL TIPO ES "+tipo.toString());
         subTipo = getIntent().getStringExtra("subTipoFormato");
         idActividad = getIntent().getStringExtra("idActividad");
         RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
@@ -203,39 +210,98 @@ public class ModificarActividadActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
-                String url = config.getDomain()+"/app/";
-                url = url + tipo + "_trees/?" + tipo + "=" + idActividad + "&tree=" + listaIds.get(i);
-                System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
-                JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
-                        url, null,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                Log.i("progressList", response.toString());
-                                try {
-                                    System.out.println(response.toString());
-                                    JSONObject activityObject = response.getJSONObject(0);
-                                    System.out.println("EL ESTADO AHORA ES " + activityObject.getString("applied"));
-                                    update();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                if(tipo.equals("recollection")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ModificarActividadActivity.this);
+                    View mView = getLayoutInflater().inflate(R.layout.dialog_recoleccion,null);
+                    NumberPicker nPicker=mView.findViewById(R.id.numberPicker);
+                    nPicker.setMinValue(0);
+                    nPicker.setMaxValue(30);
+
+                    String auxTitle="<font color='#964F2D'>Frutos del árbol "+listaIds.get(i)+"</font>";
+                    builder.setTitle(Html.fromHtml(auxTitle));
+                    builder.setMessage(Html.fromHtml("<font color='#910C00'>Seleccione la cantidad de frutos recolectados</font>"));
+                    builder.setCancelable(true);
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            System.out.println("XXXXXXXXXX PREDIONADO GUARDAR");
+                            /*RequestQueue queue = Volley.newRequestQueue(ModificarActividadActivity.this);
+                            String auxUrl = config.getDomain()+"/app/trees/" + idArbol + "/";
+                            StringRequest deleteTreeRequest = new StringRequest(Request.Method.DELETE,
+                                    auxUrl,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            Toast.makeText(ModificarArbolActivity.this, "Árbol eliminado", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e("TreeAPI", "Error en la invocación a la API " + Arrays.toString(error.getStackTrace()));
+                                    Toast.makeText(ModificarArbolActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
                                 }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
-                        Toast.makeText(ModificarActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
-                    }
-                }) {    //this is the part, that adds the header to the request
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Authorization", "Token " + config.getToken());
-                        return params;
-                    }
-                };
-                queue.add(newFarmRequest);
+                            }) {    //this is the part, that adds the header to the request
+                                @Override
+                                public Map<String, String> getHeaders() {
+                                    Map<String, String> params = new HashMap<String, String>();
+                                    params.put("Content-Type", "application/json");
+                                    params.put("Authorization", "Token " + config.getToken());
+                                    System.out.println("XXXXXXXXX EL TOKEN ES " + config.getToken());
+                                    return params;
+                                }
+                            };
+                            queue.add(deleteTreeRequest);*/
+                        }
+                    });
+
+
+
+
+
+                    builder.setView(mView);
+                    builder.show();
+                }else{
+                    String url = config.getDomain()+"/app/";
+                    url = url + tipo + "_trees/?" + tipo + "=" + idActividad + "&tree=" + listaIds.get(i);
+                    System.out.println("XXXXXXXXXXXXXXXXX URL ES " + url);
+                    JsonArrayRequest newFarmRequest = new JsonArrayRequest(Request.Method.GET,
+                            url, null,
+                            new Response.Listener<JSONArray>() {
+                                @Override
+                                public void onResponse(JSONArray response) {
+                                    Log.i("progressList", response.toString());
+                                    try {
+                                        System.out.println(response.toString());
+                                        JSONObject activityObject = response.getJSONObject(0);
+                                        System.out.println("EL ESTADO AHORA ES " + activityObject.getString("applied"));
+                                        update();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("usersAPI", "Error en la invocación a la API " + error.getCause());
+                            Toast.makeText(ModificarActividadActivity.this, "Se presentó un error, por favor intente más tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {    //this is the part, that adds the header to the request
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", "Token " + config.getToken());
+                            return params;
+                        }
+                    };
+                    queue.add(newFarmRequest);
+                }
             }
         });
     }
